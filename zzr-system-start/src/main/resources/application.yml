@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: zzr-system
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:5091/apollo-demo?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: Zzr20010112
