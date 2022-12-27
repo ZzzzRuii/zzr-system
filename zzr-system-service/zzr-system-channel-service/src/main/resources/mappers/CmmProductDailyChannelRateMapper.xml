@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzr.apollo.mapper.CmmProductDailyChannelRateMapper">
+
+    <resultMap id="RateMapper" type="com.zzr.apollo.model.CmmProductDailyChannelRateDO">
+        <result column="tenant_id" property="tenantId"/>
+        <result column="unit_id" property="unitId"/>
+        <result column="unit_type" property="unitType"/>
+        <result column="channel_id" property="channelId"/>
+        <result column="product_type" property="productType"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_code" property="productCode"/>
+        <result column="product_name" property="productName"/>
+        <result column="sell_date" property="sellDate"/>
+        <result column="standard_price" property="standardPrice"/>
+        <result column="real_price" property="realPrice"/>
+        <result column="src" property="src"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- List<CmmProductDailyChannelRateDO> selectRatePage(IPage<CmmProductDailyChannelRateDO> page, QueryCmmProductDailyChannelRateDTO rateDTO); -->
+    <select id="selectRatePage" resultMap="RateMapper">
+        SELECT * FROM `cmm_product_daily_channel_rate`
+        <where>
+            <if test="entity != null">
+                <if test="entity.tenantId != null and entity.tenantId != ''">
+                    AND tenant_id = #{entity.tenantId}
+                </if>
+                <if test="entity.unitId != null">
+                    AND unit_id = #{entity.unitId}
+                </if>
+                <if test="entity.unitType != null and entity.unitType != ''">
+                    AND unit_type = #{entity.unitType}
+                </if>
+                <if test="entity.channelId != null">
+                    AND channel_id = #{entity.channelId}
+                </if>
+                <if test="entity.productType != null and entity.productType != ''">
+                    AND product_type = #{entity.productType}
+                </if>
+                <if test="entity.productId != null">
+                    AND product_id = #{entity.productId}
+                </if>
+                <if test="entity.productCode != null and entity.productCode != ''">
+                    AND product_code = #{entity.productCode}
+                </if>
+                <if test="entity.productName != null and entity.productName != ''">
+                    AND product_name = #{entity.productName}
+                </if>
+                <if test="entity.sellDate != null">
+                    AND sell_date = #{entity.sellDate}
+                </if>
+                <if test="entity.standardPrice != null">
+                    AND standard_price = #{entity.standardPrice}
+                </if>
+                <if test="entity.realPrice != null">
+                    AND real_price = #{entity.realPrice}
+                </if>
+                <if test="entity.src != null and entity.src != ''">
+                    AND src = #{entity.src}
+                </if>
+                <if test="entity.status != null and entity.status != ''">
+                    AND status = #{entity.status}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <!-- List<CmmProductDailyChannelRateDO> selectByProductId(Long productId); -->
+    <select id="selectByProductId" resultMap="RateMapper">
+        SELECT *
+        FROM `cmm_product_daily_channel_rate`
+        WHERE product_id = #{productId}
+    </select>
+
+</mapper>
