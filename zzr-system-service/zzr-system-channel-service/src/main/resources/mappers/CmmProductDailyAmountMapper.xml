@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzr.apollo.mapper.CmmProductDailyAmountMapper">
+
+    <resultMap id="AmountPageMap" type="com.zzr.apollo.model.CmmProductDailyAmountDO">
+        <result property="tenantId" column="tenant_id"/>
+        <result property="unitId" column="unit_id"/>
+        <result property="unitType" column="unit_type"/>
+        <result property="productType" column="product_type"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productCode" column="product_code"/>
+        <result property="productSubcode" column="product_subcode"/>
+        <result property="model" column="model"/>
+        <result property="sellDate" column="sell_date"/>
+        <result property="num" column="num"/>
+        <result property="usedNum" column="used_num"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="selectAmountPage" resultMap="AmountPageMap">
+        SELECT * FROM cmm_product_daily_amount
+        <where>
+            <if test="entity != null">
+                <if test="entity.tenantId != null and entity.tenantId != ''">
+                    AND tenant_id = #{entity.tenantId}
+                </if>
+                <if test="entity.unitId != null">
+                    AND unit_id = #{entity.unitId}
+                </if>
+                <if test="entity.unitType != null and entity.unitType != ''">
+                    AND unit_type = #{entity.unitType}
+                </if>
+                <if test="entity.productType != null and entity.productType != ''">
+                    AND product_type = #{entity.productType}
+                </if>
+                <if test="entity.channelId != null">
+                    AND channel_id = #{entity.channelId}
+                </if>
+                <if test="entity.productId != null">
+                    AND product_id = #{entity.productId}
+                </if>
+                <if test="entity.productName != null and entity.productName != ''">
+                    AND product_name = #{entity.productName}
+                </if>
+                <if test="entity.productCode != null and entity.productCode != ''">
+                    AND product_code = #{entity.productCode}
+                </if>
+                <if test="entity.productSubcode != null and entity.productSubcode != ''">
+                    AND product_subcode = #{entity.productSubcode}
+                </if>
+                <if test="entity.model != null and entity.model != ''">
+                    AND model = #{entity.model}
+                </if>
+                <if test="entity.num != null">
+                    AND num = #{entity.num}
+                </if>
+                <if test="entity.usedNum != null">
+                    AND used_num = #{entity.usedNum}
+                </if>
+                <if test="entity.status != null and entity.status != ''">
+                    AND status = #{entity.status}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <!-- List<CmmProductDailyAmountDO> selectByProductId(Long productId); -->
+    <select id="selectByProductId" resultMap="AmountPageMap">
+        SELECT *
+        FROM cmm_product_daily_amount
+        WHERE product_id = #{productId}
+    </select>
+
+</mapper>

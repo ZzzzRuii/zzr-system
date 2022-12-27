@@ -7,6 +7,13 @@
         <groupId>com.zzr.apollo</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <packaging>pom</packaging>
+    <modules>
+        <module>zzr-system-channel-service</module>
+        <module>zzr-system-master-service</module>
+        <module>zzr-system-product-service</module>
+        <module>zzr-system-unit-service</module>
+    </modules>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>zzr-system-service</artifactId>

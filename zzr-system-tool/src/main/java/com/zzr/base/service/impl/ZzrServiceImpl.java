@@ -3,16 +3,17 @@ package com.zzr.base.service.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.zzr.base.mapper.ZzrMapper;
 import com.zzr.base.model.entity.BaseDO;
+import com.zzr.base.mp.injector.AppSqlMethod;
 import com.zzr.base.service.IZzrService;
 import jakarta.validation.constraints.NotEmpty;
+import org.apache.ibatis.binding.MapperMethod;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * ZzrServiceImpl
@@ -75,6 +76,11 @@ public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends Se
         return this.removeByEntity(entity);
     }
 
+    public boolean changeStatus(T entity) {
+        List<T> list = Arrays.asList(entity);
+        return this.batchChangeStatus(list, AppSqlMethod.CHANGE_STATUS);
+    }
+
     public boolean changeStatus(@NotEmpty List<Long> ids, String status) {
         List<T> list = new ArrayList();
         ids.forEach((id) -> {
@@ -98,5 +104,21 @@ public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends Se
 
         entity.setCreateTime(DateUtil.date());
         entity.setDeleted(false);
+    }
+
+    private boolean batchChangeStatus(Collection<T> entityList, AppSqlMethod method) {
+        String sqlStatement = this.appSqlStatement(method);
+        this.executeBatch(entityList, 1000, (sqlSession, entity) -> {
+            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap();
+            entity.setUpdateTime(DateUtil.dateNew(new Date()));
+
+            param.put("et", entity);
+            sqlSession.update(sqlStatement, param);
+        });
+        return true;
+    }
+    
+    protected String appSqlStatement(AppSqlMethod sqlMethod) {
+        return SqlHelper.table(this.currentModelClass()).getSqlStatement(sqlMethod.getMethod());
     }
 }

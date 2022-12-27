@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzr.apollo.mapper.CmmChannelMapper">
+
+    <resultMap id="ChannelMap" type="com.zzr.apollo.model.CmmChannelDO">
+        <result property="tenantId" column="tenant_id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="flag" column="flag"/>
+        <result property="isVerificationPrice" column="is_verification_price"/>
+        <result property="guaranteeTypeId" column="guarantee_type_id"/>
+        <result property="cancelTypeId" column="cancel_type_id"/>
+        <result property="remark" column="remark"/>
+        <result property="sort" column="sort"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+    <!-- List<CmmChannelDO> selectChannelList(IPage<CmmChannelDO> page, @Param("entity") QueryCmmChannelDTO channelDTO); -->
+    <select id="selectChannelPage" resultMap="ChannelMap">
+        SELECT * FROM cmm_channel
+        <where>
+            <if test="entity != null">
+                <if test="entity.tenantId != null and entity.tenantId != ''">
+                    AND tenant_id = #{entity.tenantId}
+                </if>
+                <if test="entity.code != null and entity.code != ''">
+                    AND code = #{entity.code}
+                </if>
+                <if test="entity.name != null and entity.name != ''">
+                    AND name = #{entity.name}
+                </if>
+                <if test="entity.type != null and entity.type != ''">
+                    AND type = #{entity.type}
+                </if>
+                <if test="entity.flag != null and entity.flag != ''">
+                    AND flag = #{entity.flag}
+                </if>
+                <if test="entity.guaranteeTypeId != null">
+                    AND guarantee_type_id = #{entity.guaranteeTypeId}
+                </if>
+                <if test="entity.cancelTypeId != null">
+                    AND cancel_type_id = #{entity.cancelTypeId}
+                </if>
+                <if test="entity.remark != null and entity.remark != ''">
+                    AND remark = #{entity.remark}
+                </if>
+                <if test="entity.status != null and entity.status != ''">
+                    AND status = #{entity.status}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <!-- List<CmmChannelDO> selectChannelList(@Param("entity") QueryCmmChannelDTO channelDTO); -->
+    <select id="selectChannelList" resultMap="ChannelMap">
+        SELECT * FROM cmm_channel
+        <where>
+            <if test="entity != null">
+                <if test="entity.code != null and entity.code != ''">
+                    AND code = #{entity.code}
+                </if>
+                <if test="entity.name != null and entity.name != ''">
+                    AND name = #{entity.name}
+                </if>
+            </if>
+        </where>
+    </select>
+</mapper>

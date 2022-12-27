@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * BaseEntity
+ * 基础实体类
  *
  * @author ZhouZhiRui
  * @since 2022/11/28 14:02
