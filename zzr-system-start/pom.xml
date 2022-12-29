@@ -36,12 +36,6 @@
 
         <dependency>
             <groupId>com.zzr.apollo</groupId>
-            <artifactId>zzr-system-tool</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.zzr.apollo</groupId>
             <artifactId>channel</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
