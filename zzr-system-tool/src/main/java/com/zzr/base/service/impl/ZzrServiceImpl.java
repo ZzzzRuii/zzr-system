@@ -11,9 +11,14 @@ import com.zzr.base.service.IZzrService;
 import jakarta.validation.constraints.NotEmpty;
 import org.apache.ibatis.binding.MapperMethod;
 import org.springframework.beans.BeanUtils;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * ZzrServiceImpl
@@ -21,6 +26,7 @@ import java.util.*;
  * @author ZhouZhiRui
  * @since 2022/11/28 14:49
  */
+@Validated
 public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends ServiceImpl<M, T> implements IZzrService<T> {
 
     protected void beforeSave(T entity) {
@@ -43,12 +49,12 @@ public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends Se
     }
 
     public boolean updateById(T entity) {
-        this.resolveEntity(entity);
+        this.resolveUpdateEntity(entity);
         return super.updateById(entity);
     }
 
     public boolean updateBatchById(Collection<T> entityList, int batchSize) {
-        entityList.forEach(this::resolveEntity);
+        entityList.forEach(this::resolveUpdateEntity);
         return super.updateBatchById(entityList, batchSize);
     }
 
@@ -75,12 +81,13 @@ public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends Se
         T entity = this.baseMapper.selectById(id);
         return this.removeByEntity(entity);
     }
-
+    
     public boolean changeStatus(T entity) {
         List<T> list = Arrays.asList(entity);
         return this.batchChangeStatus(list, AppSqlMethod.CHANGE_STATUS);
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     public boolean changeStatus(@NotEmpty List<Long> ids, String status) {
         List<T> list = new ArrayList();
         ids.forEach((id) -> {
@@ -95,29 +102,29 @@ public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends Se
     }
 
     private void resolveEntity(T entity) {
-        entity.setCreateUser(entity.getCreateUser());
-        entity.setUpdateUser(entity.getUpdateUser());
-
-        if (entity.getStatus() == null) {
-            entity.setStatus("I");
-        }
-
-        entity.setCreateTime(DateUtil.date());
+        entity.setStatus("I");
         entity.setDeleted(false);
+        entity.setCreateTime(DateUtil.date());
+        entity.setCreateUser(entity.getCreateUser());
+    }
+
+    private void resolveUpdateEntity(T entity) {
+        entity.setUpdateUser(entity.getUpdateUser());
+        entity.setUpdateTime(DateUtil.date());
     }
 
     private boolean batchChangeStatus(Collection<T> entityList, AppSqlMethod method) {
         String sqlStatement = this.appSqlStatement(method);
         this.executeBatch(entityList, 1000, (sqlSession, entity) -> {
             MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap();
-            entity.setUpdateTime(DateUtil.dateNew(new Date()));
+            entity.setUpdateTime(DateUtil.date());
 
             param.put("et", entity);
             sqlSession.update(sqlStatement, param);
         });
         return true;
     }
-    
+
     protected String appSqlStatement(AppSqlMethod sqlMethod) {
         return SqlHelper.table(this.currentModelClass()).getSqlStatement(sqlMethod.getMethod());
     }

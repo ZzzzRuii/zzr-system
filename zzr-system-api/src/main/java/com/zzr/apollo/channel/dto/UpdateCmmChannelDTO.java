@@ -3,7 +3,6 @@ package com.zzr.apollo.channel.dto;
 import com.zzr.apollo.tool.utils.DemoRegexUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -22,20 +21,6 @@ import java.io.Serializable;
 @ToString
 @ApiModel(value = "CmmChannelDTO对象", description = "渠道")
 public class UpdateCmmChannelDTO implements Serializable {
-    /**
-     * notnull
-     * 租户id
-     */
-    @ApiModelProperty(value = "租户id", required = true)
-    @Pattern(regexp = DemoRegexUtil.TENANT_ID, message = "{ROOM.CODE_IS_NOT_SPECIFICATION}")
-    private String tenantId;
-    /**
-     * notnull
-     * 渠道代码
-     */
-    @ApiModelProperty(value = "渠道代码", required = true)
-    @Pattern(regexp = DemoRegexUtil.CODE15, message = "{ROOM.CODE_IS_NOT_SPECIFICATION}")
-    private String code;
     /**
      * 渠道类别 自营 非自营 等
      */
@@ -80,11 +65,4 @@ public class UpdateCmmChannelDTO implements Serializable {
     @ApiModelProperty(value = "排序")
     @NotNull(message = "{ROOM.DATA_IS_NOT_NULL}")
     private Integer sort;
-    /**
-     * notnull
-     * 状态 activate 激活 inactive 未激活
-     */
-    @ApiModelProperty(value = "状态 A 激活 D 未激活 P 已发布")
-    @NotBlank(message = "{ROOM.DATA_IS_NOT_NULL}")
-    private String status;
 }

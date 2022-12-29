@@ -8,7 +8,6 @@ import com.zzr.apollo.model.CmmProductDailyAmountDO;
 import com.zzr.apollo.service.ICmmProductDailyAmountService;
 import com.zzr.apollo.wrapper.CmmProductDailyAmountWrapper;
 import com.zzr.base.api.R;
-import com.zzr.base.controller.BaseController;
 import com.zzr.base.support.Page;
 import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
@@ -30,7 +29,7 @@ import java.util.List;
 @AllArgsConstructor
 @Api(value = "库存")
 @RequestMapping("/amount")
-public class CmmProductDailyAmountController extends BaseController {
+public class CmmProductDailyAmountController {
 
     private final ICmmProductDailyAmountService amountService;
 
@@ -43,9 +42,7 @@ public class CmmProductDailyAmountController extends BaseController {
     @GetMapping
     @ApiOperation(value = "查询CmmProductDailyAmount列表")
     public R<Page<CmmProductDailyAmountVO>> selectPage(Query query, QueryCmmProductDailyAmountDTO amountDTO) {
-        Page<CmmProductDailyAmountVO> amountVOPage = amountService.selectPage(query, amountDTO);
-
-        return R.data(amountVOPage);
+        return R.data(amountService.selectPage(query, amountDTO));
     }
 
     /**
@@ -57,9 +54,11 @@ public class CmmProductDailyAmountController extends BaseController {
     @PostMapping
     @ApiOperation(value = "创建对象CmmProductDailyAmount")
     public R<List<Long>> create(@RequestBody @Validated CreateCmmProductDailyAmountDTO amountDTO) {
-        List<Long> idList = amountService.create(amountDTO);
-
-        return R.data(idList);
+        try {
+            return R.data(amountService.create(amountDTO));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -83,9 +82,11 @@ public class CmmProductDailyAmountController extends BaseController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新CmmProductDailyAmount")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateCmmProductDailyAmountDTO amountDTO) {
-        Boolean result = amountService.update(amountDTO, id);
-
-        return R.data(result);
+        try {
+            return R.data(amountService.update(amountDTO, id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -96,9 +97,11 @@ public class CmmProductDailyAmountController extends BaseController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除CmmProductDailyAmount")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = amountService.deleteById(id);
-
-        return R.data(result);
+        try {
+            return R.data(amountService.deleteById(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -109,7 +112,11 @@ public class CmmProductDailyAmountController extends BaseController {
     @PutMapping("/{id}/activate")
     @ApiOperation(value = "激活CmmProductDailyAmount")
     public R<Boolean> activate(@PathVariable("id") Long id) {
-        return R.data(amountService.activate(id));
+        try {
+            return R.data(amountService.activate(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -120,7 +127,11 @@ public class CmmProductDailyAmountController extends BaseController {
     @PutMapping("/{id}/inactive")
     @ApiOperation(value = "根据id停用CmmProductDailyAmount")
     public R<Boolean> inactive(@PathVariable("id") Long id) {
-        return R.data(amountService.inactive(id));
+        try {
+            return R.data(amountService.inactive(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
 }

@@ -1,6 +1,9 @@
 package com.zzr.apollo.tool.constants;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 订单状态值
  *
@@ -8,6 +11,8 @@ package com.zzr.apollo.tool.constants;
  * @email zzr@foxhis.com
  * @date 2022/8/25 17:39
  */
+@Getter
+@AllArgsConstructor
 public enum MasterStatusCode {
     /**
      * 预定
@@ -40,17 +45,4 @@ public enum MasterStatusCode {
 
     final String code;
     final String message;
-
-    MasterStatusCode(final String code, final String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public String getCode() {
-        return this.code;
-    }
 }

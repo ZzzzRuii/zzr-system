@@ -8,7 +8,6 @@ import com.zzr.apollo.model.CmmProductDailyChannelRateDO;
 import com.zzr.apollo.service.ICmmProductDailyChannelRateService;
 import com.zzr.apollo.wrapper.CmmProductDailyChannelRateWrapper;
 import com.zzr.base.api.R;
-import com.zzr.base.controller.BaseController;
 import com.zzr.base.support.Page;
 import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
@@ -30,7 +29,7 @@ import java.util.List;
 @AllArgsConstructor
 @Api(value = "价格")
 @RequestMapping("/rate")
-public class CmmProductDailyChannelRateController extends BaseController {
+public class CmmProductDailyChannelRateController {
 
     private final ICmmProductDailyChannelRateService rateService;
 
@@ -43,9 +42,7 @@ public class CmmProductDailyChannelRateController extends BaseController {
     @GetMapping
     @ApiOperation(value = "查询CmmProductDailyChannelRate列表")
     public R<Page<CmmProductDailyChannelRateVO>> selectPage(Query query, QueryCmmProductDailyChannelRateDTO rateDTO) {
-        Page<CmmProductDailyChannelRateVO> rateVOPage = rateService.selectPage(query, rateDTO);
-
-        return R.data(rateVOPage);
+        return R.data(rateService.selectPage(query, rateDTO));
     }
 
     /**
@@ -57,9 +54,11 @@ public class CmmProductDailyChannelRateController extends BaseController {
     @PostMapping
     @ApiOperation(value = "创建对象CmmProductDailyChannelRate")
     public R<List<Long>> create(@RequestBody @Valid CreateCmmProductDailyChannelRateDTO rateDTO) {
-        List<Long> idList = rateService.create(rateDTO);
-
-        return R.data(idList);
+        try {
+            return R.data(rateService.create(rateDTO));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -83,9 +82,11 @@ public class CmmProductDailyChannelRateController extends BaseController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新CmmProductDailyChannelRate")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateCmmProductDailyChannelRateDTO rateDTO) {
-        Boolean result = rateService.update(rateDTO, id);
-
-        return R.data(result);
+        try {
+            return R.data(rateService.update(rateDTO, id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -96,9 +97,11 @@ public class CmmProductDailyChannelRateController extends BaseController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除CmmProductDailyChannelRate")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = rateService.deleteById(id);
-
-        return R.data(result);
+        try {
+            return R.data(rateService.deleteById(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -109,7 +112,11 @@ public class CmmProductDailyChannelRateController extends BaseController {
     @PutMapping("/{id}/activate")
     @ApiOperation(value = "激活CmmProductDailyChannelRate")
     public R<Boolean> activate(@PathVariable("id") Long id) {
-        return R.data(rateService.activate(id));
+        try {
+            return R.data(rateService.activate(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -120,7 +127,11 @@ public class CmmProductDailyChannelRateController extends BaseController {
     @PutMapping("/{id}/inactive")
     @ApiOperation(value = "根据id停用CmmProductDailyChannelRate")
     public R<Boolean> inactive(@PathVariable("id") Long id) {
-        return R.data(rateService.inactive(id));
+        try {
+            return R.data(rateService.inactive(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
 }

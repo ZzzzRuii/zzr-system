@@ -5,9 +5,13 @@ server:
 spring:
   application:
     name: zzr-system
-
+  # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:5091/apollo-demo?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://192.168.100.128:3306/apollo-demo?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: Zzr20010112
+# 开启SQL语句日志打印
+logging:
+  level:
+    com.zzr.apollo.mapper: debug

@@ -8,7 +8,6 @@ import com.zzr.apollo.model.CmmChannelDO;
 import com.zzr.apollo.service.ICmmChannelService;
 import com.zzr.apollo.wrapper.CmmChannelWrapper;
 import com.zzr.base.api.R;
-import com.zzr.base.controller.BaseController;
 import com.zzr.base.support.Page;
 import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @Api(value = "渠道")
 @RequestMapping("/channel")
-public class CmmChannelController extends BaseController {
+public class CmmChannelController {
     private final ICmmChannelService channelService;
 
     /**
@@ -40,9 +39,7 @@ public class CmmChannelController extends BaseController {
     @GetMapping
     @ApiOperation(value = "查询CmmChannel列表")
     public R<Page<CmmChannelVO>> selectPage(Query query, QueryCmmChannelDTO channelDTO) {
-        Page<CmmChannelVO> channelVOPage = channelService.selectPage(query, channelDTO);
-
-        return R.data(channelVOPage);
+        return R.data(channelService.selectPage(query, channelDTO));
     }
 
     /**
@@ -54,9 +51,11 @@ public class CmmChannelController extends BaseController {
     @PostMapping
     @ApiOperation(value = "创建对象CmmChannel")
     public R<Long> create(@RequestBody @Validated CreateCmmChannelDTO channelDTO) {
-        CmmChannelDO channelDO = channelService.create(channelDTO);
-
-        return R.data(channelDO.getId());
+        try {
+            return R.data(channelService.create(channelDTO).getId());
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -81,9 +80,11 @@ public class CmmChannelController extends BaseController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新CmmChannel")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateCmmChannelDTO channelDTO) {
-        Boolean result = channelService.update(channelDTO, id);
-
-        return R.data(result);
+        try {
+            return R.data(channelService.update(channelDTO, id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
 
@@ -95,9 +96,11 @@ public class CmmChannelController extends BaseController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除CmmChannel")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = channelService.deleteById(id);
-
-        return R.data(result);
+        try {
+            return R.data(channelService.deleteById(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -108,7 +111,11 @@ public class CmmChannelController extends BaseController {
     @PutMapping("/{id}/activate")
     @ApiOperation(value = "激活CmmChannel")
     public R<Boolean> activate(@PathVariable("id") Long id) {
-        return R.data(channelService.activate(id));
+        try {
+            return R.data(channelService.activate(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
     /**
@@ -119,7 +126,11 @@ public class CmmChannelController extends BaseController {
     @PutMapping("/{id}/inactive")
     @ApiOperation(value = "根据id停用CmmChannel")
     public R<Boolean> inactive(@PathVariable("id") Long id) {
-        return R.data(channelService.inactive(id));
+        try {
+            return R.data(channelService.inactive(id));
+        } catch (Exception exception) {
+            return R.fail(exception.getMessage());
+        }
     }
 
 }

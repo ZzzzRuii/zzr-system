@@ -1,5 +1,8 @@
 package com.zzr.apollo.tool.constants;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 渠道状态值
  *
@@ -7,7 +10,8 @@ package com.zzr.apollo.tool.constants;
  * @email zzr@foxhis.com
  * @since 2022/9/1 10:05
  */
-
+@Getter
+@AllArgsConstructor
 public enum DemoStatusCode {
     /**
      * 激活
@@ -16,21 +20,8 @@ public enum DemoStatusCode {
     /**
      * 未激活
      */
-    INACTIVE("D", "未激活");
+    INACTIVE("I", "未激活");
 
     final String code;
     final String message;
-
-    DemoStatusCode(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }
