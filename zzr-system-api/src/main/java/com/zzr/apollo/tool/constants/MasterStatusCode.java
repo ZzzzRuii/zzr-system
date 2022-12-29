@@ -1,6 +1,7 @@
 package com.zzr.apollo.tool.constants;
 
 
+import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -43,6 +44,30 @@ public enum MasterStatusCode {
      */
     COMPLETE("CO", "完成");
 
+    /**
+     * 状态码
+     */
     final String code;
+    /**
+     * 描述
+     */
     final String message;
+
+    /**
+     * 状态码匹配
+     *
+     * @param code
+     * @return
+     */
+    public static MasterStatusCode of(String code) {
+        if (StrUtil.isBlank(code)) {
+            return null;
+        }
+        for (MasterStatusCode value : MasterStatusCode.values()) {
+            if (StrUtil.equals(value.getCode(), code)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

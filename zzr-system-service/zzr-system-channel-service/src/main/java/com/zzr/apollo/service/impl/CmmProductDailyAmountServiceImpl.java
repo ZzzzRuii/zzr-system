@@ -2,7 +2,7 @@ package com.zzr.apollo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.channel.dto.CreateCmmProductDailyAmountDTO;
@@ -133,7 +133,7 @@ public class CmmProductDailyAmountServiceImpl extends ZzrServiceImpl<CmmProductD
         CmmProductDailyAmountDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
         // 判断状态是否正确
-        if (StrUtil.equals(DemoStatusCode.ACTIVATE.getCode(), entity.getStatus())) {
+        if (ObjectUtil.isNotNull(DemoStatusCode.of(entity.getStatus()))) {
             entity.setStatus(DemoStatusCode.INACTIVE.getCode());
         }
         return changeStatus(entity);
@@ -151,7 +151,7 @@ public class CmmProductDailyAmountServiceImpl extends ZzrServiceImpl<CmmProductD
         CmmProductDailyAmountDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
         // 判断状态是否正确
-        if (StrUtil.equals(DemoStatusCode.INACTIVE.getCode(), entity.getStatus())) {
+        if (ObjectUtil.isNotNull(DemoStatusCode.of(entity.getStatus()))) {
             entity.setStatus(DemoStatusCode.ACTIVATE.getCode());
         }
         return changeStatus(entity);

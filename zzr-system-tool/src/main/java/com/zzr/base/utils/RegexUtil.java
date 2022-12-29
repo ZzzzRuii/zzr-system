@@ -8,6 +8,8 @@ package com.zzr.base.utils;
  * @since 2022/12/27 16:09
  */
 public class RegexUtil {
+    public static final String ENGLISH_NAME = "(^[a-zA-Z]{1}[a-zA-Z\\s]{0,20}[a-zA-Z]{1}$)";
+    public static final String CHINESE_NAME = "^(?:[\\u4e00-\\u9fa5·]{2,16})$";
     public static final String USER_NAME = "^[a-zA-Z\\u4E00-\\u9FA5][a-zA-Z0-9_\\u4E00-\\u9FA5]{1,11}$";
     public static final String USER_PASSWORD = "^.{6,32}$";
     public static final String EMAIL = "^\\w+([-+.]*\\w+)*@([\\da-z](-[\\da-z])?)+(\\.{1,2}[a-z]+)+$";

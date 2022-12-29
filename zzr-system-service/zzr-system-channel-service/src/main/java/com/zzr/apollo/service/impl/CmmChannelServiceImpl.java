@@ -1,7 +1,6 @@
 package com.zzr.apollo.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
 import com.zzr.apollo.channel.dto.CreateCmmChannelDTO;
 import com.zzr.apollo.channel.dto.QueryCmmChannelDTO;
@@ -126,7 +125,7 @@ public class CmmChannelServiceImpl extends ZzrServiceImpl<CmmChannelMapper, CmmC
         CmmChannelDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
         // 判断状态是否正确
-        if (StrUtil.equals(DemoStatusCode.ACTIVATE.getCode(), entity.getStatus())) {
+        if (ObjectUtil.isNotNull(DemoStatusCode.of(entity.getStatus()))) {
             entity.setStatus(DemoStatusCode.INACTIVE.getCode());
         }
         return changeStatus(entity);
@@ -144,7 +143,7 @@ public class CmmChannelServiceImpl extends ZzrServiceImpl<CmmChannelMapper, CmmC
         CmmChannelDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
         // 判断状态是否正确
-        if (StrUtil.equals(DemoStatusCode.INACTIVE.getCode(), entity.getStatus())) {
+        if (ObjectUtil.isNotNull(DemoStatusCode.of(entity.getStatus()))) {
             entity.setStatus(DemoStatusCode.ACTIVATE.getCode());
         }
         return changeStatus(entity);

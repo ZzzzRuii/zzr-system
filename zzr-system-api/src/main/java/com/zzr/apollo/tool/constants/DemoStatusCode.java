@@ -1,5 +1,6 @@
 package com.zzr.apollo.tool.constants;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -22,6 +23,30 @@ public enum DemoStatusCode {
      */
     INACTIVE("I", "未激活");
 
+    /**
+     * 状态码
+     */
     final String code;
+    /**
+     * 描述
+     */
     final String message;
+
+    /**
+     * 状态码匹配
+     *
+     * @param code
+     * @return
+     */
+    public static DemoStatusCode of(String code) {
+        if (StrUtil.isBlank(code)) {
+            return null;
+        }
+        for (DemoStatusCode value : DemoStatusCode.values()) {
+            if (StrUtil.equals(value.getCode(), code)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }
