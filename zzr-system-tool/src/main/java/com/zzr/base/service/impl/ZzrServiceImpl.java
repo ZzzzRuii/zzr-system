@@ -2,6 +2,7 @@ package com.zzr.base.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.zzr.base.mapper.ZzrMapper;
@@ -81,7 +82,7 @@ public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends Se
         T entity = this.baseMapper.selectById(id);
         return this.removeByEntity(entity);
     }
-    
+
     public boolean changeStatus(T entity) {
         List<T> list = Arrays.asList(entity);
         return this.batchChangeStatus(list, AppSqlMethod.CHANGE_STATUS);
@@ -102,7 +103,9 @@ public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends Se
     }
 
     private void resolveEntity(T entity) {
-        entity.setStatus("I");
+        if (StrUtil.isBlank(entity.getStatus())) {
+            entity.setStatus("I");
+        }
         entity.setDeleted(false);
         entity.setCreateTime(DateUtil.date());
         entity.setCreateUser(entity.getCreateUser());
