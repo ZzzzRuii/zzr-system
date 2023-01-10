@@ -20,7 +20,7 @@
 
     <!-- List<SystemUnitChainInfoDO> selectSystemUnitChainInfo(@Param("entity") QuerySystemUnitChainInfoDTO unitChainInfoDTO); -->
     <select id="selectSystemUnitChainInfo" resultMap="systemUnitChainInfoMap">
-        SELECT * FROM `system_unit_chain_info`
+        SELECT * FROM system_unit_chain_info
         <where>
             <if test="entity != null">
                 <if test="entity.tenantId != null and entity.tenantId != ''">

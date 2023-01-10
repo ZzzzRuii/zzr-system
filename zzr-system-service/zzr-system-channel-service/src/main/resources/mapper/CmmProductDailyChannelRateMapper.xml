@@ -20,7 +20,7 @@
 
     <!-- List<CmmProductDailyChannelRateDO> selectRatePage(IPage<CmmProductDailyChannelRateDO> page, QueryCmmProductDailyChannelRateDTO rateDTO); -->
     <select id="selectRatePage" resultMap="RateMapper">
-        SELECT * FROM `cmm_product_daily_channel_rate`
+        SELECT * FROM cmm_product_daily_channel_rate
         <where>
             <if test="entity != null">
                 <if test="entity.tenantId != null and entity.tenantId != ''">
@@ -69,7 +69,7 @@
     <!-- List<CmmProductDailyChannelRateDO> selectByProductId(Long productId); -->
     <select id="selectByProductId" resultMap="RateMapper">
         SELECT *
-        FROM `cmm_product_daily_channel_rate`
+        FROM cmm_product_daily_channel_rate
         WHERE product_id = #{productId}
     </select>
 
