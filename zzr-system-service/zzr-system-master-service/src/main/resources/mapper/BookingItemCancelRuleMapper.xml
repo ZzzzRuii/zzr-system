@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzr.apollo.mapper.BookingItemCancelRuleMapper">
+
+    <resultMap id="itemCancelRuleMap" type="com.zzr.apollo.model.BookingItemCancelRuleDO">
+        <result column="tenant_id" property="tenantId"/>
+        <result column="order_id" property="orderId"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="mode" property="mode"/>
+        <result column="percentage" property="percentage"/>
+        <result column="amount" property="amount"/>
+        <result column="due_days" property="dueDays"/>
+        <result column="end_time" property="endTime"/>
+        <result column="res_minute" property="resMinute"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <!-- List<BookingItemCancelRuleDO> selectItemCancelRulePage(IPage page, @Param("entity") QueryBookingItemCancelRuleDTO itemCancelRuleDTO); -->
+    <select id="selectItemCancelRulePage" resultMap="itemCancelRuleMap">
+        SELECT * FROM booking_item_cancel_rule
+        <where>
+            <if test="entity != null">
+                <if test="entity.unitId != null">
+                    AND unit_id = #{entity.unitId}
+                </if>
+                <if test="entity.orderId != null">
+                    AND order_id = #{entity.orderId}
+                </if>
+                <if test="entity.unitType != null and entity.unitType != ''">
+                    AND unit_type = #{entity.unitType}
+                </if>
+                <if test="entity.code != null and entity.code != ''">
+                    AND code = #{entity.code}
+                </if>
+                <if test="entity.name != null and entity.name != ''">
+                    AND name = #{entity.name}
+                </if>
+                <if test="entity.type != null and entity.type != ''">
+                    AND type = #{entity.type}
+                </if>
+                <if test="entity.mode != null and entity.mode != ''">
+                    AND mode = #{entity.mode}
+                </if>
+            </if>
+        </where>
+    </select>
+
+</mapper>

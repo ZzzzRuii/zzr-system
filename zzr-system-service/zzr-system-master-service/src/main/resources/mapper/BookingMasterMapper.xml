@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzr.apollo.mapper.BookingMasterMapper">
+
+    <resultMap id="bookingMasterMap" type="com.zzr.apollo.model.BookingMasterDO">
+        <id property="id" column="id"/>
+        <result property="unitId" column="unit_id"/>
+        <result property="unitType" column="unit_type"/>
+        <result property="confirmNo" column="confirm_no"/>
+        <result property="extOrderNo" column="ext_order_no"/>
+        <result property="linkContacts" column="link_contacts"/>
+        <result property="linkPhone" column="link_phone"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="channelCode" column="channel_code"/>
+        <result property="companyName" column="company_name"/>
+        <result property="companyId" column="company_id"/>
+        <result property="market" column="market"/>
+        <result property="source" column="source"/>
+        <result property="resType" column="res_type"/>
+        <result property="memberId" column="member_id"/>
+        <result property="memberName" column="member_name"/>
+        <result property="memberGrade" column="member_grade"/>
+        <result property="payType" column="pay_type"/>
+        <result property="paymentStatus" column="payment_status"/>
+        <result property="travelDate" column="travel_date"/>
+        <result property="quantity" column="quantity"/>
+        <result property="totalFee" column="total_fee"/>
+        <result property="discountFee" column="discount_fee"/>
+        <result property="finalFee" column="final_fee"/>
+        <result property="partnerId" column="partner_id"/>
+        <result property="currency" column="currency"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="consignTime" column="consign_time"/>
+        <result property="cancelTime" column="cancel_time"/>
+        <result property="auditTime" column="audit_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="isAudit" column="is_audit"/>
+        <result property="auditor" column="auditor"/>
+        <result property="buyMemo" column="buy_memo"/>
+        <result property="sellerMemo" column="seller_memo"/>
+        <result property="isPreSale" column="is_pre_sale"/>
+        <result property="orderType" column="order_type"/>
+        <result property="salesmanCode" column="salesman_code"/>
+    </resultMap>
+
+    <!-- List<BookingMasterDO> selectMasterInfo(IPage page, @Param("entity") QueryBookingMasterDTO bookingMasterDTO); -->
+    <select id="selectMasterInfo" resultMap="bookingMasterMap">
+        SELECT * FROM booking_master
+        <where>
+            <if test="entity != null">
+                <if test="entity.unitId != null">
+                    AND unit_id = #{entity.unitId}
+                </if>
+                <if test="entity.unitType != null and entity.unitType != ''">
+                    AND unit_type = #{entity.unitType}
+                </if>
+                <if test="entity.extOrderNo != null">
+                    AND ext_order_no = #{entity.extOrderNo}
+                </if>
+                <if test="entity.channelId != null">
+                    AND channel_id = #{entity.channelId}
+                </if>
+                <if test="entity.companyId != null">
+                    AND company_id = #{entity.companyId}
+                </if>
+                <if test="entity.market != null">
+                    AND market = #{entity.market}
+                </if>
+                <if test="entity.memberId != null">
+                    AND member_id = #{entity.memberId}
+                </if>
+                <if test="entity.partnerId != null">
+                    AND partner_id = #{entity.partnerId}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <!--    BookingMasterDO selectByUnitId(Long unitId); -->
+    <select id="selectByUnitId" resultMap="bookingMasterMap">
+        SELECT unit_type, tenant_id
+        FROM booking_master
+        WHERE unit_id = #{unitId}
+        UNION
+        SELECT type, tenant_id
+        FROM system_unit_chain_info
+        WHERE id = #{unitId}
+    </select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzr.apollo.mapper.BookingMasterPayMapper">
+
+    <resultMap id="payMap" type="com.zzr.apollo.model.BookingMasterPayDO">
+        <result column="tenant_id" property="tenantId"/>
+        <result column="order_id" property="orderId"/>
+        <result column="transaction_code" property="transactionCode"/>
+        <result column="transaction_description" property="transactionDescription"/>
+        <result column="amount" property="amount"/>
+        <result column="currency" property="currency"/>
+        <result column="out_trade_no" property="outTradeNo"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!--	List<BookingMasterPayDO> selectPayPage(IPage page, @Param("entity") QueryBookingMasterPayDTO payDTO); -->
+    <select id="selectPayPage" resultMap="payMap">
+        SELECT * FROM booking_master_pay
+        <where>
+            <if test="entity != null">
+                <if test="entity.tenantId != null and entity.tenantId != ''">
+                    AND tenant_id = #{entity.tenantId}
+                </if>
+                <if test="entity.orderId != null">
+                    AND order_id = #{entity.orderId}
+                </if>
+                <if test="entity.transactionCode != null and entity.transactionCode != ''">
+                    AND transaction_code = #{entity.transactionCode}
+                </if>
+                <if test="entity.transactionDescription != null and entity.transactionDescription != ''">
+                    AND transaction_description = #{entity.transactionDescription}
+                </if>
+                <if test="entity.amount != null">
+                    AND amount = #{entity.amount}
+                </if>
+            </if>
+        </where>
+    </select>
+
+</mapper>

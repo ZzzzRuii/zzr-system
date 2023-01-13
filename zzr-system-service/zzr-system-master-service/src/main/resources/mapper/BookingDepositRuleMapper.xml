@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzr.apollo.mapper.BookingDepositRuleMapper">
+
+    <resultMap id="depositRuleMap" type="com.zzr.apollo.model.BookingDepositRuleDO">
+        <result column="tenant_id" property="tenantId"/>
+        <result column="unit_id" property="unitId"/>
+        <result column="unit_type" property="unitType"/>
+        <result column="code" property="code"/>
+        <result column="type" property="type"/>
+        <result column="mode" property="mode"/>
+        <result column="percentage" property="percentage"/>
+        <result column="amount" property="amount"/>
+        <result column="due_days" property="dueDays"/>
+        <result column="res_minute" property="resMinute"/>
+        <result column="name" property="name"/>
+        <result column="force_to_use" property="forceToUse"/>
+        <result column="sort" property="sort"/>
+        <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <result column="is_obsolete" property="isObsolete"/>
+    </resultMap>
+
+    <!-- List<BookingDepositRuleDO> selectDepositRulePage(IPage page, @Param("entity") QueryBookingDepositRuleDTO bookingDepositRule); -->
+    <select id="selectDepositRulePage" resultMap="depositRuleMap">
+        SELECT * FROM booking_deposit_rule
+        <where>
+            <if test="entity != null">
+                <if test="entity.unitId != null">
+                    AND unit_id = #{entity.unitId}
+                </if>
+                <if test="entity.orderId != null">
+                    AND order_id = #{entity.orderId}
+                </if>
+                <if test="entity.unitType != null and entity.unitType != ''">
+                    AND unit_type = #{entity.unitType}
+                </if>
+                <if test="entity.code != null and entity.code != ''">
+                    AND code = #{entity.code}
+                </if>
+                <if test="entity.name != null and entity.name != ''">
+                    AND name = #{entity.name}
+                </if>
+                <if test="entity.type != null and entity.type != ''">
+                    AND type = #{entity.type}
+                </if>
+                <if test="entity.mode != null and entity.mode != ''">
+                    AND mode = #{entity.mode}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <!--    BookingDepositRuleDO selectByUnitId(Long unitId);-->
+    <select id="selectByUnitId" resultMap="depositRuleMap">
+        SELECT unit_type, tenant_id
+        FROM booking_deposit_rule
+        WHERE unit_id = #{unitId}
+        UNION
+        SELECT type, tenant_id
+        FROM system_unit_chain_info
+        WHERE id = #{unitId}
+    </select>
+
+</mapper>

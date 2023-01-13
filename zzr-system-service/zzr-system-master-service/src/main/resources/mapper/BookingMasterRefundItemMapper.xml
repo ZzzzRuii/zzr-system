@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzr.apollo.mapper.BookingMasterRefundItemMapper">
+
+    <resultMap id="bookingMasterRefundItemMap" type="com.zzr.apollo.model.BookingMasterRefundItemDO">
+        <result property="unitId" column="unit_id"/>
+        <result property="unitType" column="unit_type"/>
+        <result property="orderItemId" column="order_item_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="cancelRuleId" column="cancel_rule_id"/>
+        <result property="cancelRuleName" column="cancel_rule_name"/>
+        <result property="policyId" column="policy_id"/>
+        <result property="policyName" column="policy_name"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productKind" column="product_kind"/>
+        <result property="productCode" column="product_code"/>
+        <result property="productSubCode" column="product_sub_code"/>
+        <result property="costPrice" column="cost_price"/>
+        <result property="price" column="price"/>
+        <result property="num" column="num"/>
+        <result property="profitCenterId" column="profit_center_id"/>
+        <result property="totalFee" column="total_fee"/>
+        <result property="discountFee" column="discount_fee"/>
+        <result property="finalFee" column="final_fee"/>
+        <result property="currency" column="currency"/>
+    </resultMap>
+
+    <!-- List<BookingMasterRefundItemDO> selectMasterRefundItemInfo(IPage<BookingMasterRefundItemDO> page, @Param("entity") QueryBookingMasterRefundItemDTO refundItemDTO); -->
+    <select id="selectMasterRefundItemInfo" resultMap="bookingMasterRefundItemMap">
+        SELECT * FROM booking_master_refund_item
+        <where>
+            <if test="entity != null">
+                <if test="entity.unitId != null">
+                    AND unit_id = #{entity.unitId}
+                </if>
+                <if test="entity.orderItemId != null">
+                    AND order_item_id = #{entity.orderItemId}
+                </if>
+                <if test="entity.orderId != null">
+                    AND order_id = #{entity.orderId}
+                </if>
+                <if test="entity.cancelRuleId != null">
+                    AND cancel_rule_id = #{entity.cancelRuleId}
+                </if>
+                <if test="entity.policyId != null">
+                    AND policy_id = #{entity.policyId}
+                </if>
+                <if test="entity.productId != null">
+                    AND product_id = #{entity.productId}
+                </if>
+                <if test="entity.productCode != null">
+                    AND product_code = #{entity.productCode}
+                </if>
+                <if test="entity.profitCenterId != null">
+                    AND profit_center_id = #{entity.profitCenterId}
+                </if>
+            </if>
+        </where>
+    </select>
+
+</mapper>
