@@ -39,7 +39,7 @@ public class SystemUnitChainInfoController {
      */
     @GetMapping
     @ApiOperation(value = "查询SystemUnitChainInfo列表")
-    public R<List<SystemUnitChainInfoVO>> selectPage(QuerySystemUnitChainInfoDTO infoDTO) {
+    public R<List<SystemUnitChainInfoVO>> selectTree(QuerySystemUnitChainInfoDTO infoDTO) {
 
         return R.data(unitChainInfoService.selectTree(infoDTO));
     }

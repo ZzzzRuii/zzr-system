@@ -102,7 +102,7 @@ public class BookingMasterRefundController {
     }
 
     /**
-     * 根据id停用BookingMasterRefund
+     * 根据id更改BookingMasterRefund状态
      *
      * @param id 主键
      */

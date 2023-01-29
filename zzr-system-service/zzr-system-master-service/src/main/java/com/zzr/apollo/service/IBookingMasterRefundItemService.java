@@ -66,65 +66,11 @@ public interface IBookingMasterRefundItemService extends IZzrService<BookingMast
     BookingMasterRefundItemDO create(CreateBookingMasterRefundItemDTO refundItemDTO);
 
     /**
-     * 根据主键 预付款
-     * 查询不到数据 ServiceException 异常
+     * 根据主键 修改状态 查询不到数据 ServiceException 异常
      *
      * @param id
+     * @param status
      * @return
      */
-    Boolean reserve(Long id);
-
-    /**
-     * 根据主键 已付款
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    Boolean rePay(Long id);
-
-    /**
-     * 根据主键 已取消
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    Boolean canceled(Long id);
-
-    /**
-     * 根据主键 确认中
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    Boolean confirming(Long id);
-
-    /**
-     * 根据主键 已确认
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    Boolean confirmed(Long id);
-
-    /**
-     * 根据主键 执行中
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    Boolean doing(Long id);
-
-    /**
-     * 根据主键 完成
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    Boolean complete(Long id);
+    Boolean status(Long id, String status);
 }

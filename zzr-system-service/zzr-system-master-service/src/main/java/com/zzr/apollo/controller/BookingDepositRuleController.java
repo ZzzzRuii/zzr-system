@@ -36,7 +36,7 @@ public class BookingDepositRuleController {
      * @param query              分页
      * @param bookingDepositRule
      */
-    @GetMapping("/bookingDepositRules")
+    @GetMapping
     @ApiOperation(value = "查询BookingDepositRule列表")
     public R<Page<BookingDepositRuleVO>> selectPage(Query query, QueryBookingDepositRuleDTO bookingDepositRule) {
         Page<BookingDepositRuleVO> voPage = bookingDepositRuleService.selectPage(query, bookingDepositRule);
@@ -48,7 +48,7 @@ public class BookingDepositRuleController {
      *
      * @param bookingDepositRule
      */
-    @PostMapping("/bookingDepositRules")
+    @PostMapping
     @ApiOperation(value = "创建对象BookingDepositRule")
     public R<Long> create(@RequestBody CreateBookingDepositRuleDTO bookingDepositRule) {
         BookingDepositRuleDO ruleDO = bookingDepositRuleService.create(bookingDepositRule);
@@ -59,7 +59,7 @@ public class BookingDepositRuleController {
     /**
      * 详情
      */
-    @GetMapping("/bookingDepositRules/{id}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取BookingDepositRule详情")
     public R<BookingDepositRuleVO> detail(@PathVariable("id") Long id) {
         BookingDepositRuleDO entity = bookingDepositRuleService.detail(id);
@@ -74,7 +74,7 @@ public class BookingDepositRuleController {
      * @param id
      * @param bookingDepositRule
      */
-    @PutMapping("/bookingDepositRule/{id}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "更新BookingDepositRule")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateBookingDepositRuleDTO bookingDepositRule) {
         Boolean result = bookingDepositRuleService.update(bookingDepositRule, id);
@@ -88,7 +88,7 @@ public class BookingDepositRuleController {
      *
      * @param id 主键
      */
-    @DeleteMapping("/bookingDepositRule/{id}")
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "删除BookingDepositRule")
     public R<Boolean> delete(@PathVariable("id") Long id) {
         Boolean result = bookingDepositRuleService.deleteById(id);
@@ -101,7 +101,7 @@ public class BookingDepositRuleController {
      *
      * @param id 主键
      */
-    @PutMapping("/bookingDepositRule/{id}/activate")
+    @PutMapping("/{id}/activate")
     @ApiOperation(value = "激活BookingDepositRule")
     public R<Boolean> activate(@PathVariable("id") Long id) {
         return R.data(bookingDepositRuleService.activate(id));
@@ -112,7 +112,7 @@ public class BookingDepositRuleController {
      *
      * @param id 主键
      */
-    @PutMapping("/bookingDepositRule/{id}/inactivate")
+    @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用BookingDepositRule")
     public R<Boolean> inactivate(@PathVariable("id") Long id) {
         return R.data(bookingDepositRuleService.inactivate(id));

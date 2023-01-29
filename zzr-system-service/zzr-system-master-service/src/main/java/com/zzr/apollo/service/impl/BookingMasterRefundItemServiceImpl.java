@@ -20,9 +20,10 @@ import com.zzr.apollo.service.IBookingMasterItemService;
 import com.zzr.apollo.service.IBookingMasterRefundItemService;
 import com.zzr.apollo.service.IBookingMasterService;
 import com.zzr.apollo.service.ICmmProductDailyAmountService;
-import com.zzr.apollo.tool.constants.MasterStatusCode;
+import com.zzr.apollo.tool.constants.RefundStatusCode;
 import com.zzr.apollo.wrapper.BookingMasterRefundItemWrapper;
 import com.zzr.base.api.ResultCode;
+import com.zzr.base.exception.ServiceException;
 import com.zzr.base.service.impl.ZzrServiceImpl;
 import com.zzr.base.support.Condition;
 import com.zzr.base.support.Page;
@@ -182,120 +183,29 @@ public class BookingMasterRefundItemServiceImpl extends ZzrServiceImpl<BookingMa
         save(refundItemDO);
 
         // 完成退款
-        complete(refundItemDO.getId());
+        status(refundItemDO.getId(), RefundStatusCode.COMPLETE.getCode());
 
         return refundItemDO;
     }
 
     /**
-     * 根据主键 预付款
+     * 根据主键 修改状态
      * 查询不到数据 ServiceException 异常
      *
      * @param id
+     * @param status
      * @return
      */
     @Override
-    public Boolean reserve(Long id) {
+    public Boolean status(Long id, String status) {
         BookingMasterRefundItemDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-
-        entity.setStatus(MasterStatusCode.RESERVE.getCode());
-        return changeStatus(entity);
-    }
-
-    /**
-     * 根据主键 已付款
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean rePay(Long id) {
-        BookingMasterRefundItemDO entity = detail(id);
-        Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-
-        entity.setStatus(MasterStatusCode.REPAY.getCode());
-        return changeStatus(entity);
-    }
-
-    /**
-     * 根据主键 已取消
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean canceled(Long id) {
-        BookingMasterRefundItemDO entity = detail(id);
-        Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-
-        entity.setStatus(MasterStatusCode.CANCELED.getCode());
-        return changeStatus(entity);
-    }
-
-    /**
-     * 根据主键 确认中
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean confirming(Long id) {
-        BookingMasterRefundItemDO entity = detail(id);
-        Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-
-        entity.setStatus(MasterStatusCode.CONFIRMING.getCode());
-        return changeStatus(entity);
-    }
-
-    /**
-     * 根据主键 已确认
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean confirmed(Long id) {
-        BookingMasterRefundItemDO entity = detail(id);
-        Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-
-        entity.setStatus(MasterStatusCode.CONFIRMED.getCode());
-        return changeStatus(entity);
-    }
-
-    /**
-     * 根据主键 执行中
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean doing(Long id) {
-        BookingMasterRefundItemDO entity = detail(id);
-        Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-
-        entity.setStatus(MasterStatusCode.DOING.getCode());
-        return changeStatus(entity);
-    }
-
-    /**
-     * 根据主键 完成
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean complete(Long id) {
-        BookingMasterRefundItemDO entity = detail(id);
-        Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-
-        entity.setStatus(MasterStatusCode.COMPLETE.getCode());
+        // 判断状态是否正确
+        RefundStatusCode refundStatus = RefundStatusCode.of(status);
+        if (ObjectUtil.isNull(refundStatus)) {
+            throw new ServiceException(ResultCode.SC_NO_CONTENT);
+        }
+        entity.setStatus(status);
         return changeStatus(entity);
     }
 }

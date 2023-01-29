@@ -110,7 +110,7 @@ public class ProductTicketController {
      *
      * @param id 主键
      */
-    @PutMapping("/{id}/inactive")
+    @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用ProductTicket")
     public R<Boolean> inactive(@PathVariable("id") Long id) {
         return R.data(productService.inactive(id));

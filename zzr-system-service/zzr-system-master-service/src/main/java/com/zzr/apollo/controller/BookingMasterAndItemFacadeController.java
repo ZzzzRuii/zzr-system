@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Api(value = "订单合并")
-@RequestMapping("/facadeOrder")
+@RequestMapping("/facade")
 public class BookingMasterAndItemFacadeController {
 
     private final IBookingMasterAndItemFacadeService facadeService;
@@ -32,6 +32,7 @@ public class BookingMasterAndItemFacadeController {
      * 查询!{entity} 根据条件
      *
      * @param facadeDTO
+     * @return
      */
     @GetMapping
     @ApiOperation(value = "查询BookingMasterAndItemFacade列表")
@@ -45,7 +46,7 @@ public class BookingMasterAndItemFacadeController {
      * 创建对象BookingMaster
      *
      * @param facadeDTO
-     * @return 主订单id
+     * @return
      */
     @PostMapping
     @ApiOperation(value = "创建对象BookingMasterAndItemFacade")

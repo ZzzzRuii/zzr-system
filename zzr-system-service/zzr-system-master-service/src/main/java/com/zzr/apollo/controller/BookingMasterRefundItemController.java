@@ -103,85 +103,14 @@ public class BookingMasterRefundItemController {
 
 
     /**
-     * 根据主键 预付款
+     * 根据id更改BookingMasterRefund状态
      *
      * @param id 主键
      */
-    @PutMapping("/{id}/reserve")
-    @ApiOperation(value = "预付款BookingMaster")
-    public R<Boolean> reserve(@PathVariable("id") Long id) {
-        return R.data(bookingMasterRefundItemService.reserve(id));
-    }
-
-    /**
-     * 根据主键 已付款
-     *
-     * @param id 主键
-     */
-    @PutMapping("/{id}/rePay")
-    @ApiOperation(value = "已付款BookingMaster")
-    public R<Boolean> rePay(@PathVariable("id") Long id) {
-        return R.data(bookingMasterRefundItemService.rePay(id));
-    }
-
-    /**
-     * 根据主键 已取消
-     *
-     * @param id
-     * @return
-     */
-    @PutMapping("/{id}/canceled")
-    @ApiOperation(value = "已取消BookingMaster")
-    public R<Boolean> canceled(@PathVariable("id") Long id) {
-        return R.data(bookingMasterRefundItemService.canceled(id));
-    }
-
-    /**
-     * 根据主键 确认中
-     *
-     * @param id
-     * @return
-     */
-    @PutMapping("/{id}/confirming")
-    @ApiOperation(value = "确认中BookingMaster")
-    public R<Boolean> confirming(@PathVariable("id") Long id) {
-        return R.data(bookingMasterRefundItemService.confirming(id));
-    }
-
-    /**
-     * 根据主键 已确认
-     *
-     * @param id
-     * @return
-     */
-    @PutMapping("/{id}/confirmed")
-    @ApiOperation(value = "已确认BookingMaster")
-    public R<Boolean> confirmed(@PathVariable("id") Long id) {
-        return R.data(bookingMasterRefundItemService.confirmed(id));
-    }
-
-    /**
-     * 根据主键 执行中
-     *
-     * @param id
-     * @return
-     */
-    @PutMapping("/{id}/doing")
-    @ApiOperation(value = "执行中BookingMaster")
-    public R<Boolean> doing(@PathVariable("id") Long id) {
-        return R.data(bookingMasterRefundItemService.doing(id));
-    }
-
-    /**
-     * 根据主键 完成
-     *
-     * @param id
-     * @return
-     */
-    @PutMapping("/{id}/complete")
-    @ApiOperation(value = "完成BookingMaster")
-    public R<Boolean> complete(@PathVariable("id") Long id) {
-        return R.data(bookingMasterRefundItemService.complete(id));
+    @PutMapping("/{id}/{status}")
+    @ApiOperation(value = "根据id停用BookingMasterRefund")
+    public R<Boolean> status(@PathVariable("id") Long id, @PathVariable("status") String status) {
+        return R.data(bookingMasterRefundItemService.status(id, status));
     }
 
 }

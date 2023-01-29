@@ -84,7 +84,7 @@ public class BookingMasterPayServiceImpl extends ZzrServiceImpl<BookingMasterPay
 
         // 主订单更新
         masterDO.setPayTime(LocalDateTime.now());
-        masterDO.setPayType("支付宝");
+        masterDO.setPayType(payDTO.getTransactionCode());
         masterDO.setPaymentStatus(PayStatusCode.PAY);
         masterService.updateById(masterDO);
         masterService.rePay(masterDO.getId());

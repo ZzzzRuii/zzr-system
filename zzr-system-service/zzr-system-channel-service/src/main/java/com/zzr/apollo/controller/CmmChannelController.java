@@ -123,7 +123,7 @@ public class CmmChannelController {
      *
      * @param id 主键
      */
-    @PutMapping("/{id}/inactive")
+    @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用CmmChannel")
     public R<Boolean> inactive(@PathVariable("id") Long id) {
         try {

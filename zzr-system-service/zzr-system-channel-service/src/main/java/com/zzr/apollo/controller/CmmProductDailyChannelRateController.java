@@ -124,7 +124,7 @@ public class CmmProductDailyChannelRateController {
      *
      * @param id 主键
      */
-    @PutMapping("/{id}/inactive")
+    @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用CmmProductDailyChannelRate")
     public R<Boolean> inactive(@PathVariable("id") Long id) {
         try {
