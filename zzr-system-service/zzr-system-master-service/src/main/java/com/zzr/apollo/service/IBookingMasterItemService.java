@@ -5,9 +5,8 @@ import com.zzr.apollo.master.dto.QueryBookingMasterItemDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterItemDTO;
 import com.zzr.apollo.master.vo.BookingMasterItemVO;
 import com.zzr.apollo.model.BookingMasterItemDO;
-import com.zzr.base.service.IZzrService;
-import com.zzr.base.support.Page;
-import com.zzr.base.support.Query;
+import com.zzr.apollo.support.Page;
+import com.zzr.apollo.support.Query;
 
 import java.util.List;
 

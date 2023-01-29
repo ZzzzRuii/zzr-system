@@ -1,8 +1,8 @@
 package com.zzr.apollo;
 
 import com.alibaba.fastjson.JSON;
+import com.zzr.apollo.constants.UnitTypeEnum;
 import com.zzr.apollo.unit.dto.CreateSystemUnitChainInfoDTO;
-import com.zzr.base.constants.UnitTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

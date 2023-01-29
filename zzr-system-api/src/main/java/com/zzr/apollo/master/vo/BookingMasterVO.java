@@ -3,7 +3,7 @@
  */
 package com.zzr.apollo.master.vo;
 
-import com.zzr.base.model.vo.BaseVO;
+import com.zzr.apollo.model.vo.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

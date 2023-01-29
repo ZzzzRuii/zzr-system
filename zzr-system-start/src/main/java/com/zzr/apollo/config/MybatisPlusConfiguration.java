@@ -2,7 +2,7 @@ package com.zzr.apollo.config;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
-import com.zzr.base.mp.injector.AppSqlInjector;
+import com.zzr.apollo.mp.injector.AppSqlInjector;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

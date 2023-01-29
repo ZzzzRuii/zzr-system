@@ -5,7 +5,6 @@ import com.zzr.apollo.model.SystemUnitChainInfoDO;
 import com.zzr.apollo.unit.dto.CreateSystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.dto.UpdateSystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.vo.SystemUnitChainInfoVO;
-import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

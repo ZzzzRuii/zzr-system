@@ -5,9 +5,8 @@ import com.zzr.apollo.master.dto.QueryBookingCancelRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingCancelRuleDTO;
 import com.zzr.apollo.master.vo.BookingCancelRuleVO;
 import com.zzr.apollo.model.BookingCancelRuleDO;
-import com.zzr.base.service.IZzrService;
-import com.zzr.base.support.Page;
-import com.zzr.base.support.Query;
+import com.zzr.apollo.support.Page;
+import com.zzr.apollo.support.Query;
 
 /**
  * 退改规则 服务类

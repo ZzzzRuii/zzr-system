@@ -5,9 +5,8 @@ import com.zzr.apollo.master.dto.QueryBookingItemCancelRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingItemCancelRuleDTO;
 import com.zzr.apollo.master.vo.BookingItemCancelRuleVO;
 import com.zzr.apollo.model.BookingItemCancelRuleDO;
-import com.zzr.base.service.IZzrService;
-import com.zzr.base.support.Page;
-import com.zzr.base.support.Query;
+import com.zzr.apollo.support.Page;
+import com.zzr.apollo.support.Query;
 
 /**
  * 取消规则服务类

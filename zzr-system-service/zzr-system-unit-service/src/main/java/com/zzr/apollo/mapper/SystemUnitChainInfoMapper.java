@@ -2,7 +2,6 @@ package com.zzr.apollo.mapper;
 
 import com.zzr.apollo.model.SystemUnitChainInfoDO;
 import com.zzr.apollo.unit.dto.QuerySystemUnitChainInfoDTO;
-import com.zzr.base.mapper.ZzrMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

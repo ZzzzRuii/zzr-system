@@ -3,7 +3,6 @@ package com.zzr.apollo.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.channel.dto.QueryCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.model.CmmProductDailyChannelRateDO;
-import com.zzr.base.mapper.ZzrMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -1,21 +1,21 @@
 package com.zzr.apollo.controller;
 
+import com.zzr.apollo.api.R;
 import com.zzr.apollo.channel.dto.CreateCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.channel.dto.QueryCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.channel.dto.UpdateCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.channel.vo.CmmProductDailyChannelRateVO;
 import com.zzr.apollo.model.CmmProductDailyChannelRateDO;
 import com.zzr.apollo.service.ICmmProductDailyChannelRateService;
+import com.zzr.apollo.support.Page;
+import com.zzr.apollo.support.Query;
 import com.zzr.apollo.wrapper.CmmProductDailyChannelRateWrapper;
-import com.zzr.base.api.R;
-import com.zzr.base.support.Page;
-import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**

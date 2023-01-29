@@ -5,7 +5,6 @@ import com.zzr.apollo.channel.dto.CreateCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.channel.dto.UpdateCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.channel.vo.CmmProductDailyChannelRateVO;
 import com.zzr.apollo.model.CmmProductDailyChannelRateDO;
-import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

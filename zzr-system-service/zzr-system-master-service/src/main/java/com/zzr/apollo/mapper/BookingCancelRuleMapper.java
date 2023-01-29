@@ -3,7 +3,6 @@ package com.zzr.apollo.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.master.dto.QueryBookingCancelRuleDTO;
 import com.zzr.apollo.model.BookingCancelRuleDO;
-import com.zzr.base.mapper.ZzrMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

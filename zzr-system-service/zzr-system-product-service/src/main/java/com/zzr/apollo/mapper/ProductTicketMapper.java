@@ -3,7 +3,6 @@ package com.zzr.apollo.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.model.ProductTicketDO;
 import com.zzr.apollo.product.dto.QueryProductTicketDTO;
-import com.zzr.base.mapper.ZzrMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

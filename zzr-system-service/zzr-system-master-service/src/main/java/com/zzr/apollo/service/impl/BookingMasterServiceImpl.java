@@ -3,6 +3,7 @@ package com.zzr.apollo.service.impl;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zzr.apollo.api.ResultCode;
 import com.zzr.apollo.mapper.BookingMasterMapper;
 import com.zzr.apollo.master.dto.CreateBookingMasterDTO;
 import com.zzr.apollo.master.dto.QueryBookingMasterDTO;
@@ -11,15 +12,13 @@ import com.zzr.apollo.master.vo.BookingMasterVO;
 import com.zzr.apollo.model.BookingMasterDO;
 import com.zzr.apollo.service.IBookingMasterService;
 import com.zzr.apollo.service.ICmmChannelService;
+import com.zzr.apollo.support.Condition;
+import com.zzr.apollo.support.Page;
+import com.zzr.apollo.support.Query;
 import com.zzr.apollo.tool.constants.DemoResultCode;
 import com.zzr.apollo.tool.constants.MasterStatusCode;
 import com.zzr.apollo.tool.constants.PayStatusCode;
 import com.zzr.apollo.wrapper.BookingMasterWrapper;
-import com.zzr.base.api.ResultCode;
-import com.zzr.base.service.impl.ZzrServiceImpl;
-import com.zzr.base.support.Condition;
-import com.zzr.base.support.Page;
-import com.zzr.base.support.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -106,7 +105,7 @@ public class BookingMasterServiceImpl extends ZzrServiceImpl<BookingMasterMapper
         bookingMasterDO.setId(id);
         return updateById(bookingMasterDO);
     }
-    
+
     /**
      * 根据主键 删除数据
      * 查询不到数据 ServiceException 异常

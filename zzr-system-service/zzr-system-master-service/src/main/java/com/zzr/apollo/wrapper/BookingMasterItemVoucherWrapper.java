@@ -5,7 +5,6 @@ import com.zzr.apollo.master.dto.CreateBookingMasterItemVoucherDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterItemVoucherDTO;
 import com.zzr.apollo.master.vo.BookingMasterItemVoucherVO;
 import com.zzr.apollo.model.BookingMasterItemVoucherDO;
-import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

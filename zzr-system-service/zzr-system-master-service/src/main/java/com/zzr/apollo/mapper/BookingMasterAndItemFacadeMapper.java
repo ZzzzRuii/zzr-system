@@ -1,7 +1,6 @@
 package com.zzr.apollo.mapper;
 
 import com.zzr.apollo.model.BookingMasterAndItemFacadeDO;
-import com.zzr.base.mapper.ZzrMapper;
 
 /**
  * 订单合并 Mapper 接口

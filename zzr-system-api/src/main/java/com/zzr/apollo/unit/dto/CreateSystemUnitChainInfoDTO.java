@@ -3,10 +3,10 @@ package com.zzr.apollo.unit.dto;
 import com.zzr.apollo.tool.utils.DemoRegexUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**

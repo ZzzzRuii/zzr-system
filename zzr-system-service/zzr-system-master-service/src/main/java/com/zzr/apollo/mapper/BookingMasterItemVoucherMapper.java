@@ -1,7 +1,6 @@
 package com.zzr.apollo.mapper;
 
 import com.zzr.apollo.model.BookingMasterItemVoucherDO;
-import com.zzr.base.mapper.ZzrMapper;
 
 /**
  * 子订单 票号 Mapper 接口

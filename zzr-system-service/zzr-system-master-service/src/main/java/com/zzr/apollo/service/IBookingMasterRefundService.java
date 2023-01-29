@@ -5,9 +5,8 @@ import com.zzr.apollo.master.dto.QueryBookingMasterRefundDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterRefundDTO;
 import com.zzr.apollo.master.vo.BookingMasterRefundVO;
 import com.zzr.apollo.model.BookingMasterRefundDO;
-import com.zzr.base.service.IZzrService;
-import com.zzr.base.support.Page;
-import com.zzr.base.support.Query;
+import com.zzr.apollo.support.Page;
+import com.zzr.apollo.support.Query;
 
 /**
  * 主订单退款 服务类
