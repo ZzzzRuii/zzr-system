@@ -2,14 +2,12 @@ package com.zzr.apollo.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
-import com.alibaba.nacos.shaded.com.google.gson.Gson;
-import com.alibaba.nacos.shaded.com.google.gson.reflect.TypeToken;
 import com.zzr.apollo.mapper.SystemUnitChainInfoMapper;
 import com.zzr.apollo.model.SystemUnitChainInfoDO;
 import com.zzr.apollo.product.vo.ProductTicketVO;
@@ -69,15 +67,12 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
             unitChainInfoDTO.setParentId(0L);
         }
 
-        Gson gson = new Gson();
-
-        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
-
-        List<Tree<String>> treeList = TreeUtil.build(list(), String.valueOf(unitChainInfoDTO.getParentId()), treeNodeConfig,
+        List<Tree<String>> treeList = TreeUtil.build(list(), String.valueOf(unitChainInfoDTO.getParentId()),
                 (node, tree) -> {
                     // 转换成 map，拓展获取其他字段值
-                    Map<String, Object> treeMap = gson.fromJson(gson.toJson(node), new TypeToken<Map<String, Object>>() {
-                    }.getType());
+                    Map<String, Object> treeMap = JSON.parseObject(JSON.toJSONString(node), new TypeReference<Map<String, Object>>() {
+                    });
+
                     for (Map.Entry<String, Object> entry : treeMap.entrySet()) {
                         tree.putExtra(entry.getKey(), entry.getValue());
                     }
@@ -92,9 +87,6 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
                 });
 
         // 序列化再反序列化
-        /*List<SystemUnitChainInfoVO> voTree = gson.fromJson(gson.toJson(treeList), new TypeToken<List<SystemUnitChainInfoVO>>() {
-        }.getType());*/
-
         return JSON.parseArray(JSON.toJSONString(treeList), SystemUnitChainInfoVO.class);
     }
 
@@ -251,12 +243,7 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
      * @return
      */
     private Boolean paramExists(Long param) {
-
-        QuerySystemUnitChainInfoDTO queryDTO = new QuerySystemUnitChainInfoDTO();
-        queryDTO.setParentId(param);
-        List<SystemUnitChainInfoDO> paramList = selectList(queryDTO);
-
-        return CollUtil.isNotEmpty(paramList);
+        return ObjectUtil.isNotNull(detail(param));
     }
 
     /**
@@ -290,6 +277,6 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
      */
     private List<SystemUnitChainInfoDO> selectList(QuerySystemUnitChainInfoDTO unitChainInfoDTO) {
 
-        return baseMapper.selectSystemUnitChainInfo((unitChainInfoDTO));
+        return baseMapper.selectSystemUnitChainInfo(unitChainInfoDTO);
     }
 }

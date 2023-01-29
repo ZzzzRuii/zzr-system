@@ -40,8 +40,11 @@ public class SystemUnitChainInfoController {
     @GetMapping
     @ApiOperation(value = "查询SystemUnitChainInfo列表")
     public R<List<SystemUnitChainInfoVO>> selectTree(QuerySystemUnitChainInfoDTO infoDTO) {
-
-        return R.data(unitChainInfoService.selectTree(infoDTO));
+        try {
+            return R.data(unitChainInfoService.selectTree(infoDTO));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -53,9 +56,13 @@ public class SystemUnitChainInfoController {
     @PostMapping
     @ApiOperation(value = "创建SystemUnitChainInfo对象")
     public R<Long> create(@RequestBody @Validated CreateSystemUnitChainInfoDTO infoDTO) {
-        SystemUnitChainInfoDO infoDO = unitChainInfoService.create(infoDTO);
+        try {
+            SystemUnitChainInfoDO infoDO = unitChainInfoService.create(infoDTO);
 
-        return R.data(infoDO.getId());
+            return R.data(infoDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -64,10 +71,14 @@ public class SystemUnitChainInfoController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取SystemUnitChainInfo详情")
     public R<SystemUnitChainInfoVO> detail(@PathVariable("id") Long id) {
-        SystemUnitChainInfoDO entity = unitChainInfoService.detail(id);
-        SystemUnitChainInfoVO vo = SystemUnitChainInfoWrapper.build().entityVO(entity);
+        try {
+            SystemUnitChainInfoDO entity = unitChainInfoService.detail(id);
+            SystemUnitChainInfoVO vo = SystemUnitChainInfoWrapper.build().entityVO(entity);
 
-        return R.data(vo);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -80,9 +91,13 @@ public class SystemUnitChainInfoController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新SystemUnitChainInfo")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateSystemUnitChainInfoDTO infoDTO) {
-        Boolean result = unitChainInfoService.update(infoDTO, id);
+        try {
+            Boolean result = unitChainInfoService.update(infoDTO, id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -94,9 +109,13 @@ public class SystemUnitChainInfoController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除SystemUnitChainInfo")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = unitChainInfoService.deleteById(id);
+        try {
+            Boolean result = unitChainInfoService.deleteById(id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -107,7 +126,11 @@ public class SystemUnitChainInfoController {
     @PutMapping("/{id}/draft")
     @ApiOperation(value = "起草SystemUnitChainInfo")
     public R<Boolean> draft(@PathVariable("id") Long id) {
-        return R.data(unitChainInfoService.draft(id));
+        try {
+            return R.data(unitChainInfoService.draft(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -118,7 +141,11 @@ public class SystemUnitChainInfoController {
     @PutMapping("/{id}/archived")
     @ApiOperation(value = "根据id存档SystemUnitChainInfo")
     public R<Boolean> archived(@PathVariable("id") Long id) {
-        return R.data(unitChainInfoService.archived(id));
+        try {
+            return R.data(unitChainInfoService.archived(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -129,7 +156,11 @@ public class SystemUnitChainInfoController {
     @PutMapping("/{id}/published")
     @ApiOperation(value = "根据id发布SystemUnitChainInfo")
     public R<Boolean> published(@PathVariable("id") Long id) {
-        return R.data(unitChainInfoService.published(id));
+        try {
+            return R.data(unitChainInfoService.published(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }
