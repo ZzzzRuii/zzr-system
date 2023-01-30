@@ -40,7 +40,11 @@ public class BookingMasterItemVoucherController {
     @GetMapping("/bookingMasterItemVouchers")
     @ApiOperation(value = "查询BookingMasterItemVoucher列表")
     public R<Page<BookingMasterItemVoucherVO>> selectPage(Query query, QueryBookingMasterItemVoucherDTO bookingMasterItemVoucher) {
-        throw new UnsupportedOperationException();
+        try {
+            throw new UnsupportedOperationException();
+        } catch (UnsupportedOperationException e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -51,7 +55,11 @@ public class BookingMasterItemVoucherController {
     @PostMapping("/bookingMasterItemVouchers")
     @ApiOperation(value = "创建对象BookingMasterItemVoucher")
     public R<Long> create(@RequestBody CreateBookingMasterItemVoucherDTO bookingMasterItemVoucher) {
-        throw new UnsupportedOperationException();
+        try {
+            throw new UnsupportedOperationException();
+        } catch (UnsupportedOperationException e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -60,9 +68,13 @@ public class BookingMasterItemVoucherController {
     @GetMapping("/bookingMasterItemVouchers/{id}")
     @ApiOperation(value = "根据Id获取BookingMasterItemVoucher详情")
     public R<BookingMasterItemVoucherVO> detail(@PathVariable("id") Long id) {
-        BookingMasterItemVoucherDO entity = bookingMasterItemVoucherService.detail(id);
-        BookingMasterItemVoucherVO vo = BookingMasterItemVoucherWrapper.build().entityVO(entity);
-        return R.data(vo);
+        try {
+            BookingMasterItemVoucherDO entity = bookingMasterItemVoucherService.detail(id);
+            BookingMasterItemVoucherVO vo = BookingMasterItemVoucherWrapper.build().entityVO(entity);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -75,7 +87,11 @@ public class BookingMasterItemVoucherController {
     @PutMapping("/bookingMasterItemVoucher/{id}")
     @ApiOperation(value = "更新BookingMasterItemVoucher")
     public R<Long> update(@PathVariable("id") Long id, @RequestBody UpdateBookingMasterItemVoucherDTO bookingMasterItemVoucher) {
-        throw new UnsupportedOperationException();
+        try {
+            throw new UnsupportedOperationException();
+        } catch (UnsupportedOperationException e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -87,7 +103,11 @@ public class BookingMasterItemVoucherController {
     @DeleteMapping("/bookingMasterItemVoucher/{id}")
     @ApiOperation(value = "删除BookingMasterItemVoucher")
     public R<String> delete(@PathVariable("id") Long id) {
-        throw new UnsupportedOperationException();
+        try {
+            throw new UnsupportedOperationException();
+        } catch (UnsupportedOperationException e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -98,7 +118,11 @@ public class BookingMasterItemVoucherController {
     @PutMapping("/bookingMasterItemVoucher/{id}/activate")
     @ApiOperation(value = "激活BookingMasterItemVoucher")
     public R<Boolean> activate(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemVoucherService.activate(id));
+        try {
+            return R.data(bookingMasterItemVoucherService.activate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -109,7 +133,11 @@ public class BookingMasterItemVoucherController {
     @PutMapping("/bookingMasterItemVoucher/{id}/inactivate")
     @ApiOperation(value = "根据id停用BookingMasterItemVoucher")
     public R<Boolean> inactivate(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemVoucherService.inactivate(id));
+        try {
+            return R.data(bookingMasterItemVoucherService.inactivate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }

@@ -39,7 +39,11 @@ public class CmmChannelController {
     @GetMapping
     @ApiOperation(value = "查询CmmChannel列表")
     public R<Page<CmmChannelVO>> selectPage(Query query, QueryCmmChannelDTO channelDTO) {
-        return R.data(channelService.selectPage(query, channelDTO));
+        try {
+            return R.data(channelService.selectPage(query, channelDTO));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -53,8 +57,8 @@ public class CmmChannelController {
     public R<Long> create(@RequestBody @Validated CreateCmmChannelDTO channelDTO) {
         try {
             return R.data(channelService.create(channelDTO).getId());
-        } catch (Exception exception) {
-            return R.fail(exception.getMessage());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
         }
     }
 
@@ -64,10 +68,14 @@ public class CmmChannelController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取CmmChannel详情")
     public R<CmmChannelVO> detail(@PathVariable("id") Long id) {
-        CmmChannelDO entity = channelService.detail(id);
-        CmmChannelVO vo = CmmChannelWrapper.build().entityVO(entity);
+        try {
+            CmmChannelDO entity = channelService.detail(id);
+            CmmChannelVO vo = CmmChannelWrapper.build().entityVO(entity);
 
-        return R.data(vo);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 

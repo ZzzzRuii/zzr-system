@@ -41,9 +41,13 @@ public class BookingCancelRuleController {
     @GetMapping
     @ApiOperation(value = "查询BookingCancelRule列表")
     public R<Page<BookingCancelRuleVO>> selectPage(Query query, QueryBookingCancelRuleDTO bookingCancelRule) {
-        Page<BookingCancelRuleVO> voPage = bookingCancelRuleService.selectPage(query, bookingCancelRule);
+        try {
+            Page<BookingCancelRuleVO> voPage = bookingCancelRuleService.selectPage(query, bookingCancelRule);
 
-        return R.data(voPage);
+            return R.data(voPage);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -54,9 +58,13 @@ public class BookingCancelRuleController {
     @PostMapping
     @ApiOperation(value = "创建对象BookingCancelRule")
     public R<Long> create(@RequestBody @Validated CreateBookingCancelRuleDTO bookingCancelRule) {
-        BookingCancelRuleDO bookingCancelRuleDO = bookingCancelRuleService.create(bookingCancelRule);
+        try {
+            BookingCancelRuleDO bookingCancelRuleDO = bookingCancelRuleService.create(bookingCancelRule);
 
-        return R.data(bookingCancelRuleDO.getId());
+            return R.data(bookingCancelRuleDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -65,9 +73,13 @@ public class BookingCancelRuleController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取BookingCancelRule详情")
     public R<BookingCancelRuleVO> detail(@PathVariable("id") Long id) {
-        BookingCancelRuleDO entity = bookingCancelRuleService.detail(id);
-        BookingCancelRuleVO vo = BookingCancelRuleWrapper.build().entityVO(entity);
-        return R.data(vo);
+        try {
+            BookingCancelRuleDO entity = bookingCancelRuleService.detail(id);
+            BookingCancelRuleVO vo = BookingCancelRuleWrapper.build().entityVO(entity);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -80,9 +92,13 @@ public class BookingCancelRuleController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新BookingCancelRule")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateBookingCancelRuleDTO bookingCancelRule) {
-        Boolean result = bookingCancelRuleService.update(bookingCancelRule, id);
+        try {
+            Boolean result = bookingCancelRuleService.update(bookingCancelRule, id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -94,9 +110,13 @@ public class BookingCancelRuleController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除BookingCancelRule")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = bookingCancelRuleService.deleteById(id);
+        try {
+            Boolean result = bookingCancelRuleService.deleteById(id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -107,7 +127,11 @@ public class BookingCancelRuleController {
     @PutMapping("/{id}/activate")
     @ApiOperation(value = "激活BookingCancelRule")
     public R<Boolean> activate(@PathVariable("id") Long id) {
-        return R.data(bookingCancelRuleService.activate(id));
+        try {
+            return R.data(bookingCancelRuleService.activate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -118,7 +142,11 @@ public class BookingCancelRuleController {
     @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用BookingCancelRule")
     public R<Boolean> inactivate(@PathVariable("id") Long id) {
-        return R.data(bookingCancelRuleService.inactivate(id));
+        try {
+            return R.data(bookingCancelRuleService.inactivate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }

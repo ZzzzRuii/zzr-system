@@ -42,7 +42,11 @@ public class CmmProductDailyAmountController {
     @GetMapping
     @ApiOperation(value = "查询CmmProductDailyAmount列表")
     public R<Page<CmmProductDailyAmountVO>> selectPage(Query query, QueryCmmProductDailyAmountDTO amountDTO) {
-        return R.data(amountService.selectPage(query, amountDTO));
+        try {
+            return R.data(amountService.selectPage(query, amountDTO));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -67,10 +71,14 @@ public class CmmProductDailyAmountController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取CmmProductDailyAmount详情")
     public R<CmmProductDailyAmountVO> detail(@PathVariable("id") Long id) {
-        CmmProductDailyAmountDO entity = amountService.detail(id);
-        CmmProductDailyAmountVO vo = CmmProductDailyAmountWrapper.build().entityVO(entity);
+        try {
+            CmmProductDailyAmountDO entity = amountService.detail(id);
+            CmmProductDailyAmountVO vo = CmmProductDailyAmountWrapper.build().entityVO(entity);
 
-        return R.data(vo);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**

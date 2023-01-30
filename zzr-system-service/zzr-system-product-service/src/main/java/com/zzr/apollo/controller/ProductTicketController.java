@@ -41,7 +41,11 @@ public class ProductTicketController {
     @GetMapping
     @ApiOperation(value = "查询ProductTicket列表")
     public R<Page<ProductTicketVO>> selectPage(Query query, QueryProductTicketDTO productDTO) {
-        return R.data(productService.selectPage(query, productDTO));
+        try {
+            return R.data(productService.selectPage(query, productDTO));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -53,9 +57,13 @@ public class ProductTicketController {
     @PostMapping
     @ApiOperation(value = "创建对象ProductTicket")
     public R<Long> create(@RequestBody @Valid CreateProductTicketDTO productDTO) {
-        ProductTicketDO productDO = productService.create(productDTO);
+        try {
+            ProductTicketDO productDO = productService.create(productDTO);
 
-        return R.data(productDO.getId());
+            return R.data(productDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -64,10 +72,14 @@ public class ProductTicketController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取ProductTicket详情")
     public R<ProductTicketVO> detail(@PathVariable("id") Long id) {
-        ProductTicketDO entity = productService.detail(id);
-        ProductTicketVO vo = ProductTicketWrapper.build().entityVO(entity);
+        try {
+            ProductTicketDO entity = productService.detail(id);
+            ProductTicketVO vo = ProductTicketWrapper.build().entityVO(entity);
 
-        return R.data(vo);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -80,7 +92,11 @@ public class ProductTicketController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新ProductTicket")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateProductTicketDTO productDTO) {
-        return R.data(productService.update(productDTO, id));
+        try {
+            return R.data(productService.update(productDTO, id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -92,7 +108,11 @@ public class ProductTicketController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除ProductTicket")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        return R.data(productService.deleteById(id));
+        try {
+            return R.data(productService.deleteById(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -103,7 +123,11 @@ public class ProductTicketController {
     @PutMapping("/{id}/activate")
     @ApiOperation(value = "激活ProductTicket")
     public R<Boolean> activate(@PathVariable("id") Long id) {
-        return R.data(productService.activate(id));
+        try {
+            return R.data(productService.activate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -114,7 +138,11 @@ public class ProductTicketController {
     @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用ProductTicket")
     public R<Boolean> inactive(@PathVariable("id") Long id) {
-        return R.data(productService.inactive(id));
+        try {
+            return R.data(productService.inactive(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -127,7 +155,11 @@ public class ProductTicketController {
     @PutMapping("/{id}/changeModel")
     @ApiOperation(value = "根据id更改ProductTicket库存模式")
     public R<Boolean> changeModel(@PathVariable("id") Long id, @RequestParam("model") String model) {
-        return R.data(productService.changeModel(id, model));
+        try {
+            return R.data(productService.changeModel(id, model));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }

@@ -40,9 +40,13 @@ public class BookingMasterPayController {
     @GetMapping
     @ApiOperation(value = "查询BookingMasterPay列表")
     public R<Page<BookingMasterPayVO>> selectPage(Query query, QueryBookingMasterPayDTO payDTO) {
-        Page<BookingMasterPayVO> page = payService.selectPage(query, payDTO);
+        try {
+            Page<BookingMasterPayVO> page = payService.selectPage(query, payDTO);
 
-        return R.data(page);
+            return R.data(page);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -53,9 +57,13 @@ public class BookingMasterPayController {
     @PostMapping
     @ApiOperation(value = "创建对象BookingMasterPay")
     public R<Long> create(@RequestBody @Validated CreateBookingMasterPayDTO payDTO) {
-        BookingMasterPayDO payDO = payService.create(payDTO);
+        try {
+            BookingMasterPayDO payDO = payService.create(payDTO);
 
-        return R.data(payDO.getId());
+            return R.data(payDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -64,9 +72,13 @@ public class BookingMasterPayController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取BookingMasterPay详情")
     public R<BookingMasterPayVO> detail(@PathVariable("id") Long id) {
-        BookingMasterPayDO entity = payService.detail(id);
-        BookingMasterPayVO vo = BookingMasterPayWrapper.build().entityVO(entity);
-        return R.data(vo);
+        try {
+            BookingMasterPayDO entity = payService.detail(id);
+            BookingMasterPayVO vo = BookingMasterPayWrapper.build().entityVO(entity);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -79,8 +91,12 @@ public class BookingMasterPayController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新BookingMasterPay")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateBookingMasterPayDTO payDTO) {
-        Boolean result = payService.update(payDTO, id);
-        return R.data(result);
+        try {
+            Boolean result = payService.update(payDTO, id);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -92,8 +108,12 @@ public class BookingMasterPayController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除BookingMasterPay")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = payService.deleteById(id);
-        return R.data(result);
+        try {
+            Boolean result = payService.deleteById(id);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -104,7 +124,11 @@ public class BookingMasterPayController {
     @PutMapping("{id}/activate")
     @ApiOperation(value = "激活BookingMasterPay")
     public R<Boolean> activate(@PathVariable("id") Long id) {
-        return R.data(payService.activate(id));
+        try {
+            return R.data(payService.activate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -115,7 +139,11 @@ public class BookingMasterPayController {
     @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用BookingMasterPay")
     public R<Boolean> inactivate(@PathVariable("id") Long id) {
-        return R.data(payService.inactivate(id));
+        try {
+            return R.data(payService.inactivate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }

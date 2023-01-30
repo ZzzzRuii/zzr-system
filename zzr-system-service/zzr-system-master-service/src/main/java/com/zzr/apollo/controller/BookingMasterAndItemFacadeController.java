@@ -37,9 +37,13 @@ public class BookingMasterAndItemFacadeController {
     @GetMapping
     @ApiOperation(value = "查询BookingMasterAndItemFacade列表")
     public R<List<BookingMasterAndItemFacadeVO>> selectTree(QueryBookingMasterAndItemFacadeDTO facadeDTO) {
-        List<BookingMasterAndItemFacadeVO> facadeList = facadeService.selectTree(facadeDTO);
+        try {
+            List<BookingMasterAndItemFacadeVO> facadeList = facadeService.selectTree(facadeDTO);
 
-        return R.data(facadeList);
+            return R.data(facadeList);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -51,9 +55,13 @@ public class BookingMasterAndItemFacadeController {
     @PostMapping
     @ApiOperation(value = "创建对象BookingMasterAndItemFacade")
     public R<BookingMasterAndItemFacadeVO> create(@RequestBody @Validated CreateBookingMasterAndItemFacadeDTO facadeDTO) {
-        BookingMasterAndItemFacadeVO facadeVO = facadeService.create(facadeDTO);
+        try {
+            BookingMasterAndItemFacadeVO facadeVO = facadeService.create(facadeDTO);
 
-        return R.data(facadeVO);
+            return R.data(facadeVO);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 }
 

@@ -40,9 +40,13 @@ public class BookingMasterController {
     @GetMapping
     @ApiOperation(value = "查询BookingMaster列表")
     public R<Page<BookingMasterVO>> selectPage(Query query, QueryBookingMasterDTO bookingMaster) {
-        Page<BookingMasterVO> bookingMasterPage = bookingMasterService.selectPage(query, bookingMaster);
+        try {
+            Page<BookingMasterVO> bookingMasterPage = bookingMasterService.selectPage(query, bookingMaster);
 
-        return R.data(bookingMasterPage);
+            return R.data(bookingMasterPage);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -54,9 +58,13 @@ public class BookingMasterController {
     @PostMapping
     @ApiOperation(value = "创建对象BookingMaster")
     public R<Long> create(@RequestBody @Validated CreateBookingMasterDTO bookingMaster) {
-        BookingMasterDO bookingMasterDO = bookingMasterService.create(bookingMaster);
+        try {
+            BookingMasterDO bookingMasterDO = bookingMasterService.create(bookingMaster);
 
-        return R.data(bookingMasterDO.getId());
+            return R.data(bookingMasterDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -65,10 +73,14 @@ public class BookingMasterController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取BookingMaster详情")
     public R<BookingMasterVO> detail(@PathVariable("id") Long id) {
-        BookingMasterDO entity = bookingMasterService.detail(id);
-        BookingMasterVO vo = BookingMasterWrapper.build().entityVO(entity);
+        try {
+            BookingMasterDO entity = bookingMasterService.detail(id);
+            BookingMasterVO vo = BookingMasterWrapper.build().entityVO(entity);
 
-        return R.data(vo);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -81,9 +93,13 @@ public class BookingMasterController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新BookingMaster")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateBookingMasterDTO bookingMaster) {
-        Boolean result = bookingMasterService.update(bookingMaster, id);
+        try {
+            Boolean result = bookingMasterService.update(bookingMaster, id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -95,9 +111,13 @@ public class BookingMasterController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除BookingMaster")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = bookingMasterService.deleteById(id);
+        try {
+            Boolean result = bookingMasterService.deleteById(id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -108,7 +128,11 @@ public class BookingMasterController {
     @PutMapping("/{id}/reserve")
     @ApiOperation(value = "预付款BookingMaster")
     public R<Boolean> reserve(@PathVariable("id") Long id) {
-        return R.data(bookingMasterService.reserve(id));
+        try {
+            return R.data(bookingMasterService.reserve(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -119,7 +143,11 @@ public class BookingMasterController {
     @PutMapping("/{id}/rePay")
     @ApiOperation(value = "已付款BookingMaster")
     public R<Boolean> rePay(@PathVariable("id") Long id) {
-        return R.data(bookingMasterService.rePay(id));
+        try {
+            return R.data(bookingMasterService.rePay(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -131,7 +159,11 @@ public class BookingMasterController {
     @PutMapping("/{id}/canceled")
     @ApiOperation(value = "已取消BookingMaster")
     public R<Boolean> canceled(@PathVariable("id") Long id) {
-        return R.data(bookingMasterService.canceled(id));
+        try {
+            return R.data(bookingMasterService.canceled(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -143,7 +175,11 @@ public class BookingMasterController {
     @PutMapping("/{id}/confirming")
     @ApiOperation(value = "确认中BookingMaster")
     public R<Boolean> confirming(@PathVariable("id") Long id) {
-        return R.data(bookingMasterService.confirming(id));
+        try {
+            return R.data(bookingMasterService.confirming(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -155,7 +191,11 @@ public class BookingMasterController {
     @PutMapping("/{id}/confirmed")
     @ApiOperation(value = "已确认BookingMaster")
     public R<Boolean> confirmed(@PathVariable("id") Long id) {
-        return R.data(bookingMasterService.confirmed(id));
+        try {
+            return R.data(bookingMasterService.confirmed(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -167,7 +207,11 @@ public class BookingMasterController {
     @PutMapping("/{id}/doing")
     @ApiOperation(value = "执行中BookingMaster")
     public R<Boolean> doing(@PathVariable("id") Long id) {
-        return R.data(bookingMasterService.doing(id));
+        try {
+            return R.data(bookingMasterService.doing(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -179,7 +223,11 @@ public class BookingMasterController {
     @PutMapping("/{id}/complete")
     @ApiOperation(value = "完成BookingMaster")
     public R<Boolean> complete(@PathVariable("id") Long id) {
-        return R.data(bookingMasterService.complete(id));
+        try {
+            return R.data(bookingMasterService.complete(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }

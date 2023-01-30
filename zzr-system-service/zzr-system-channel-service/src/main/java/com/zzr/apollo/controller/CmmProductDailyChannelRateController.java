@@ -42,7 +42,11 @@ public class CmmProductDailyChannelRateController {
     @GetMapping
     @ApiOperation(value = "查询CmmProductDailyChannelRate列表")
     public R<Page<CmmProductDailyChannelRateVO>> selectPage(Query query, QueryCmmProductDailyChannelRateDTO rateDTO) {
-        return R.data(rateService.selectPage(query, rateDTO));
+        try {
+            return R.data(rateService.selectPage(query, rateDTO));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -67,10 +71,14 @@ public class CmmProductDailyChannelRateController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取CmmProductDailyChannelRate详情")
     public R<CmmProductDailyChannelRateVO> detail(@PathVariable("id") Long id) {
-        CmmProductDailyChannelRateDO entity = rateService.detail(id);
-        CmmProductDailyChannelRateVO vo = CmmProductDailyChannelRateWrapper.build().entityVO(entity);
+        try {
+            CmmProductDailyChannelRateDO entity = rateService.detail(id);
+            CmmProductDailyChannelRateVO vo = CmmProductDailyChannelRateWrapper.build().entityVO(entity);
 
-        return R.data(vo);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**

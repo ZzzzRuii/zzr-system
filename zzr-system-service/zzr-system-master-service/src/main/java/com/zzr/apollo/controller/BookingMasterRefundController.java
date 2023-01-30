@@ -41,9 +41,13 @@ public class BookingMasterRefundController {
     @GetMapping
     @ApiOperation(value = "查询BookingMasterRefund列表")
     public R<Page<BookingMasterRefundVO>> selectPage(Query query, QueryBookingMasterRefundDTO refundDTO) {
-        Page<BookingMasterRefundVO> bookingMasterRefundPage = bookingMasterRefundService.selectPage(query, refundDTO);
+        try {
+            Page<BookingMasterRefundVO> bookingMasterRefundPage = bookingMasterRefundService.selectPage(query, refundDTO);
 
-        return R.data(bookingMasterRefundPage);
+            return R.data(bookingMasterRefundPage);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -55,9 +59,13 @@ public class BookingMasterRefundController {
     @PostMapping
     @ApiOperation(value = "创建对象BookingMasterRefund")
     public R<Long> create(@RequestBody @Validated CreateBookingMasterRefundDTO refundDTO) {
-        BookingMasterRefundDO bookingMasterRefundDO = bookingMasterRefundService.create(refundDTO);
+        try {
+            BookingMasterRefundDO bookingMasterRefundDO = bookingMasterRefundService.create(refundDTO);
 
-        return R.data(bookingMasterRefundDO.getId());
+            return R.data(bookingMasterRefundDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -66,10 +74,14 @@ public class BookingMasterRefundController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取BookingMasterRefund详情")
     public R<BookingMasterRefundVO> detail(@PathVariable("id") Long id) {
-        BookingMasterRefundDO bookingMasterRefundDO = bookingMasterRefundService.detail(id);
-        BookingMasterRefundVO refundVO = BookingMasterRefundWrapper.build().entityVO(bookingMasterRefundDO);
+        try {
+            BookingMasterRefundDO bookingMasterRefundDO = bookingMasterRefundService.detail(id);
+            BookingMasterRefundVO refundVO = BookingMasterRefundWrapper.build().entityVO(bookingMasterRefundDO);
 
-        return R.data(refundVO);
+            return R.data(refundVO);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -82,9 +94,13 @@ public class BookingMasterRefundController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新BookingMasterRefund")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateBookingMasterRefundDTO refundDTO) {
-        Boolean result = bookingMasterRefundService.update(refundDTO, id);
+        try {
+            Boolean result = bookingMasterRefundService.update(refundDTO, id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -96,9 +112,13 @@ public class BookingMasterRefundController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除BookingMasterRefund")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = bookingMasterRefundService.deleteById(id);
+        try {
+            Boolean result = bookingMasterRefundService.deleteById(id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -109,7 +129,11 @@ public class BookingMasterRefundController {
     @PutMapping("/{id}/{status}")
     @ApiOperation(value = "根据id停用BookingMasterRefund")
     public R<Boolean> status(@PathVariable("id") Long id, @PathVariable("status") String status) {
-        return R.data(bookingMasterRefundService.status(id, status));
+        try {
+            return R.data(bookingMasterRefundService.status(id, status));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }

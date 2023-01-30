@@ -41,9 +41,13 @@ public class BookingMasterRefundItemController {
     @GetMapping
     @ApiOperation(value = "查询BookingMasterRefundItem列表")
     public R<Page<BookingMasterRefundItemVO>> selectPage(Query query, QueryBookingMasterRefundItemDTO refundItemDTO) {
-        Page<BookingMasterRefundItemVO> bookingMasterRefundItemPage = bookingMasterRefundItemService.selectPage(query, refundItemDTO);
+        try {
+            Page<BookingMasterRefundItemVO> bookingMasterRefundItemPage = bookingMasterRefundItemService.selectPage(query, refundItemDTO);
 
-        return R.data(bookingMasterRefundItemPage);
+            return R.data(bookingMasterRefundItemPage);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -55,9 +59,13 @@ public class BookingMasterRefundItemController {
     @PostMapping
     @ApiOperation(value = "创建对象BookingMasterRefundItem")
     public R<Long> create(@RequestBody @Validated CreateBookingMasterRefundItemDTO refundItemDTO) {
-        BookingMasterRefundItemDO bookingMasterRefundItemDO = bookingMasterRefundItemService.create(refundItemDTO);
+        try {
+            BookingMasterRefundItemDO bookingMasterRefundItemDO = bookingMasterRefundItemService.create(refundItemDTO);
 
-        return R.data(bookingMasterRefundItemDO.getId());
+            return R.data(bookingMasterRefundItemDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -66,10 +74,14 @@ public class BookingMasterRefundItemController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取BookingMasterRefundItem详情")
     public R<BookingMasterRefundItemVO> detail(@PathVariable("id") Long id) {
-        BookingMasterRefundItemDO bookingMasterRefundItemDO = bookingMasterRefundItemService.detail(id);
-        BookingMasterRefundItemVO refundItemVO = BookingMasterRefundItemWrapper.build().entityVO(bookingMasterRefundItemDO);
+        try {
+            BookingMasterRefundItemDO bookingMasterRefundItemDO = bookingMasterRefundItemService.detail(id);
+            BookingMasterRefundItemVO refundItemVO = BookingMasterRefundItemWrapper.build().entityVO(bookingMasterRefundItemDO);
 
-        return R.data(refundItemVO);
+            return R.data(refundItemVO);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -82,9 +94,13 @@ public class BookingMasterRefundItemController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新BookingMasterRefundItem")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateBookingMasterRefundItemDTO refundItemDTO) {
-        Boolean result = bookingMasterRefundItemService.update(refundItemDTO, id);
+        try {
+            Boolean result = bookingMasterRefundItemService.update(refundItemDTO, id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -96,9 +112,13 @@ public class BookingMasterRefundItemController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除BookingMasterRefundItem")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = bookingMasterRefundItemService.deleteById(id);
+        try {
+            Boolean result = bookingMasterRefundItemService.deleteById(id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -110,7 +130,11 @@ public class BookingMasterRefundItemController {
     @PutMapping("/{id}/{status}")
     @ApiOperation(value = "根据id停用BookingMasterRefund")
     public R<Boolean> status(@PathVariable("id") Long id, @PathVariable("status") String status) {
-        return R.data(bookingMasterRefundItemService.status(id, status));
+        try {
+            return R.data(bookingMasterRefundItemService.status(id, status));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }

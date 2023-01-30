@@ -40,9 +40,13 @@ public class BookingMasterItemController {
     @GetMapping
     @ApiOperation(value = "查询BookingMasterItem列表")
     public R<Page<BookingMasterItemVO>> selectPage(Query query, QueryBookingMasterItemDTO bookingMasterItem) {
-        Page<BookingMasterItemVO> bookingMasterItemPage = bookingMasterItemService.selectPage(query, bookingMasterItem);
+        try {
+            Page<BookingMasterItemVO> bookingMasterItemPage = bookingMasterItemService.selectPage(query, bookingMasterItem);
 
-        return R.data(bookingMasterItemPage);
+            return R.data(bookingMasterItemPage);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -54,9 +58,13 @@ public class BookingMasterItemController {
     @PostMapping
     @ApiOperation(value = "创建对象BookingMasterItem")
     public R<Long> create(@RequestBody @Validated CreateBookingMasterItemDTO bookingMasterItem) {
-        BookingMasterItemDO bookingMasterItemDO = bookingMasterItemService.create(bookingMasterItem);
+        try {
+            BookingMasterItemDO bookingMasterItemDO = bookingMasterItemService.create(bookingMasterItem);
 
-        return R.data(bookingMasterItemDO.getId());
+            return R.data(bookingMasterItemDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -65,10 +73,14 @@ public class BookingMasterItemController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取BookingMasterItem详情")
     public R<BookingMasterItemVO> detail(@PathVariable("id") Long id) {
-        BookingMasterItemDO entity = bookingMasterItemService.detail(id);
-        BookingMasterItemVO vo = BookingMasterItemWrapper.build().entityVO(entity);
+        try {
+            BookingMasterItemDO entity = bookingMasterItemService.detail(id);
+            BookingMasterItemVO vo = BookingMasterItemWrapper.build().entityVO(entity);
 
-        return R.data(vo);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -81,8 +93,11 @@ public class BookingMasterItemController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新BookingMasterItem")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateBookingMasterItemDTO bookingMasterItem) {
-
-        return R.data(bookingMasterItemService.update(bookingMasterItem, id));
+        try {
+            return R.data(bookingMasterItemService.update(bookingMasterItem, id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -94,8 +109,11 @@ public class BookingMasterItemController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除BookingMasterItem")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-
-        return R.data(bookingMasterItemService.deleteById(id));
+        try {
+            return R.data(bookingMasterItemService.deleteById(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -106,7 +124,11 @@ public class BookingMasterItemController {
     @PutMapping("/{id}/reserve")
     @ApiOperation(value = "预付款BookingMaster")
     public R<Boolean> reserve(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemService.reserve(id));
+        try {
+            return R.data(bookingMasterItemService.reserve(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -117,7 +139,11 @@ public class BookingMasterItemController {
     @PutMapping("/{id}/rePay")
     @ApiOperation(value = "已付款BookingMaster")
     public R<Boolean> rePay(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemService.rePay(id));
+        try {
+            return R.data(bookingMasterItemService.rePay(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -129,7 +155,11 @@ public class BookingMasterItemController {
     @PutMapping("/{id}/canceled")
     @ApiOperation(value = "已取消BookingMaster")
     public R<Boolean> canceled(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemService.canceled(id));
+        try {
+            return R.data(bookingMasterItemService.canceled(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -141,7 +171,11 @@ public class BookingMasterItemController {
     @PutMapping("/{id}/confirming")
     @ApiOperation(value = "确认中BookingMaster")
     public R<Boolean> confirming(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemService.confirming(id));
+        try {
+            return R.data(bookingMasterItemService.confirming(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -153,7 +187,11 @@ public class BookingMasterItemController {
     @PutMapping("/{id}/confirmed")
     @ApiOperation(value = "已确认BookingMaster")
     public R<Boolean> confirmed(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemService.confirmed(id));
+        try {
+            return R.data(bookingMasterItemService.confirmed(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -165,7 +203,11 @@ public class BookingMasterItemController {
     @PutMapping("/{id}/doing")
     @ApiOperation(value = "执行中BookingMaster")
     public R<Boolean> doing(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemService.doing(id));
+        try {
+            return R.data(bookingMasterItemService.doing(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -177,7 +219,11 @@ public class BookingMasterItemController {
     @PutMapping("/{id}/complete")
     @ApiOperation(value = "完成BookingMaster")
     public R<Boolean> complete(@PathVariable("id") Long id) {
-        return R.data(bookingMasterItemService.complete(id));
+        try {
+            return R.data(bookingMasterItemService.complete(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }

@@ -39,8 +39,12 @@ public class BookingDepositRuleController {
     @GetMapping
     @ApiOperation(value = "查询BookingDepositRule列表")
     public R<Page<BookingDepositRuleVO>> selectPage(Query query, QueryBookingDepositRuleDTO bookingDepositRule) {
-        Page<BookingDepositRuleVO> voPage = bookingDepositRuleService.selectPage(query, bookingDepositRule);
-        return R.data(voPage);
+        try {
+            Page<BookingDepositRuleVO> voPage = bookingDepositRuleService.selectPage(query, bookingDepositRule);
+            return R.data(voPage);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -51,9 +55,13 @@ public class BookingDepositRuleController {
     @PostMapping
     @ApiOperation(value = "创建对象BookingDepositRule")
     public R<Long> create(@RequestBody CreateBookingDepositRuleDTO bookingDepositRule) {
-        BookingDepositRuleDO ruleDO = bookingDepositRuleService.create(bookingDepositRule);
+        try {
+            BookingDepositRuleDO ruleDO = bookingDepositRuleService.create(bookingDepositRule);
 
-        return R.data(ruleDO.getId());
+            return R.data(ruleDO.getId());
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -62,9 +70,13 @@ public class BookingDepositRuleController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取BookingDepositRule详情")
     public R<BookingDepositRuleVO> detail(@PathVariable("id") Long id) {
-        BookingDepositRuleDO entity = bookingDepositRuleService.detail(id);
-        BookingDepositRuleVO vo = BookingDepositRuleWrapper.build().entityVO(entity);
-        return R.data(vo);
+        try {
+            BookingDepositRuleDO entity = bookingDepositRuleService.detail(id);
+            BookingDepositRuleVO vo = BookingDepositRuleWrapper.build().entityVO(entity);
+            return R.data(vo);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -77,9 +89,13 @@ public class BookingDepositRuleController {
     @PutMapping("/{id}")
     @ApiOperation(value = "更新BookingDepositRule")
     public R<Boolean> update(@PathVariable("id") Long id, @RequestBody UpdateBookingDepositRuleDTO bookingDepositRule) {
-        Boolean result = bookingDepositRuleService.update(bookingDepositRule, id);
+        try {
+            Boolean result = bookingDepositRuleService.update(bookingDepositRule, id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 
@@ -91,9 +107,13 @@ public class BookingDepositRuleController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除BookingDepositRule")
     public R<Boolean> delete(@PathVariable("id") Long id) {
-        Boolean result = bookingDepositRuleService.deleteById(id);
+        try {
+            Boolean result = bookingDepositRuleService.deleteById(id);
 
-        return R.data(result);
+            return R.data(result);
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -104,7 +124,11 @@ public class BookingDepositRuleController {
     @PutMapping("/{id}/activate")
     @ApiOperation(value = "激活BookingDepositRule")
     public R<Boolean> activate(@PathVariable("id") Long id) {
-        return R.data(bookingDepositRuleService.activate(id));
+        try {
+            return R.data(bookingDepositRuleService.activate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
     /**
@@ -115,7 +139,11 @@ public class BookingDepositRuleController {
     @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用BookingDepositRule")
     public R<Boolean> inactivate(@PathVariable("id") Long id) {
-        return R.data(bookingDepositRuleService.inactivate(id));
+        try {
+            return R.data(bookingDepositRuleService.inactivate(id));
+        } catch (Exception e) {
+            return R.fail(e.getMessage());
+        }
     }
 
 }
