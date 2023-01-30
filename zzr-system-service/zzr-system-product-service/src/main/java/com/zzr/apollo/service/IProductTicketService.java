@@ -5,8 +5,9 @@ import com.zzr.apollo.product.dto.CreateProductTicketDTO;
 import com.zzr.apollo.product.dto.QueryProductTicketDTO;
 import com.zzr.apollo.product.dto.UpdateProductTicketDTO;
 import com.zzr.apollo.product.vo.ProductTicketVO;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
+import com.zzr.base.service.IZzrService;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 
 import java.util.List;
 

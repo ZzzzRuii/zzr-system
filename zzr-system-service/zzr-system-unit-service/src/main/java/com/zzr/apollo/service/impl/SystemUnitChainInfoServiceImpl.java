@@ -8,7 +8,6 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
-import com.zzr.apollo.api.ResultCode;
 import com.zzr.apollo.mapper.SystemUnitChainInfoMapper;
 import com.zzr.apollo.model.SystemUnitChainInfoDO;
 import com.zzr.apollo.product.vo.ProductTicketVO;
@@ -21,6 +20,8 @@ import com.zzr.apollo.unit.dto.QuerySystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.dto.UpdateSystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.vo.SystemUnitChainInfoVO;
 import com.zzr.apollo.wrapper.SystemUnitChainInfoWrapper;
+import com.zzr.base.api.ResultCode;
+import com.zzr.base.service.impl.ZzrServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

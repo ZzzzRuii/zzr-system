@@ -1,15 +1,15 @@
 package com.zzr.apollo.controller;
 
-import com.zzr.apollo.api.R;
 import com.zzr.apollo.channel.dto.CreateCmmProductDailyAmountDTO;
 import com.zzr.apollo.channel.dto.QueryCmmProductDailyAmountDTO;
 import com.zzr.apollo.channel.dto.UpdateCmmProductDailyAmountDTO;
 import com.zzr.apollo.channel.vo.CmmProductDailyAmountVO;
 import com.zzr.apollo.model.CmmProductDailyAmountDO;
 import com.zzr.apollo.service.ICmmProductDailyAmountService;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
 import com.zzr.apollo.wrapper.CmmProductDailyAmountWrapper;
+import com.zzr.base.api.R;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

@@ -5,8 +5,9 @@ import com.zzr.apollo.channel.dto.QueryCmmChannelDTO;
 import com.zzr.apollo.channel.dto.UpdateCmmChannelDTO;
 import com.zzr.apollo.channel.vo.CmmChannelVO;
 import com.zzr.apollo.model.CmmChannelDO;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
+import com.zzr.base.service.IZzrService;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 
 /**
  * 渠道服务类

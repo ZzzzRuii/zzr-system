@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration = \
-com.zzr.apollo.config.MybatisPlusConfiguration
+com.zzr.base.config.MybatisPlusConfiguration

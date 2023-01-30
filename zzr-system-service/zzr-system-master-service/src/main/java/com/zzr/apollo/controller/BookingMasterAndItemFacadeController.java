@@ -1,10 +1,10 @@
 package com.zzr.apollo.controller;
 
-import com.zzr.apollo.api.R;
 import com.zzr.apollo.master.dto.CreateBookingMasterAndItemFacadeDTO;
 import com.zzr.apollo.master.dto.QueryBookingMasterAndItemFacadeDTO;
 import com.zzr.apollo.master.vo.BookingMasterAndItemFacadeVO;
 import com.zzr.apollo.service.IBookingMasterAndItemFacadeService;
+import com.zzr.base.api.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

@@ -16,6 +16,15 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
 
+## MyBatis-Plus配置
+#mybatis-plus:
+#  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+#  mapper-locations: classpath*:mapper/*Mapper.xml
+#  # 搜索指定包别名
+#  type-aliases-package: com.zzr.**.mapper
+#  # 加载全局的配置文件
+#  config-location: classpath:mybatis/mybatis-config.xml
+
 # 开启SQL语句日志打印
 logging:
   level:

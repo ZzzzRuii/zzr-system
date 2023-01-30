@@ -5,6 +5,7 @@ import com.zzr.apollo.channel.dto.CreateCmmChannelDTO;
 import com.zzr.apollo.channel.dto.UpdateCmmChannelDTO;
 import com.zzr.apollo.channel.vo.CmmChannelVO;
 import com.zzr.apollo.model.CmmChannelDO;
+import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

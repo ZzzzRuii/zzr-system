@@ -3,6 +3,7 @@ package com.zzr.apollo.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.master.dto.QueryBookingDepositRuleDTO;
 import com.zzr.apollo.model.BookingDepositRuleDO;
+import com.zzr.base.mapper.ZzrMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

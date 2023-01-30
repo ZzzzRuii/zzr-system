@@ -6,6 +6,7 @@ import com.zzr.apollo.master.dto.UpdateBookingMasterItemDTO;
 import com.zzr.apollo.master.vo.BookingMasterItemVO;
 import com.zzr.apollo.model.BookingMasterAndItemFacadeDO;
 import com.zzr.apollo.model.BookingMasterItemDO;
+import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

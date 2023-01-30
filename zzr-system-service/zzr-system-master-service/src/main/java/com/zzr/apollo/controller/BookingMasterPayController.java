@@ -1,15 +1,15 @@
 package com.zzr.apollo.controller;
 
-import com.zzr.apollo.api.R;
 import com.zzr.apollo.master.dto.CreateBookingMasterPayDTO;
 import com.zzr.apollo.master.dto.QueryBookingMasterPayDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterPayDTO;
 import com.zzr.apollo.master.vo.BookingMasterPayVO;
 import com.zzr.apollo.model.BookingMasterPayDO;
 import com.zzr.apollo.service.IBookingMasterPayService;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
 import com.zzr.apollo.wrapper.BookingMasterPayWrapper;
+import com.zzr.base.api.R;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

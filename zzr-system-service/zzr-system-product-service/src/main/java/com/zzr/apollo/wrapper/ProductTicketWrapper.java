@@ -5,6 +5,7 @@ import com.zzr.apollo.model.ProductTicketDO;
 import com.zzr.apollo.product.dto.CreateProductTicketDTO;
 import com.zzr.apollo.product.dto.UpdateProductTicketDTO;
 import com.zzr.apollo.product.vo.ProductTicketVO;
+import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

@@ -1,6 +1,6 @@
 package com.zzr.apollo.model;
 
-import com.zzr.apollo.model.entity.TenantEntity;
+import com.zzr.base.model.entity.TenantEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

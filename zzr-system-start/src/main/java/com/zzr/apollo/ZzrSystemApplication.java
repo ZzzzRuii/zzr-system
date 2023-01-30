@@ -1,10 +1,8 @@
 package com.zzr.apollo;
 
+import com.zzr.base.autoconfigure.ZzrApplication;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 启动类
@@ -13,9 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @since 2022/11/25 17:43
  */
 @Slf4j
-@SpringBootApplication
-@EnableFeignClients("com.zzr.apollo")
-@MapperScan("com.zzr.apollo.mapper")
+@ZzrApplication
 public class ZzrSystemApplication {
 
     public static void main(String[] args) {

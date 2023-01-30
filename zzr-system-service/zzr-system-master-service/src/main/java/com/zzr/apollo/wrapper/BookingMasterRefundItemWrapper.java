@@ -5,6 +5,7 @@ import com.zzr.apollo.master.dto.CreateBookingMasterRefundItemDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterRefundItemDTO;
 import com.zzr.apollo.master.vo.BookingMasterRefundItemVO;
 import com.zzr.apollo.model.BookingMasterRefundItemDO;
+import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

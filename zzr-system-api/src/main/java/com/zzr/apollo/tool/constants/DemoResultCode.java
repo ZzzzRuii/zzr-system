@@ -1,7 +1,7 @@
 package com.zzr.apollo.tool.constants;
 
 
-import com.zzr.apollo.api.IResultCode;
+import com.zzr.base.api.IResultCode;
 
 /**
  * 请求结果常量

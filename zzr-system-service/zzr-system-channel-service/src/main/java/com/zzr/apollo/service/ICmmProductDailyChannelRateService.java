@@ -5,8 +5,9 @@ import com.zzr.apollo.channel.dto.QueryCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.channel.dto.UpdateCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.channel.vo.CmmProductDailyChannelRateVO;
 import com.zzr.apollo.model.CmmProductDailyChannelRateDO;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
+import com.zzr.base.service.IZzrService;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 
 import java.util.List;
 

@@ -1,15 +1,15 @@
 package com.zzr.apollo.controller;
 
-import com.zzr.apollo.api.R;
 import com.zzr.apollo.model.ProductTicketDO;
 import com.zzr.apollo.product.dto.CreateProductTicketDTO;
 import com.zzr.apollo.product.dto.QueryProductTicketDTO;
 import com.zzr.apollo.product.dto.UpdateProductTicketDTO;
 import com.zzr.apollo.product.vo.ProductTicketVO;
 import com.zzr.apollo.service.IProductTicketService;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
 import com.zzr.apollo.wrapper.ProductTicketWrapper;
+import com.zzr.base.api.R;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

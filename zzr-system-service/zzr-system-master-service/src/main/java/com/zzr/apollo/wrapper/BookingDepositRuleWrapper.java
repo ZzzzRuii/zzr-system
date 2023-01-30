@@ -5,6 +5,7 @@ import com.zzr.apollo.master.dto.CreateBookingDepositRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingDepositRuleDTO;
 import com.zzr.apollo.master.vo.BookingDepositRuleVO;
 import com.zzr.apollo.model.BookingDepositRuleDO;
+import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

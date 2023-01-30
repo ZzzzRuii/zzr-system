@@ -4,8 +4,9 @@ import com.zzr.apollo.master.dto.CreateBookingMasterItemVoucherDTO;
 import com.zzr.apollo.master.dto.QueryBookingMasterItemVoucherDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterItemVoucherDTO;
 import com.zzr.apollo.model.BookingMasterItemVoucherDO;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
+import com.zzr.base.service.IZzrService;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 
 /**
  * 子订单 票号 服务类

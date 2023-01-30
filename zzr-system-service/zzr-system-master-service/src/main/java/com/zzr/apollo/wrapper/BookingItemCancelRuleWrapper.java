@@ -5,6 +5,7 @@ import com.zzr.apollo.master.dto.CreateBookingItemCancelRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingItemCancelRuleDTO;
 import com.zzr.apollo.master.vo.BookingItemCancelRuleVO;
 import com.zzr.apollo.model.BookingItemCancelRuleDO;
+import com.zzr.base.wrapper.BaseEntityWrapper;
 
 import java.util.Objects;
 

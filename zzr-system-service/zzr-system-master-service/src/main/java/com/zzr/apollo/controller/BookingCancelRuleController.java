@@ -1,15 +1,15 @@
 package com.zzr.apollo.controller;
 
-import com.zzr.apollo.api.R;
 import com.zzr.apollo.master.dto.CreateBookingCancelRuleDTO;
 import com.zzr.apollo.master.dto.QueryBookingCancelRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingCancelRuleDTO;
 import com.zzr.apollo.master.vo.BookingCancelRuleVO;
 import com.zzr.apollo.model.BookingCancelRuleDO;
 import com.zzr.apollo.service.IBookingCancelRuleService;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
 import com.zzr.apollo.wrapper.BookingCancelRuleWrapper;
+import com.zzr.base.api.R;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

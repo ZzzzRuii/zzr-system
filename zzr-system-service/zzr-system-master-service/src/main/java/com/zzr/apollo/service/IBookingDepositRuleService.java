@@ -5,8 +5,9 @@ import com.zzr.apollo.master.dto.QueryBookingDepositRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingDepositRuleDTO;
 import com.zzr.apollo.master.vo.BookingDepositRuleVO;
 import com.zzr.apollo.model.BookingDepositRuleDO;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
+import com.zzr.base.service.IZzrService;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 
 /**
  * 担保规则 服务类

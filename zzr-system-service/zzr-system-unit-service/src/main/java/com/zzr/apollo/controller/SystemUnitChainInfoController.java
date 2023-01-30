@@ -1,6 +1,5 @@
 package com.zzr.apollo.controller;
 
-import com.zzr.apollo.api.R;
 import com.zzr.apollo.model.SystemUnitChainInfoDO;
 import com.zzr.apollo.service.ISystemUnitChainInfoService;
 import com.zzr.apollo.unit.dto.CreateSystemUnitChainInfoDTO;
@@ -8,6 +7,7 @@ import com.zzr.apollo.unit.dto.QuerySystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.dto.UpdateSystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.vo.SystemUnitChainInfoVO;
 import com.zzr.apollo.wrapper.SystemUnitChainInfoWrapper;
+import com.zzr.base.api.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

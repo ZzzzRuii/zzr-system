@@ -1,7 +1,7 @@
 package com.zzr.apollo.tool.utils;
 
 
-import com.zzr.apollo.utils.RegexUtil;
+import com.zzr.base.utils.RegexUtil;
 
 /**
  * 订单正则工具

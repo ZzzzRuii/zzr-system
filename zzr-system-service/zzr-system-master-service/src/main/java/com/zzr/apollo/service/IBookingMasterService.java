@@ -5,8 +5,9 @@ import com.zzr.apollo.master.dto.QueryBookingMasterDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterDTO;
 import com.zzr.apollo.master.vo.BookingMasterVO;
 import com.zzr.apollo.model.BookingMasterDO;
-import com.zzr.apollo.support.Page;
-import com.zzr.apollo.support.Query;
+import com.zzr.base.service.IZzrService;
+import com.zzr.base.support.Page;
+import com.zzr.base.support.Query;
 
 /**
  * 主订单 服务类
