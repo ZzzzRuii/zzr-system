@@ -11,6 +11,11 @@ spring:
     url: jdbc:mysql://192.168.100.128:3306/apollo-demo?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: Zzr20010112
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+
 # 开启SQL语句日志打印
 logging:
   level:
