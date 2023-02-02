@@ -73,9 +73,7 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
                     Map<String, Object> treeMap = JSON.parseObject(JSON.toJSONString(node), new TypeReference<Map<String, Object>>() {
                     });
 
-                    for (Map.Entry<String, Object> entry : treeMap.entrySet()) {
-                        tree.putExtra(entry.getKey(), entry.getValue());
-                    }
+                    tree.putAll(treeMap);
 
                     // 获取组织下 产品信息
                     List<ProductTicketVO> productVOList = productService.selectByUnitId(node.getId());
@@ -83,7 +81,7 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
 
                     tree.setId(String.valueOf(node.getId()));
                     tree.setParentId(String.valueOf(node.getParentId()));
-                    tree.setName(node.getName());
+                    tree.setWeight(node.getSort());
                 });
 
         // 序列化再反序列化
