@@ -19,6 +19,7 @@
         <module>zzr-system-service</module>
         <module>zzr-system-start</module>
         <module>zzr-system-tool</module>
+        <module>zzr-system-feign</module>
     </modules>
 
     <dependencies>
@@ -72,21 +73,30 @@
 
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.project-lombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.springframework.boot</groupId>-->
+    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <excludes>-->
+    <!--                        <exclude>-->
+    <!--                            <groupId>org.project-lombok</groupId>-->
+    <!--                            <artifactId>lombok</artifactId>-->
+    <!--                        </exclude>-->
+    <!--                    </excludes>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
+
+    <!-- 包依赖管理工具-->
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus zzr Repository</name>
+            <url>http://192.168.100.128:10086/repository/zzr_maven_repository/</url>
+        </repository>
+    </distributionManagement>
 
 </project>
