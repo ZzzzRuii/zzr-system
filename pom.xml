@@ -93,10 +93,16 @@
     <!-- 包依赖管理工具-->
     <distributionManagement>
         <repository>
-            <id>nexus</id>
-            <name>Nexus zzr Repository</name>
-            <url>http://192.168.100.128:10086/repository/zzr_maven_repository/</url>
+            <id>maven-releases</id>
+            <name>zzr maven</name>
+            <url>http://192.168.100.128:10086/repository/maven-releases/</url>
         </repository>
+
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>zzr maven</name>
+            <url>http://192.168.100.128:10086/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
 </project>
