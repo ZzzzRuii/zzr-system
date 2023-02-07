@@ -14,7 +14,7 @@ import com.zzr.apollo.product.vo.ProductTicketVO;
 import com.zzr.apollo.service.IProductTicketService;
 import com.zzr.apollo.service.ISystemUnitChainInfoService;
 import com.zzr.apollo.tool.constants.DemoResultCode;
-import com.zzr.apollo.tool.constants.UnitStatusCode;
+import com.zzr.apollo.tool.constants.DemoStatusCode;
 import com.zzr.apollo.unit.dto.CreateSystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.dto.QuerySystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.dto.UpdateSystemUnitChainInfoDTO;
@@ -156,13 +156,11 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
      * @return
      */
     @Override
-    public Boolean draft(Long id) {
+    public Boolean inactivate(Long id) {
         SystemUnitChainInfoDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-        // 判断状态是否正确
-        if (ObjectUtil.isNotNull(UnitStatusCode.of(entity.getStatus()))) {
-            entity.setStatus(UnitStatusCode.DRAFT.getCode());
-        }
+
+        entity.setStatus(DemoStatusCode.INACTIVE.getCode());
         return changeStatus(entity);
     }
 
@@ -174,31 +172,11 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
      * @return
      */
     @Override
-    public Boolean archived(Long id) {
+    public Boolean activate(Long id) {
         SystemUnitChainInfoDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-        // 判断状态是否正确
-        if (ObjectUtil.isNotNull(UnitStatusCode.of(entity.getStatus()))) {
-            entity.setStatus(UnitStatusCode.ARCHIVED.getCode());
-        }
-        return changeStatus(entity);
-    }
 
-    /**
-     * 根据主键 发布数据
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean published(Long id) {
-        SystemUnitChainInfoDO entity = detail(id);
-        Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-        // 判断状态是否正确
-        if (ObjectUtil.isNotNull(UnitStatusCode.of(entity.getStatus()))) {
-            entity.setStatus(UnitStatusCode.PUBLISHED.getCode());
-        }
+        entity.setStatus(DemoStatusCode.ACTIVATE.getCode());
         return changeStatus(entity);
     }
 

@@ -2,6 +2,7 @@ package com.zzr.apollo.wrapper;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.zzr.apollo.model.SystemUnitChainInfoDO;
+import com.zzr.apollo.tool.constants.DemoStatusCode;
 import com.zzr.apollo.unit.dto.CreateSystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.dto.UpdateSystemUnitChainInfoDTO;
 import com.zzr.apollo.unit.vo.SystemUnitChainInfoVO;
@@ -34,7 +35,7 @@ public class SystemUnitChainInfoWrapper extends BaseEntityWrapper<SystemUnitChai
 
     public SystemUnitChainInfoDO dtoEntity(CreateSystemUnitChainInfoDTO entity) {
         SystemUnitChainInfoDO unit = Objects.requireNonNull(BeanUtil.copyProperties(entity, SystemUnitChainInfoDO.class));
-        unit.setStatus("D");
+        unit.setStatus(DemoStatusCode.INACTIVE.getCode());
         return unit;
     }
 

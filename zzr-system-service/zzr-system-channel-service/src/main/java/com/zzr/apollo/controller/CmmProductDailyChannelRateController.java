@@ -13,9 +13,9 @@ import com.zzr.base.support.Query;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -57,7 +57,7 @@ public class CmmProductDailyChannelRateController {
      */
     @PostMapping
     @ApiOperation(value = "创建对象CmmProductDailyChannelRate")
-    public R<List<Long>> create(@RequestBody @Valid CreateCmmProductDailyChannelRateDTO rateDTO) {
+    public R<List<Long>> create(@RequestBody @Validated CreateCmmProductDailyChannelRateDTO rateDTO) {
         try {
             return R.data(rateService.create(rateDTO));
         } catch (Exception exception) {

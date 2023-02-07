@@ -38,6 +38,7 @@ public class CmmProductDailyAmountController {
      *
      * @param query     分页
      * @param amountDTO
+     * @return
      */
     @GetMapping
     @ApiOperation(value = "查询CmmProductDailyAmount列表")
@@ -67,6 +68,8 @@ public class CmmProductDailyAmountController {
 
     /**
      * 详情
+     *
+     * @return
      */
     @GetMapping("/{id}")
     @ApiOperation(value = "根据Id获取CmmProductDailyAmount详情")
@@ -86,6 +89,7 @@ public class CmmProductDailyAmountController {
      *
      * @param id
      * @param amountDTO
+     * @return
      */
     @PutMapping("/{id}")
     @ApiOperation(value = "更新CmmProductDailyAmount")
@@ -101,6 +105,7 @@ public class CmmProductDailyAmountController {
      * 根据id删除 CmmProductDailyAmount
      *
      * @param id 主键
+     * @return
      */
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除CmmProductDailyAmount")
@@ -116,6 +121,7 @@ public class CmmProductDailyAmountController {
      * 根据id激活 CmmProductDailyAmount
      *
      * @param id 主键
+     * @return
      */
     @PutMapping("/{id}/activate")
     @ApiOperation(value = "激活CmmProductDailyAmount")
@@ -131,6 +137,7 @@ public class CmmProductDailyAmountController {
      * 根据id停用 CmmProductDailyAmount
      *
      * @param id 主键
+     * @return
      */
     @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用CmmProductDailyAmount")

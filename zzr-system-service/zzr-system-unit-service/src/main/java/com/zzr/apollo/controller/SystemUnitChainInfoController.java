@@ -119,45 +119,32 @@ public class SystemUnitChainInfoController {
     }
 
     /**
-     * 根据id起草SystemUnitChainInfo
+     * 根据id激活组织架构
      *
      * @param id 主键
+     * @return
      */
-    @PutMapping("/{id}/draft")
-    @ApiOperation(value = "起草SystemUnitChainInfo")
-    public R<Boolean> draft(@PathVariable("id") Long id) {
+    @PutMapping("/{id}/activate")
+    @ApiOperation(value = "激活组织架构")
+    public R<Boolean> activate(@PathVariable("id") Long id) {
         try {
-            return R.data(unitChainInfoService.draft(id));
+            return R.data(unitChainInfoService.activate(id));
         } catch (Exception e) {
             return R.fail(e.getMessage());
         }
     }
 
     /**
-     * 根据id存档SystemUnitChainInfo
+     * 根据id停用组织架构
      *
      * @param id 主键
+     * @return
      */
-    @PutMapping("/{id}/archived")
-    @ApiOperation(value = "根据id存档SystemUnitChainInfo")
+    @PutMapping("/{id}/inactivate")
+    @ApiOperation(value = "根据id停用组织架构")
     public R<Boolean> archived(@PathVariable("id") Long id) {
         try {
-            return R.data(unitChainInfoService.archived(id));
-        } catch (Exception e) {
-            return R.fail(e.getMessage());
-        }
-    }
-
-    /**
-     * 根据id发布SystemUnitChainInfo
-     *
-     * @param id 主键
-     */
-    @PutMapping("/{id}/published")
-    @ApiOperation(value = "根据id发布SystemUnitChainInfo")
-    public R<Boolean> published(@PathVariable("id") Long id) {
-        try {
-            return R.data(unitChainInfoService.published(id));
+            return R.data(unitChainInfoService.inactivate(id));
         } catch (Exception e) {
             return R.fail(e.getMessage());
         }

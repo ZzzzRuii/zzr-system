@@ -137,9 +137,9 @@ public class ProductTicketController {
      */
     @PutMapping("/{id}/inactivate")
     @ApiOperation(value = "根据id停用ProductTicket")
-    public R<Boolean> inactive(@PathVariable("id") Long id) {
+    public R<Boolean> inactivate(@PathVariable("id") Long id) {
         try {
-            return R.data(productService.inactive(id));
+            return R.data(productService.inactivate(id));
         } catch (Exception e) {
             return R.fail(e.getMessage());
         }

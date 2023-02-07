@@ -177,7 +177,7 @@ public class ProductTicketServiceImpl extends ZzrServiceImpl<ProductTicketMapper
      * @return
      */
     @Override
-    public Boolean inactive(Long id) {
+    public Boolean inactivate(Long id) {
         ProductTicketDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
         // 判断状态是否正确

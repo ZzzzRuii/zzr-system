@@ -91,7 +91,7 @@ public interface IProductTicketService extends IZzrService<ProductTicketDO> {
      * @param id
      * @return
      */
-    Boolean inactive(Long id);
+    Boolean inactivate(Long id);
 
     /**
      * 根据主键 激活

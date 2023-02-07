@@ -66,29 +66,20 @@ public interface ISystemUnitChainInfoService extends IZzrService<SystemUnitChain
     Boolean deleteById(Long id);
 
     /**
-     * 根据主键 起草数据
+     * 根据主键 激活数据
      * 查询不到数据 ServiceException 异常
      *
      * @param id
      * @return
      */
-    Boolean draft(Long id);
+    Boolean activate(Long id);
 
     /**
-     * 根据主键 存档数据
+     * 根据主键 停用数据
      * 查询不到数据 ServiceException 异常
      *
      * @param id
      * @return
      */
-    Boolean archived(Long id);
-
-    /**
-     * 根据主键 发布数据
-     * 查询不到数据 ServiceException 异常
-     *
-     * @param id
-     * @return
-     */
-    Boolean published(Long id);
+    Boolean inactivate(Long id);
 }
