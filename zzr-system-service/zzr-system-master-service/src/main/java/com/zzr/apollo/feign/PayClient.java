@@ -1,10 +1,12 @@
 package com.zzr.apollo.feign;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.zzr.apollo.feign.master.IPayClient;
 import com.zzr.apollo.master.dto.CreateBookingMasterPayDTO;
 import com.zzr.apollo.master.dto.QueryBookingMasterPayDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterPayDTO;
 import com.zzr.apollo.master.vo.BookingMasterPayVO;
+import com.zzr.apollo.model.BookingMasterPayDO;
 import com.zzr.apollo.service.IBookingMasterPayService;
 import com.zzr.apollo.wrapper.BookingMasterPayWrapper;
 import com.zzr.base.api.R;
@@ -49,7 +51,8 @@ public class PayClient implements IPayClient {
      */
     @Override
     public R<Long> create(CreateBookingMasterPayDTO dto) {
-        return R.data(service.create(dto).getId());
+        BookingMasterPayDO entity = service.create(dto);
+        return R.data(ObjectUtil.isNotNull(entity) ? entity.getId() : null);
     }
 
     /**

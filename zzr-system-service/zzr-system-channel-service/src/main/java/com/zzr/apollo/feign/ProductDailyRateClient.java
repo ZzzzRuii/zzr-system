@@ -6,6 +6,7 @@ import com.zzr.apollo.channel.dto.UpdateCmmProductDailyChannelRateDTO;
 import com.zzr.apollo.channel.vo.CmmProductDailyChannelRateVO;
 import com.zzr.apollo.feign.channel.IProductDailyRateClient;
 import com.zzr.apollo.service.ICmmProductDailyChannelRateService;
+import com.zzr.apollo.wrapper.CmmProductDailyChannelRateWrapper;
 import com.zzr.base.api.R;
 import com.zzr.base.support.Page;
 import com.zzr.base.support.Query;
@@ -33,24 +34,24 @@ public class ProductDailyRateClient implements IProductDailyRateClient {
     /**
      * 查询每日价格 根据条件
      *
-     * @param query   分页
-     * @param rateDTO
+     * @param query 分页
+     * @param dto
      * @return
      */
     @Override
-    public R<Page<CmmProductDailyChannelRateVO>> selectPage(Query query, QueryCmmProductDailyChannelRateDTO rateDTO) {
-        return null;
+    public R<Page<CmmProductDailyChannelRateVO>> selectPage(Query query, QueryCmmProductDailyChannelRateDTO dto) {
+        return R.data(service.selectPage(query, dto));
     }
 
     /**
      * 创建每日价格对象
      *
-     * @param rateDTO
+     * @param dto
      * @return 主订单id
      */
     @Override
-    public R<List<Long>> create(CreateCmmProductDailyChannelRateDTO rateDTO) {
-        return null;
+    public R<List<Long>> create(CreateCmmProductDailyChannelRateDTO dto) {
+        return R.data(service.create(dto));
     }
 
     /**
@@ -61,19 +62,19 @@ public class ProductDailyRateClient implements IProductDailyRateClient {
      */
     @Override
     public R<CmmProductDailyChannelRateVO> detail(Long id) {
-        return null;
+        return R.data(CmmProductDailyChannelRateWrapper.build().entityVO(service.detail(id)));
     }
 
     /**
      * 根据Id 更新 每日价格 对象
      *
      * @param id
-     * @param rateDTO
+     * @param dto
      * @return
      */
     @Override
-    public R<Boolean> update(Long id, UpdateCmmProductDailyChannelRateDTO rateDTO) {
-        return null;
+    public R<Boolean> update(Long id, UpdateCmmProductDailyChannelRateDTO dto) {
+        return R.data(service.update(dto, id));
     }
 
     /**
@@ -84,7 +85,7 @@ public class ProductDailyRateClient implements IProductDailyRateClient {
      */
     @Override
     public R<Boolean> delete(Long id) {
-        return null;
+        return R.data(service.deleteById(id));
     }
 
     /**
@@ -95,7 +96,7 @@ public class ProductDailyRateClient implements IProductDailyRateClient {
      */
     @Override
     public R<Boolean> activate(Long id) {
-        return null;
+        return R.data(service.activate(id));
     }
 
     /**
@@ -106,6 +107,6 @@ public class ProductDailyRateClient implements IProductDailyRateClient {
      */
     @Override
     public R<Boolean> inactivate(Long id) {
-        return null;
+        return R.data(service.inactive(id));
     }
 }

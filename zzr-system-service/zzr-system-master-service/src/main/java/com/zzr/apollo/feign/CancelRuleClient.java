@@ -1,10 +1,12 @@
 package com.zzr.apollo.feign;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.zzr.apollo.feign.master.ICancelRuleClient;
 import com.zzr.apollo.master.dto.CreateBookingCancelRuleDTO;
 import com.zzr.apollo.master.dto.QueryBookingCancelRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingCancelRuleDTO;
 import com.zzr.apollo.master.vo.BookingCancelRuleVO;
+import com.zzr.apollo.model.BookingCancelRuleDO;
 import com.zzr.apollo.service.IBookingCancelRuleService;
 import com.zzr.apollo.wrapper.BookingCancelRuleWrapper;
 import com.zzr.base.api.R;
@@ -49,7 +51,8 @@ public class CancelRuleClient implements ICancelRuleClient {
      */
     @Override
     public R<Long> create(CreateBookingCancelRuleDTO dto) {
-        return R.data(service.create(dto).getId());
+        BookingCancelRuleDO entity = service.create(dto);
+        return R.data(ObjectUtil.isNotNull(entity) ? entity.getId() : null);
     }
 
     /**

@@ -8,5 +8,5 @@ package com.zzr.base.constants;
  * @since 2023/2/6 17:10
  */
 public class ApplicationName {
-    public static final String ZZR_SYSTEM = "zzr-system-start";
+    public static final String ZZR_SYSTEM = "zzr-system";
 }

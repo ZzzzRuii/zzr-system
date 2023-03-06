@@ -1,11 +1,14 @@
 package com.zzr.apollo.feign;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.zzr.apollo.channel.dto.CreateCmmChannelDTO;
 import com.zzr.apollo.channel.dto.QueryCmmChannelDTO;
 import com.zzr.apollo.channel.dto.UpdateCmmChannelDTO;
 import com.zzr.apollo.channel.vo.CmmChannelVO;
 import com.zzr.apollo.feign.channel.IChannelClient;
+import com.zzr.apollo.model.CmmChannelDO;
 import com.zzr.apollo.service.ICmmChannelService;
+import com.zzr.apollo.wrapper.CmmChannelWrapper;
 import com.zzr.base.api.R;
 import com.zzr.base.support.Page;
 import com.zzr.base.support.Query;
@@ -27,7 +30,7 @@ public class ChannelClient implements IChannelClient {
 
     private final ICmmChannelService service;
 
-    
+
     /**
      * 查询渠道 根据条件
      *
@@ -49,7 +52,8 @@ public class ChannelClient implements IChannelClient {
      */
     @Override
     public R<Long> create(CreateCmmChannelDTO dto) {
-        return null;
+        CmmChannelDO entity = service.create(dto);
+        return R.data(ObjectUtil.isNotNull(entity) ? entity.getId() : null);
     }
 
     /**
@@ -60,7 +64,7 @@ public class ChannelClient implements IChannelClient {
      */
     @Override
     public R<CmmChannelVO> detail(Long id) {
-        return null;
+        return R.data(CmmChannelWrapper.build().entityVO(service.detail(id)));
     }
 
     /**
@@ -72,7 +76,7 @@ public class ChannelClient implements IChannelClient {
      */
     @Override
     public R<Boolean> update(Long id, UpdateCmmChannelDTO dto) {
-        return null;
+        return R.data(service.update(dto, id));
     }
 
     /**
@@ -83,7 +87,7 @@ public class ChannelClient implements IChannelClient {
      */
     @Override
     public R<Boolean> delete(Long id) {
-        return null;
+        return R.data(service.deleteById(id));
     }
 
     /**
@@ -94,7 +98,7 @@ public class ChannelClient implements IChannelClient {
      */
     @Override
     public R<Boolean> activate(Long id) {
-        return null;
+        return R.data(service.activate(id));
     }
 
     /**
@@ -105,6 +109,6 @@ public class ChannelClient implements IChannelClient {
      */
     @Override
     public R<Boolean> inactive(Long id) {
-        return null;
+        return R.data(service.inactive(id));
     }
 }

@@ -1,10 +1,12 @@
 package com.zzr.apollo.feign;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.zzr.apollo.feign.master.IDepositRuleClient;
 import com.zzr.apollo.master.dto.CreateBookingDepositRuleDTO;
 import com.zzr.apollo.master.dto.QueryBookingDepositRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingDepositRuleDTO;
 import com.zzr.apollo.master.vo.BookingDepositRuleVO;
+import com.zzr.apollo.model.BookingDepositRuleDO;
 import com.zzr.apollo.service.IBookingDepositRuleService;
 import com.zzr.apollo.wrapper.BookingDepositRuleWrapper;
 import com.zzr.base.api.R;
@@ -49,7 +51,8 @@ public class DepositRuleClient implements IDepositRuleClient {
      */
     @Override
     public R<Long> create(CreateBookingDepositRuleDTO dto) {
-        return R.data(service.create(dto).getId());
+        BookingDepositRuleDO entity = service.create(dto);
+        return R.data(ObjectUtil.isNotNull(entity) ? entity.getId() : null);
     }
 
     /**

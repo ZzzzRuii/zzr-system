@@ -65,6 +65,10 @@ public class R<T> implements Serializable {
                 .orElse(Boolean.FALSE);
     }
 
+    public static <T> T getData(R<T> result) {
+        return isSuccess(result) ? result.getData() : null;
+    }
+
     public static boolean isNotSuccess(@Nullable R<?> result) {
         return !isSuccess(result);
     }

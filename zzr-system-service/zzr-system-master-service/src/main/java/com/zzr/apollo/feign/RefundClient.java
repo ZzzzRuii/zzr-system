@@ -1,10 +1,12 @@
 package com.zzr.apollo.feign;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.zzr.apollo.feign.master.IRefundClient;
 import com.zzr.apollo.master.dto.CreateBookingMasterRefundDTO;
 import com.zzr.apollo.master.dto.QueryBookingMasterRefundDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterRefundDTO;
 import com.zzr.apollo.master.vo.BookingMasterRefundVO;
+import com.zzr.apollo.model.BookingMasterRefundDO;
 import com.zzr.apollo.service.IBookingMasterRefundService;
 import com.zzr.apollo.wrapper.BookingMasterRefundWrapper;
 import com.zzr.base.api.R;
@@ -49,7 +51,8 @@ public class RefundClient implements IRefundClient {
      */
     @Override
     public R<Long> create(CreateBookingMasterRefundDTO dto) {
-        return R.data(service.create(dto).getId());
+        BookingMasterRefundDO entity = service.create(dto);
+        return R.data(ObjectUtil.isNotNull(entity) ? entity.getId() : null);
     }
 
     /**

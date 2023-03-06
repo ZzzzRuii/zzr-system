@@ -1,10 +1,12 @@
 package com.zzr.apollo.feign;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.zzr.apollo.feign.master.IMasterClient;
 import com.zzr.apollo.master.dto.CreateBookingMasterDTO;
 import com.zzr.apollo.master.dto.QueryBookingMasterDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterDTO;
 import com.zzr.apollo.master.vo.BookingMasterVO;
+import com.zzr.apollo.model.BookingMasterDO;
 import com.zzr.apollo.service.IBookingMasterService;
 import com.zzr.apollo.wrapper.BookingMasterWrapper;
 import com.zzr.base.api.R;
@@ -49,7 +51,8 @@ public class MasterClient implements IMasterClient {
      */
     @Override
     public R<Long> create(CreateBookingMasterDTO dto) {
-        return R.data(service.create(dto).getId());
+        BookingMasterDO entity = service.create(dto);
+        return R.data(ObjectUtil.isNotNull(entity) ? entity.getId() : null);
     }
 
     /**
