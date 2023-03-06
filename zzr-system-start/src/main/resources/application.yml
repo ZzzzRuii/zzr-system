@@ -52,6 +52,12 @@ spring:
         max-active: 8
         # #连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
+  # 允许 bean 覆盖，将 feign 接口 合成一个
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    compatibility-verifier:
+      enabled: false
 
 ## MyBatis-Plus配置
 #mybatis-plus:
