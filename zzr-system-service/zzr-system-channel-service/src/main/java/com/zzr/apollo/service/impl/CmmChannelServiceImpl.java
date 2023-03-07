@@ -2,6 +2,7 @@ package com.zzr.apollo.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.channel.dto.CreateCmmChannelDTO;
 import com.zzr.apollo.channel.dto.QueryCmmChannelDTO;
 import com.zzr.apollo.channel.dto.UpdateCmmChannelDTO;
@@ -50,7 +51,9 @@ public class CmmChannelServiceImpl extends ZzrServiceImpl<CmmChannelMapper, CmmC
      */
     @Override
     public Page<CmmChannelVO> selectPage(Query query, QueryCmmChannelDTO channelDTO) {
-        return CmmChannelWrapper.build().pageVO(baseMapper.selectChannelPage(Condition.getPage(query), channelDTO));
+        IPage<CmmChannelDO> page = Condition.getPage(query);
+        page.setRecords(baseMapper.selectChannelPage(page, channelDTO));
+        return CmmChannelWrapper.build().pageVO(page);
     }
 
     /**

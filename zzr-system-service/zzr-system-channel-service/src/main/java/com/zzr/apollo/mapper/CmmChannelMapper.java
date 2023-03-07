@@ -24,7 +24,7 @@ public interface CmmChannelMapper extends ZzrMapper<CmmChannelDO> {
      * @param channelDTO
      * @return
      */
-    IPage<CmmChannelDO> selectChannelPage(IPage<CmmChannelDO> page, @Param("entity") QueryCmmChannelDTO channelDTO);
+    List<CmmChannelDO> selectChannelPage(IPage<CmmChannelDO> page, @Param("entity") QueryCmmChannelDTO channelDTO);
 
     /**
      * 根据条件查询渠道信息
