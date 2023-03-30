@@ -29,9 +29,6 @@
                 <if test="entity.unitId != null">
                     AND unit_id = #{entity.unitId}
                 </if>
-                <if test="entity.orderId != null">
-                    AND order_id = #{entity.orderId}
-                </if>
                 <if test="entity.unitType != null and entity.unitType != ''">
                     AND unit_type = #{entity.unitType}
                 </if>
