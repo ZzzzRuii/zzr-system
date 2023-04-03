@@ -61,6 +61,10 @@ public class BookingCancelRuleDO extends TenantEntity {
      */
     private Integer dueDays;
     /**
+     * 截止时间
+     */
+    private String endTime;
+    /**
      * 提前多少分钟可以取消
      */
     private Integer resMinute;

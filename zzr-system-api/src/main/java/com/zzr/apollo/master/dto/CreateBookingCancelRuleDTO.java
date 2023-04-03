@@ -25,12 +25,6 @@ import java.math.BigDecimal;
 @ApiModel(value = "BookingCancelRuleDTO对象", description = "退改规则")
 public class CreateBookingCancelRuleDTO implements Serializable {
     /**
-     * 主订单id
-     */
-    @ApiModelProperty(value = "子订单id", required = true)
-    @NotNull(message = "{ROOM.DATA_IS_NOT_NULL}")
-    private Long orderId;
-    /**
      * 发行单位ID
      */
     @ApiModelProperty(value = "发行单位ID", required = true)
@@ -67,6 +61,11 @@ public class CreateBookingCancelRuleDTO implements Serializable {
      */
     @ApiModelProperty(value = "到店后N天前可以取消，否则执行取消规则")
     private Integer dueDays;
+    /**
+     * 截止时间
+     */
+    @ApiModelProperty(value = "截止时间")
+    private String endTime;
     /**
      * 是否强制使用
      */

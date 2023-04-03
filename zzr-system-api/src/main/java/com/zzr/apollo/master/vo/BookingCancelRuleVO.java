@@ -72,6 +72,11 @@ public class BookingCancelRuleVO extends BaseVO {
     @ApiModelProperty(value = "到店后N天前可以取消，否则执行取消规则")
     private Integer dueDays;
     /**
+     * 截止时间
+     */
+    @ApiModelProperty(value = "截止时间")
+    private String endTime;
+    /**
      * 是否强制使用
      */
     @ApiModelProperty(value = "是否强制使用")

@@ -82,9 +82,7 @@ public class ProductTicketServiceImpl extends ZzrServiceImpl<ProductTicketMapper
      */
     @Override
     public ProductTicketVO selectByCode(String code) {
-        QueryProductTicketDTO queryDTO = new QueryProductTicketDTO();
-        queryDTO.setCode(code);
-        List<ProductTicketDO> paramList = selectList(queryDTO);
+        List<ProductTicketDO> paramList = getProductsByCode(code);
 
         Preconditions.checkArgument(CollUtil.isNotEmpty(paramList), DemoResultCode.PRODUCT_NOT_EXISTS.getMessage());
 
@@ -228,6 +226,19 @@ public class ProductTicketServiceImpl extends ZzrServiceImpl<ProductTicketMapper
 
 
     /**
+     * 根据 code
+     * 获取 产品列表
+     *
+     * @param code
+     * @return
+     */
+    private List<ProductTicketDO> getProductsByCode(String code) {
+        QueryProductTicketDTO queryDTO = new QueryProductTicketDTO();
+        queryDTO.setCode(code);
+        return selectList(queryDTO);
+    }
+
+    /**
      * 根据参数 查询数据
      * 列表
      *
@@ -246,9 +257,9 @@ public class ProductTicketServiceImpl extends ZzrServiceImpl<ProductTicketMapper
      * @return
      */
     private Boolean codeUniqueness(String code) {
-        ProductTicketVO vo = selectByCode(code);
+        List<ProductTicketDO> vos = getProductsByCode(code);
 
-        return ObjectUtil.isNull(vo);
+        return CollUtil.isEmpty(vos);
     }
 
     /**

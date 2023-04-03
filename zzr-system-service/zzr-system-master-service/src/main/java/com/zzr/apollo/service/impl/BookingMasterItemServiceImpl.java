@@ -3,19 +3,18 @@ package com.zzr.apollo.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zzr.apollo.channel.dto.UpdateCmmProductDailyAmountDTO;
 import com.zzr.apollo.mapper.BookingMasterItemMapper;
 import com.zzr.apollo.master.dto.CreateBookingMasterItemDTO;
 import com.zzr.apollo.master.dto.QueryBookingMasterItemDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterItemDTO;
 import com.zzr.apollo.master.vo.BookingMasterItemVO;
-import com.zzr.apollo.model.BookingMasterItemDO;
-import com.zzr.apollo.model.CmmProductDailyAmountDO;
-import com.zzr.apollo.model.ProductTicketDO;
-import com.zzr.apollo.service.IBookingMasterItemService;
-import com.zzr.apollo.service.ICmmProductDailyAmountService;
-import com.zzr.apollo.service.IProductTicketService;
+import com.zzr.apollo.model.*;
+import com.zzr.apollo.service.*;
+import com.zzr.apollo.tool.constants.CancelModeCode;
 import com.zzr.apollo.tool.constants.DemoResultCode;
 import com.zzr.apollo.tool.constants.MasterStatusCode;
 import com.zzr.apollo.wrapper.BookingMasterItemWrapper;
@@ -31,6 +30,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -48,6 +49,13 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
     private final IProductTicketService productService;
 
     private final ICmmProductDailyAmountService amountService;
+
+    private final IBookingMasterService masterService;
+
+    private final IBookingCancelRuleService cancelRuleService;
+
+    private final IBookingDepositRuleService depositRuleService;
+
 
     @Override
     public BookingMasterItemDO detail(Long id) {
@@ -108,6 +116,9 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
 
         // 创建子订单
         save(itemDO);
+
+        // 更新订单状态
+        reserve(itemDO.getId());
 
         return itemDO;
     }
@@ -192,6 +203,18 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
     public Boolean canceled(Long id) {
         BookingMasterItemDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
+
+        entity.setCancelTime(LocalDateTime.now());
+        // 判断子订单是否都已取消，都取消则将主订单也取消
+        List<BookingMasterItemVO> voList = selectByOrderId(entity.getOrderId());
+        Long itemCancelCount = voList.stream()
+                .filter(item -> ObjectUtil.equals(item.getStatus(), MasterStatusCode.CANCELED.getCode())).count();
+        BookingMasterDO master = masterService.detail(entity.getOrderId());
+        if (ObjectUtil.equals(voList.size() - 1, NumberUtil.parseInt(itemCancelCount.toString()))) {
+            master.setCancelTime(LocalDateTime.now());
+            masterService.updateById(master);
+            masterService.canceled(master.getId());
+        }
 
         entity.setStatus(MasterStatusCode.CANCELED.getCode());
         return changeStatus(entity);
@@ -325,5 +348,113 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
             finalSum = finalSum.subtract(itemDO.getDiscountFee());
         }
         itemDO.setFinalFee(finalSum);
+        // 计算 担保规则金额
+        calculateDepositAmount(itemDO);
+        // 计算 取消规则金额
+        calculateCancelAmount(itemDO);
+    }
+
+    /**
+     * 取消规则金额 计算
+     *
+     * @param itemDO
+     */
+    private void calculateCancelAmount(BookingMasterItemDO itemDO) {
+        if (ObjectUtil.isNotNull(itemDO.getCancelRuleId())) {
+            // 主订单总金额减去该子订单实际金额，子订单金额不改变
+            BookingCancelRuleDO ruleDO = cancelRuleService.detail(itemDO.getCancelRuleId());
+            if (ObjectUtil.equals(itemDO.getStatus(), MasterStatusCode.CANCELED.getCode())) {
+                throw new ServiceException(DemoResultCode.ORDER_CANNOT_BE_CANCELLED_REPEATEDLY);
+            }
+            BookingMasterDO masterDO = masterService.detail(itemDO.getOrderId());
+            masterDO.setTotalFee(masterDO.getTotalFee().subtract(itemDO.getFinalFee()));
+            // 手续费计算
+            BigDecimal serviceCharge;
+            switch (ruleDO.getMode()) {
+                case CancelModeCode.PERCENTAGE:
+                    serviceCharge = itemDO.getFinalFee().multiply(ruleDO.getPercentage());
+                    break;
+                case CancelModeCode.AMOUNT:
+                    serviceCharge = ruleDO.getAmount();
+                    break;
+                case CancelModeCode.TOTAL:
+                    serviceCharge = itemDO.getFinalFee();
+                    break;
+                default:
+                    throw new IllegalStateException(ResultCode.SC_NO_CONTENT.getMessage());
+            }
+            // 主订单更新总金额（加上手续费）
+            masterDO.setTotalFee(masterDO.getTotalFee().add(serviceCharge));
+            if (ObjectUtil.equals(masterDO.getTotalFee(), 0)) {
+                masterDO.setFinalFee(masterDO.getTotalFee());
+            } else {
+                masterDO.setFinalFee(masterDO.getTotalFee().subtract(masterDO.getDiscountFee()));
+            }
+            masterDO.setQuantity(masterDO.getQuantity() - NumberUtil.parseInt(StrUtil.toString(itemDO.getNum())));
+            masterService.updateById(masterDO);
+            // 添加截止时间
+            ruleDO.setEndTime(itemDO.getDep().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            // 创建订单扣除对应的渠道产品信息
+            if (ObjectUtil.isNull(itemDO.getNum())) {
+                itemDO.setNum(NumberUtil.toBigDecimal(0));
+            }
+            // 找到对应的当天库存信息
+            List<CmmProductDailyAmountDO> amountList = amountService.selectByProductId(itemDO.getProductId());
+            CmmProductDailyAmountDO amountDO = new CmmProductDailyAmountDO();
+            for (CmmProductDailyAmountDO item : amountList) {
+                if (ObjectUtil.equals(LocalDate.now(), item.getSellDate())) {
+                    amountDO = item;
+                }
+            }
+            // 归还库存
+            int num = amountDO.getNum() + Integer.parseInt(itemDO.getNum().toString());
+            amountDO.setNum(num);
+            // 已使用数量归还
+            if (ObjectUtil.isNull(amountDO.getUsedNum())) {
+                amountDO.setUsedNum(0);
+            }
+            amountDO.setUsedNum(amountDO.getUsedNum() - Integer.parseInt(itemDO.getNum().toString()));
+            // 更新库存信息
+            UpdateCmmProductDailyAmountDTO amountDTO = new UpdateCmmProductDailyAmountDTO();
+            amountDTO.setNum(amountDO.getNum());
+            amountDTO.setUsedNum(amountDO.getUsedNum());
+            amountService.update(amountDTO, amountDO.getId());
+        }
+    }
+
+    /**
+     * 担保规则金额 计算
+     *
+     * @param itemDO
+     */
+    private void calculateDepositAmount(BookingMasterItemDO itemDO) {
+        if (ObjectUtil.isNotNull(itemDO.getDepositRuleId())) {
+            // 主订单总金额不减去该子订单实际金额，只加上担保金额，子订单金额不改变
+            BookingDepositRuleDO ruleDO = depositRuleService.detail(itemDO.getDepositRuleId());
+            BookingMasterDO masterDO = masterService.detail(itemDO.getOrderId());
+            // 担保金额计算
+            BigDecimal amountGuaranteed;
+            switch (ruleDO.getMode()) {
+                case CancelModeCode.PERCENTAGE:
+                    amountGuaranteed = itemDO.getFinalFee().multiply(ruleDO.getPercentage());
+                    break;
+                case CancelModeCode.AMOUNT:
+                    amountGuaranteed = ruleDO.getAmount();
+                    break;
+                case CancelModeCode.TOTAL:
+                    amountGuaranteed = itemDO.getFinalFee();
+                    break;
+                default:
+                    throw new IllegalStateException(ResultCode.SC_NO_CONTENT.getMessage());
+            }
+            // 主订单更新加上担保金额
+            masterDO.setTotalFee(masterDO.getTotalFee().add(amountGuaranteed));
+            if (ObjectUtil.equals(masterDO.getTotalFee(), 0)) {
+                masterDO.setFinalFee(masterDO.getTotalFee());
+            } else {
+                masterDO.setFinalFee(masterDO.getTotalFee().subtract(masterDO.getDiscountFee()));
+            }
+            masterService.updateById(masterDO);
+        }
     }
 }

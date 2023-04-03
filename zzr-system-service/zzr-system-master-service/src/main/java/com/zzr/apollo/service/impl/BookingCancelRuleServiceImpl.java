@@ -1,22 +1,18 @@
 package com.zzr.apollo.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.mapper.BookingCancelRuleMapper;
 import com.zzr.apollo.master.dto.CreateBookingCancelRuleDTO;
-import com.zzr.apollo.master.dto.CreateBookingItemCancelRuleDTO;
 import com.zzr.apollo.master.dto.QueryBookingCancelRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingCancelRuleDTO;
 import com.zzr.apollo.master.vo.BookingCancelRuleVO;
-import com.zzr.apollo.master.vo.BookingMasterItemVO;
 import com.zzr.apollo.model.BookingCancelRuleDO;
 import com.zzr.apollo.product.vo.ProductTicketVO;
-import com.zzr.apollo.service.*;
+import com.zzr.apollo.service.IBookingCancelRuleService;
+import com.zzr.apollo.service.IProductTicketService;
 import com.zzr.apollo.tool.constants.DemoResultCode;
 import com.zzr.apollo.tool.constants.DemoStatusCode;
-import com.zzr.apollo.tool.constants.MasterStatusCode;
 import com.zzr.apollo.wrapper.BookingCancelRuleWrapper;
 import com.zzr.base.api.ResultCode;
 import com.zzr.base.service.impl.ZzrServiceImpl;
@@ -26,8 +22,6 @@ import com.zzr.base.support.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 退改规则 服务实现类
@@ -42,12 +36,6 @@ import java.util.List;
 public class BookingCancelRuleServiceImpl extends ZzrServiceImpl<BookingCancelRuleMapper, BookingCancelRuleDO> implements IBookingCancelRuleService {
 
     private final IProductTicketService productService;
-
-    private final IBookingMasterItemService itemService;
-
-    private final IBookingMasterService masterService;
-
-    private final IBookingItemCancelRuleService itemCancelRuleService;
 
     @Override
     public BookingCancelRuleDO detail(Long id) {
@@ -99,20 +87,6 @@ public class BookingCancelRuleServiceImpl extends ZzrServiceImpl<BookingCancelRu
 
         // 激活
         activate(ruleDO.getId());
-
-        // 调用子订单取消
-        List<BookingMasterItemVO> voList = itemService.selectByOrderId(bookingCancelRule.getOrderId());
-        for (BookingMasterItemVO item : voList) {
-            if (!ObjectUtil.equals(item.getStatus(), MasterStatusCode.CANCELED.getCode())) {
-                CreateBookingItemCancelRuleDTO ruleDTO = new CreateBookingItemCancelRuleDTO();
-                BeanUtil.copyProperties(ruleDO, ruleDTO);
-                ruleDTO.setItemId(item.getId());
-                itemCancelRuleService.create(ruleDTO);
-            }
-        }
-
-        // 更新主订单状态
-        masterService.canceled(bookingCancelRule.getOrderId());
 
         return ruleDO;
     }

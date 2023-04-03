@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.zzr.base.mp.injector.AppSqlInjector;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @version 1.0
  * @since 2022/12/29 14:34
  */
-@AutoConfiguration
+@Configuration
 @MapperScan("com.zzr.**.mapper")
 @EnableConfigurationProperties({MybatisPlusProperties.class})
 public class MybatisPlusConfiguration implements WebMvcConfigurer {

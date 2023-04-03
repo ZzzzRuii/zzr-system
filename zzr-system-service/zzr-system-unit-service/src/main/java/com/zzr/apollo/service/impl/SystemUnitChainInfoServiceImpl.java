@@ -54,6 +54,18 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
 
     /**
      * 根据参数 查询数据
+     * 列表
+     *
+     * @param unitChainInfoDTO
+     * @return
+     */
+    @Override
+    public List<SystemUnitChainInfoVO> selectList(QuerySystemUnitChainInfoDTO unitChainInfoDTO) {
+        return SystemUnitChainInfoWrapper.build().listVO(selectEntityList(unitChainInfoDTO));
+    }
+
+    /**
+     * 根据参数 查询数据
      * 树状
      *
      * @param unitChainInfoDTO
@@ -142,7 +154,7 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
         // 不允许删除有子项的父项，只能从子项开始删除
         QuerySystemUnitChainInfoDTO queryDTO = new QuerySystemUnitChainInfoDTO();
         queryDTO.setParentId(id);
-        List<SystemUnitChainInfoDO> infoList = selectList(queryDTO);
+        List<SystemUnitChainInfoDO> infoList = selectEntityList(queryDTO);
         Preconditions.checkNotNull(CollUtil.isNotEmpty(infoList), DemoResultCode.PARENT_EXISTS.getMessage());
 
         return baseMapper.deleteById(id) != 0;
@@ -191,7 +203,7 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
 
         QuerySystemUnitChainInfoDTO queryDTO = new QuerySystemUnitChainInfoDTO();
         queryDTO.setCode(code);
-        List<SystemUnitChainInfoDO> paramList = selectList(queryDTO);
+        List<SystemUnitChainInfoDO> paramList = selectEntityList(queryDTO);
 
         return CollUtil.isEmpty(paramList);
     }
@@ -206,7 +218,7 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
 
         QuerySystemUnitChainInfoDTO queryDTO = new QuerySystemUnitChainInfoDTO();
         queryDTO.setName(name);
-        List<SystemUnitChainInfoDO> paramList = selectList(queryDTO);
+        List<SystemUnitChainInfoDO> paramList = selectEntityList(queryDTO);
 
         return CollUtil.isEmpty(paramList);
     }
@@ -251,8 +263,7 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
      * @param unitChainInfoDTO
      * @return
      */
-    private List<SystemUnitChainInfoDO> selectList(QuerySystemUnitChainInfoDTO unitChainInfoDTO) {
-
+    private List<SystemUnitChainInfoDO> selectEntityList(QuerySystemUnitChainInfoDTO unitChainInfoDTO) {
         return baseMapper.selectSystemUnitChainInfo(unitChainInfoDTO);
     }
 }

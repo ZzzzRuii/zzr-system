@@ -28,6 +28,15 @@ public interface ISystemUnitChainInfoService extends IZzrService<SystemUnitChain
 
     /**
      * 根据参数 查询数据
+     * 列表
+     *
+     * @param unitChainInfoDTO
+     * @return
+     */
+    List<SystemUnitChainInfoVO> selectList(QuerySystemUnitChainInfoDTO unitChainInfoDTO);
+
+    /**
+     * 根据参数 查询数据
      * 树状
      *
      * @param unitChainInfoDTO

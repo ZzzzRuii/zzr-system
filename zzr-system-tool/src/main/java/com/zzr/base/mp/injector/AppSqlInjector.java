@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.extension.injector.methods.AlwaysUpdateSomeColumnById;
 import com.zzr.base.mp.injector.method.ChangeStatus;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,14 +18,12 @@ import java.util.List;
  * @since 2022/12/29 14:04
  */
 public class AppSqlInjector extends DefaultSqlInjector {
-    public AppSqlInjector() {
-    }
 
+    @Override
     public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo) {
-        List<AbstractMethod> methodList = new ArrayList<>();
+        List<AbstractMethod> methodList = super.getMethodList(mapperClass, tableInfo);
         methodList.add(new ChangeStatus());
         methodList.add(new AlwaysUpdateSomeColumnById(i -> i.getFieldFill() == FieldFill.UPDATE));
-        methodList.addAll(super.getMethodList(mapperClass, tableInfo));
         return Collections.unmodifiableList(methodList);
     }
 }

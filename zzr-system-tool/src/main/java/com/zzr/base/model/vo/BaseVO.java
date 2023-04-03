@@ -14,6 +14,11 @@ import java.io.Serializable;
 @Data
 public class BaseVO implements Serializable {
     /**
+     * 租户Id
+     */
+    @ApiModelProperty("租户Id")
+    private String tenantId;
+    /**
      * id
      */
     @ApiModelProperty("id")

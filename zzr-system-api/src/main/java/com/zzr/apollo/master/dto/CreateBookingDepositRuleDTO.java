@@ -26,12 +26,6 @@ import java.math.BigDecimal;
 @ApiModel(value = "BookingDepositRuleDTO对象", description = "担保规则")
 public class CreateBookingDepositRuleDTO implements Serializable {
     /**
-     * 子订单id
-     */
-    @ApiModelProperty(value = "子订单id", required = true)
-    @NotNull(message = "{ROOM.DATA_IS_NOT_NULL}")
-    private Long itemId;
-    /**
      * 发行单位ID
      */
     @ApiModelProperty(value = "发行单位ID", required = true)

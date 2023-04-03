@@ -5,17 +5,16 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.mapper.BookingDepositRuleMapper;
+import com.zzr.apollo.master.dto.CreateBookingCancelRuleDTO;
 import com.zzr.apollo.master.dto.CreateBookingDepositRuleDTO;
-import com.zzr.apollo.master.dto.CreateBookingItemCancelRuleDTO;
 import com.zzr.apollo.master.dto.QueryBookingDepositRuleDTO;
 import com.zzr.apollo.master.dto.UpdateBookingDepositRuleDTO;
 import com.zzr.apollo.master.vo.BookingDepositRuleVO;
 import com.zzr.apollo.model.BookingDepositRuleDO;
-import com.zzr.apollo.model.BookingMasterDO;
-import com.zzr.apollo.model.BookingMasterItemDO;
 import com.zzr.apollo.product.vo.ProductTicketVO;
-import com.zzr.apollo.service.*;
-import com.zzr.apollo.tool.constants.CancelModeCode;
+import com.zzr.apollo.service.IBookingCancelRuleService;
+import com.zzr.apollo.service.IBookingDepositRuleService;
+import com.zzr.apollo.service.IProductTicketService;
 import com.zzr.apollo.tool.constants.DemoResultCode;
 import com.zzr.apollo.tool.constants.DemoStatusCode;
 import com.zzr.apollo.wrapper.BookingDepositRuleWrapper;
@@ -29,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -46,11 +44,7 @@ public class BookingDepositRuleServiceImpl extends ZzrServiceImpl<BookingDeposit
 
     private final IProductTicketService productService;
 
-    private final IBookingItemCancelRuleService itemCancelRuleService;
-
-    private final IBookingMasterItemService itemService;
-
-    private final IBookingMasterService masterService;
+    private final IBookingCancelRuleService cancelRuleService;
 
     @Override
     public BookingDepositRuleDO detail(Long id) {
@@ -95,46 +89,11 @@ public class BookingDepositRuleServiceImpl extends ZzrServiceImpl<BookingDeposit
         ProductTicketVO productVO = productService.selectByCode(ruleDO.getCode());
         ruleDO.setName(productVO.getName());
 
-        // 主订单总金额不减去该子订单实际金额，只加上担保金额，子订单金额不改变
-        BookingMasterItemDO itemDO = itemService.detail(bookingDepositRule.getItemId());
-        BookingMasterDO masterDO = masterService.detail(itemDO.getOrderId());
-        // 担保金额计算
-        BigDecimal amountGuaranteed;
-        switch (ruleDO.getMode()) {
-            case CancelModeCode.PERCENTAGE:
-                amountGuaranteed = itemDO.getFinalFee().multiply(ruleDO.getPercentage());
-                break;
-            case CancelModeCode.AMOUNT:
-                amountGuaranteed = ruleDO.getAmount();
-                break;
-            case CancelModeCode.TOTAL:
-                amountGuaranteed = itemDO.getFinalFee();
-                break;
-            default:
-                throw new IllegalStateException(ResultCode.SC_NO_CONTENT.getMessage());
-        }
-        // 主订单更新加上担保金额
-        masterDO.setTotalFee(masterDO.getTotalFee().add(amountGuaranteed));
-        if (ObjectUtil.equals(masterDO.getTotalFee(), 0)) {
-            masterDO.setFinalFee(masterDO.getTotalFee());
-        } else {
-            masterDO.setFinalFee(masterDO.getTotalFee().subtract(masterDO.getDiscountFee()));
-        }
-        masterService.updateById(masterDO);
-
         // 自动执行取消
         autoCancel(ruleDO);
 
         // 创建
         save(ruleDO);
-
-        // 订单更新担保规则id，name
-        itemDO.setDepositRuleId(ruleDO.getId());
-        itemDO.setDepositRuleName(ruleDO.getName());
-        // 更新订单状态
-        itemService.reserve(itemDO.getId());
-        // 更新订单金额
-        itemService.updateById(itemDO);
 
         // 激活
         activate(ruleDO.getId());
@@ -228,10 +187,10 @@ public class BookingDepositRuleServiceImpl extends ZzrServiceImpl<BookingDeposit
                 @Override
                 public void run() {
                     ThreadUtil.sleep(time, TimeUnit.MINUTES);
-                    CreateBookingItemCancelRuleDTO cancelRuleDTO = new CreateBookingItemCancelRuleDTO();
+                    CreateBookingCancelRuleDTO cancelRuleDTO = new CreateBookingCancelRuleDTO();
                     BeanUtils.copyProperties(ruleDO, cancelRuleDTO);
                     cancelRuleDTO.setType("canclx");
-                    itemCancelRuleService.create(cancelRuleDTO);
+                    cancelRuleService.create(cancelRuleDTO);
                 }
             });
         }

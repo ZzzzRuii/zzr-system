@@ -19,6 +19,7 @@ public class ChangeStatus extends AbstractMethod {
         super(AppSqlMethod.CHANGE_STATUS.getMethod());
     }
 
+    @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         AppSqlMethod sqlMethod = AppSqlMethod.CHANGE_STATUS;
         String additional = this.optlockVersion(tableInfo) + tableInfo.getLogicDeleteSql(true, true);
