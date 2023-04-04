@@ -3,7 +3,6 @@ package com.zzr.apollo.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.nacos.shaded.com.google.common.base.Preconditions;
 import com.alibaba.nacos.shaded.com.google.gson.Gson;
@@ -178,10 +177,7 @@ public class ProductTicketServiceImpl extends ZzrServiceImpl<ProductTicketMapper
     public Boolean inactivate(Long id) {
         ProductTicketDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-        // 判断状态是否正确
-        if (StrUtil.equals(DemoStatusCode.ACTIVATE.getCode(), entity.getStatus())) {
-            entity.setStatus(DemoStatusCode.INACTIVE.getCode());
-        }
+        entity.setStatus(DemoStatusCode.INACTIVE.getCode());
         productUpdatePublisher(entity);
         return changeStatus(entity);
     }
@@ -197,10 +193,7 @@ public class ProductTicketServiceImpl extends ZzrServiceImpl<ProductTicketMapper
     public Boolean activate(Long id) {
         ProductTicketDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
-        // 判断状态是否正确
-        if (StrUtil.equals(DemoStatusCode.INACTIVE.getCode(), entity.getStatus())) {
-            entity.setStatus(DemoStatusCode.ACTIVATE.getCode());
-        }
+        entity.setStatus(DemoStatusCode.ACTIVATE.getCode());
         productUpdatePublisher(entity);
         return changeStatus(entity);
     }

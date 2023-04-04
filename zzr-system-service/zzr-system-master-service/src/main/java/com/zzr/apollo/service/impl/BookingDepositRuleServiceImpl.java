@@ -78,26 +78,20 @@ public class BookingDepositRuleServiceImpl extends ZzrServiceImpl<BookingDeposit
     @Override
     public BookingDepositRuleDO create(CreateBookingDepositRuleDTO bookingDepositRule) {
         BookingDepositRuleDO ruleDO = BookingDepositRuleWrapper.build().voEntity(bookingDepositRule);
-
         // 组织信息
         BookingDepositRuleDO unit = baseMapper.selectByUnitId(ruleDO.getUnitId());
         Preconditions.checkNotNull(unit, DemoResultCode.UNIT_NOT_EXISTS.getMessage());
         ruleDO.setTenantId(unit.getTenantId());
         ruleDO.setUnitType(unit.getUnitType());
-
         // 产品信息
         ProductTicketVO productVO = productService.selectByCode(ruleDO.getCode());
         ruleDO.setName(productVO.getName());
-
         // 自动执行取消
         autoCancel(ruleDO);
-
         // 创建
         save(ruleDO);
-
         // 激活
         activate(ruleDO.getId());
-
         return ruleDO;
     }
 

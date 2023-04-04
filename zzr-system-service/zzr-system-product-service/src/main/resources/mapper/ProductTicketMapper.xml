@@ -24,6 +24,11 @@
         <result property="flag" column="flag"/>
         <result property="status" column="status"/>
         <result property="createDept" column="create_dept"/>
+        <result column="is_deleted" property="deleted"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- List<ProductTicketDO> selectProductPage(IPage<ProductTicketDO> page, @Param("entity") QueryProductTicketDTO productDTO); -->

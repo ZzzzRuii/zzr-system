@@ -113,6 +113,7 @@ public class SystemUnitChainInfoServiceImpl extends ZzrServiceImpl<SystemUnitCha
 
         SystemUnitChainInfoDO infoDO = SystemUnitChainInfoWrapper.build().dtoEntity(unitChainInfoDTO);
         paramCheck(infoDO);
+        infoDO.setStatus(DemoStatusCode.INACTIVE.getCode());
         save(infoDO);
 
         return infoDO;

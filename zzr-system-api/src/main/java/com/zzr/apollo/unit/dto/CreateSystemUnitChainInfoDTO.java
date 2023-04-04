@@ -95,5 +95,4 @@ public class CreateSystemUnitChainInfoDTO implements Serializable {
      */
     @ApiModelProperty(value = "经纬度")
     private String location;
-
 }

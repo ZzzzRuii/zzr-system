@@ -69,25 +69,18 @@ public class BookingCancelRuleServiceImpl extends ZzrServiceImpl<BookingCancelRu
     @Override
     public BookingCancelRuleDO create(CreateBookingCancelRuleDTO bookingCancelRule) {
         BookingCancelRuleDO ruleDO = BookingCancelRuleWrapper.build().voEntity(bookingCancelRule);
-
         // 组织信息
         BookingCancelRuleDO unit = baseMapper.selectByUnitId(ruleDO.getUnitId());
         Preconditions.checkNotNull(unit, DemoResultCode.UNIT_NOT_EXISTS.getMessage());
         ruleDO.setTenantId(unit.getTenantId());
         ruleDO.setUnitType(unit.getUnitType());
-
         // 产品信息
         ProductTicketVO productVO = productService.selectByCode(ruleDO.getCode());
         ruleDO.setName(productVO.getName());
-
-        // 是否受支持，默认true
-        ruleDO.setIsObsolete(true);
-
+        // 创建取消规则
         save(ruleDO);
-
         // 激活
         activate(ruleDO.getId());
-
         return ruleDO;
     }
 

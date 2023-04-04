@@ -3,19 +3,27 @@
 <mapper namespace="com.zzr.apollo.mapper.SystemUnitChainInfoMapper">
 
     <resultMap id="systemUnitChainInfoMap" type="com.zzr.apollo.model.SystemUnitChainInfoDO">
-        <result property="tenantId" column="tenant_id"/>
-        <result property="code" column="code"/>
-        <result property="parentId" column="parent_id"/>
-        <result property="name" column="name"/>
-        <result property="type" column="contacts"/>
-        <result property="telephone" column="telephone"/>
-        <result property="country" column="country"/>
-        <result property="city" column="city"/>
-        <result property="district" column="district"/>
-        <result property="province" column="province"/>
-        <result property="sort" column="sort"/>
-        <result property="address" column="address"/>
-        <result property="location" column="location"/>
+        <id column="id" property="id"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="code" property="code"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="telephone" property="telephone"/>
+        <result column="status" property="status"/>
+        <result column="country" property="country"/>
+        <result column="city" property="city"/>
+        <result column="district" property="district"/>
+        <result column="province" property="province"/>
+        <result column="sort" property="sort"/>
+        <result column="address" property="address"/>
+        <result column="location" property="location"/>
+        <result column="contacts" property="contacts"/>
+        <result column="is_deleted" property="deleted"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- List<SystemUnitChainInfoDO> selectSystemUnitChainInfo(@Param("entity") QuerySystemUnitChainInfoDTO unitChainInfoDTO); -->
