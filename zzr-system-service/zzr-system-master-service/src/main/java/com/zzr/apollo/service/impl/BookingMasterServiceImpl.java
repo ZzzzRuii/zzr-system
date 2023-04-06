@@ -82,8 +82,10 @@ public class BookingMasterServiceImpl extends ZzrServiceImpl<BookingMasterMapper
         masterDO.setTenantId(unit.getTenantId());
 
         masterDO.setPaymentStatus(PayStatusCode.NOT_PAY);
+        masterDO.setIsPreSale(Boolean.TRUE);
 
         save(masterDO);
+        reserve(masterDO.getId());
 
         return masterDO;
     }
@@ -119,6 +121,7 @@ public class BookingMasterServiceImpl extends ZzrServiceImpl<BookingMasterMapper
         // 检查数据是否存在
         BookingMasterDO entity = detail(id);
         Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
+
 
         return baseMapper.deleteById(id) != 0;
     }

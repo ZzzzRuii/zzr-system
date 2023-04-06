@@ -99,7 +99,7 @@ public class ZzrServiceImpl<M extends ZzrMapper<T>, T extends BaseDO> extends Se
             entity.setStatus(status);
             list.add(entity);
         });
-        return super.updateBatchById(list);
+        return this.batchChangeStatus(list, AppSqlMethod.CHANGE_STATUS);
     }
 
     private void resolveEntity(T entity) {

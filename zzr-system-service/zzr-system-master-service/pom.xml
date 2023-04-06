@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.zzr.apollo</groupId>
-            <artifactId>product</artifactId>
+            <artifactId>unit</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

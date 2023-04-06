@@ -17,7 +17,7 @@ public class ProductCreateEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = 1L;
 
-    private HashMap<String, String> productDO;
+    private final HashMap<String, String> productDO;
 
     public ProductCreateEvent(Object source, HashMap<String, String> productDO) {
         super(source);

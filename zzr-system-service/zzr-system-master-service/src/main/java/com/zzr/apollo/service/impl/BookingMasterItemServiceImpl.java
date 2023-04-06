@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -45,6 +44,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterItemMapper, BookingMasterItemDO> implements IBookingMasterItemService {
+
+    private final ISystemUnitChainInfoService unitService;
 
     private final IProductTicketService productService;
 
@@ -107,19 +108,14 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
     public BookingMasterItemDO create(CreateBookingMasterItemDTO bookingMasterItem) {
         // DTO中使用注解检查必填字段是否为空
         BookingMasterItemDO itemDO = BookingMasterItemWrapper.build().voEntity(bookingMasterItem);
-
         // 数据处理
         paramCheck(itemDO);
-
         // 金额计算
         calculateAmount(itemDO);
-
         // 创建子订单
         save(itemDO);
-
         // 更新订单状态
         reserve(itemDO.getId());
-
         return itemDO;
     }
 
@@ -212,9 +208,35 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
         BookingMasterDO master = masterService.detail(entity.getOrderId());
         if (ObjectUtil.equals(voList.size() - 1, NumberUtil.parseInt(itemCancelCount.toString()))) {
             master.setCancelTime(LocalDateTime.now());
+            master.setQuantity(master.getQuantity() - NumberUtil.parseInt(StrUtil.toString(entity.getNum())));
             masterService.updateById(master);
             masterService.canceled(master.getId());
         }
+        // 创建订单扣除对应的渠道产品信息
+        if (ObjectUtil.isNull(entity.getNum())) {
+            entity.setNum(NumberUtil.toBigDecimal(0));
+        }
+        // 找到对应的当天库存信息
+        List<CmmProductDailyAmountDO> amountList = amountService.selectByProductId(entity.getProductId());
+        CmmProductDailyAmountDO amountDO = new CmmProductDailyAmountDO();
+        for (CmmProductDailyAmountDO item : amountList) {
+            if (ObjectUtil.equals(LocalDate.now(), item.getSellDate())) {
+                amountDO = item;
+            }
+        }
+        // 归还库存
+        int num = amountDO.getNum() + Integer.parseInt(entity.getNum().toString());
+        amountDO.setNum(num);
+        // 已使用数量归还
+        if (ObjectUtil.isNull(amountDO.getUsedNum())) {
+            amountDO.setUsedNum(0);
+        }
+        amountDO.setUsedNum(amountDO.getUsedNum() - Integer.parseInt(entity.getNum().toString()));
+        // 更新库存信息
+        UpdateCmmProductDailyAmountDTO amountDTO = new UpdateCmmProductDailyAmountDTO();
+        amountDTO.setNum(amountDO.getNum());
+        amountDTO.setUsedNum(amountDO.getUsedNum());
+        amountService.update(amountDTO, amountDO.getId());
 
         entity.setStatus(MasterStatusCode.CANCELED.getCode());
         return changeStatus(entity);
@@ -290,6 +312,10 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
      * @param itemDO
      */
     private void paramCheck(BookingMasterItemDO itemDO) {
+        // 获取 unit信息
+        SystemUnitChainInfoDO unit = unitService.detail(itemDO.getUnitId());
+        itemDO.setUnitType(unit.getType());
+
         // 获取产品信息，并填入子订单中
         ProductTicketDO productDO = productService.detail(itemDO.getProductId());
         Preconditions.checkNotNull(productDO, ResultCode.SC_NO_CONTENT.getMessage());
@@ -363,6 +389,7 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
         if (ObjectUtil.isNotNull(itemDO.getCancelRuleId())) {
             // 主订单总金额减去该子订单实际金额，子订单金额不改变
             BookingCancelRuleDO ruleDO = cancelRuleService.detail(itemDO.getCancelRuleId());
+            itemDO.setCancelRuleName(ruleDO.getName());
             if (ObjectUtil.equals(itemDO.getStatus(), MasterStatusCode.CANCELED.getCode())) {
                 throw new ServiceException(DemoResultCode.ORDER_CANNOT_BE_CANCELLED_REPEATEDLY);
             }
@@ -390,35 +417,7 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
             } else {
                 masterDO.setFinalFee(masterDO.getTotalFee().subtract(masterDO.getDiscountFee()));
             }
-            masterDO.setQuantity(masterDO.getQuantity() - NumberUtil.parseInt(StrUtil.toString(itemDO.getNum())));
             masterService.updateById(masterDO);
-            // 添加截止时间
-            ruleDO.setEndTime(itemDO.getDep().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            // 创建订单扣除对应的渠道产品信息
-            if (ObjectUtil.isNull(itemDO.getNum())) {
-                itemDO.setNum(NumberUtil.toBigDecimal(0));
-            }
-            // 找到对应的当天库存信息
-            List<CmmProductDailyAmountDO> amountList = amountService.selectByProductId(itemDO.getProductId());
-            CmmProductDailyAmountDO amountDO = new CmmProductDailyAmountDO();
-            for (CmmProductDailyAmountDO item : amountList) {
-                if (ObjectUtil.equals(LocalDate.now(), item.getSellDate())) {
-                    amountDO = item;
-                }
-            }
-            // 归还库存
-            int num = amountDO.getNum() + Integer.parseInt(itemDO.getNum().toString());
-            amountDO.setNum(num);
-            // 已使用数量归还
-            if (ObjectUtil.isNull(amountDO.getUsedNum())) {
-                amountDO.setUsedNum(0);
-            }
-            amountDO.setUsedNum(amountDO.getUsedNum() - Integer.parseInt(itemDO.getNum().toString()));
-            // 更新库存信息
-            UpdateCmmProductDailyAmountDTO amountDTO = new UpdateCmmProductDailyAmountDTO();
-            amountDTO.setNum(amountDO.getNum());
-            amountDTO.setUsedNum(amountDO.getUsedNum());
-            amountService.update(amountDTO, amountDO.getId());
         }
     }
 
@@ -431,6 +430,7 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
         if (ObjectUtil.isNotNull(itemDO.getDepositRuleId())) {
             // 主订单总金额不减去该子订单实际金额，只加上担保金额，子订单金额不改变
             BookingDepositRuleDO ruleDO = depositRuleService.detail(itemDO.getDepositRuleId());
+            itemDO.setDepositRuleName(ruleDO.getName());
             BookingMasterDO masterDO = masterService.detail(itemDO.getOrderId());
             // 担保金额计算
             BigDecimal amountGuaranteed;
@@ -447,11 +447,14 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
                 default:
                     throw new IllegalStateException(ResultCode.SC_NO_CONTENT.getMessage());
             }
+            masterDO.setQuantity(ObjectUtil.isNull(masterDO.getQuantity()) ? itemDO.getNum().intValue() : masterDO.getQuantity() + itemDO.getNum().intValue());
             // 主订单更新加上担保金额
+            masterDO.setTotalFee(ObjectUtil.isNull(masterDO.getTotalFee()) ? NumberUtil.toBigDecimal(0) : masterDO.getTotalFee());
             masterDO.setTotalFee(masterDO.getTotalFee().add(amountGuaranteed));
             if (ObjectUtil.equals(masterDO.getTotalFee(), 0)) {
                 masterDO.setFinalFee(masterDO.getTotalFee());
             } else {
+                masterDO.setDiscountFee(ObjectUtil.isNull(masterDO.getDiscountFee()) ? NumberUtil.toBigDecimal(0) : masterDO.getDiscountFee());
                 masterDO.setFinalFee(masterDO.getTotalFee().subtract(masterDO.getDiscountFee()));
             }
             masterService.updateById(masterDO);

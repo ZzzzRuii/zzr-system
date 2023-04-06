@@ -1,6 +1,5 @@
 package com.zzr.apollo.listener;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.alibaba.nacos.shaded.com.google.gson.Gson;
 import com.alibaba.nacos.shaded.com.google.gson.reflect.TypeToken;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 产品消息监听类
@@ -39,7 +39,7 @@ public class ProductToChannelListener {
     @Resource
     private ICmmProductDailyChannelRateService rateService;
 
-    @EventListener
+    @EventListener(ProductCreateEvent.class)
     public void onEvent(ProductCreateEvent event) {
         HashMap<String, String> productMap = event.getProductDO();
         Gson gson = new Gson();
@@ -65,53 +65,53 @@ public class ProductToChannelListener {
         rateService.create(rateDTO);
     }
 
-    @EventListener
+    @EventListener(ProductUpdateEvent.class)
     public void onEvent(ProductUpdateEvent event) {
         HashMap<String, String> productMap = event.getProductDO();
-        List<Long> ids = CollUtil.newArrayList();
+        String id = productMap.get("id");
+        String status = productMap.get("status");
+        String stockMode = productMap.get("stockMode");
+        String num = productMap.get("num");
+        String standardPrice = productMap.get("standardPrice");
+        String realPrice = productMap.get("realPrice");
         // 库存更新
-        List<CmmProductDailyAmountDO> amountList = amountService.selectByProductId(Long.parseLong(productMap.get("id")));
-        amountList.forEach(item -> {
-            item.setModel(productMap.get("stockMode"));
+        List<CmmProductDailyAmountDO> amountList = amountService.selectByProductId(Long.parseLong(id));
+        List<Long> amountIds = amountList.stream().map(item -> {
+            item.setModel(stockMode);
             switch (item.getModel()) {
                 case AmountModelCode.UNLIMITED:
                     item.setNum(Integer.MAX_VALUE);
                     break;
                 case AmountModelCode.TOTAL:
-                    item.setNum(Integer.parseInt(productMap.get("num")) / AmountModelCode.DEFAULT_DATE);
+                    item.setNum(Integer.parseInt(num) / AmountModelCode.DEFAULT_DATE);
                     break;
                 default:
-                    item.setNum(Integer.parseInt(productMap.get("num")));
+                    item.setNum(Integer.parseInt(num));
                     break;
             }
-            ids.add(item.getId());
-        });
-        amountService.changeStatus(ids, productMap.get("status"));
+            return item.getId();
+        }).collect(Collectors.toList());
+        amountService.changeStatus(amountIds, status);
         amountService.updateBatchById(amountList);
         // 价格更新
-        List<CmmProductDailyChannelRateDO> rateList = rateService.selectByProductId(Long.parseLong(productMap.get("id")));
-        List<Long> idList = CollUtil.newArrayList();
-        rateList.forEach(item -> {
-            item.setStandardPrice(NumberUtil.toBigDecimal(productMap.get("standardPrice")));
-            item.setRealPrice(NumberUtil.toBigDecimal(productMap.get("realPrice")));
-            idList.add((item.getId()));
-        });
-        rateService.changeStatus(idList, productMap.get("status"));
+        List<CmmProductDailyChannelRateDO> rateList = rateService.selectByProductId(Long.parseLong(id));
+        List<Long> rateIds = rateList.stream().map(item -> {
+            item.setStandardPrice(NumberUtil.toBigDecimal(standardPrice));
+            item.setRealPrice(NumberUtil.toBigDecimal(realPrice));
+            return item.getId();
+        }).collect(Collectors.toList());
+        rateService.changeStatus(rateIds, status);
         rateService.updateBatchById(rateList);
     }
 
-    @EventListener
+    @EventListener(ProductDeleteEvent.class)
     public void onEvent(ProductDeleteEvent event) {
         HashMap<String, String> productMap = event.getProductDO();
         // 库存删除
         List<CmmProductDailyAmountDO> amountList = amountService.selectByProductId(Long.parseLong(productMap.get("id")));
-        amountList.forEach(item -> {
-            amountService.deleteById(item.getId());
-        });
+        amountList.forEach(item -> amountService.deleteById(item.getId()));
         // 价格删除
         List<CmmProductDailyChannelRateDO> rateList = rateService.selectByProductId(Long.parseLong(productMap.get("id")));
-        rateList.forEach(item -> {
-            rateService.deleteById(item.getId());
-        });
+        rateList.forEach(item -> rateService.deleteById(item.getId()));
     }
 }
