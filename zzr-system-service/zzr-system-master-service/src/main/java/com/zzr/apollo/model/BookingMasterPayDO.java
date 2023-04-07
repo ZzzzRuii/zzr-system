@@ -31,6 +31,11 @@ public class BookingMasterPayDO extends TenantEntity {
     private Long orderId;
 
     /**
+     * booking_master_item.id
+     */
+    private Long orderItemId;
+
+    /**
      * 交易代码
      */
     private String transactionCode;

@@ -31,6 +31,13 @@ public class CreateBookingMasterPayDTO implements Serializable {
     private Long orderId;
 
     /**
+     * booking_master_item.id
+     */
+    @ApiModelProperty("booking_master_item.id")
+    @NotNull(message = "{ROOM.DATA_IS_NOT_NULL}")
+    private Long orderItemId;
+
+    /**
      * 交易代码
      */
     @ApiModelProperty("交易代码")

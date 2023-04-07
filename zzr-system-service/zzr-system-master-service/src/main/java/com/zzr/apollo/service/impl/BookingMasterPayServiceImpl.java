@@ -1,6 +1,8 @@
 package com.zzr.apollo.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zzr.apollo.mapper.BookingMasterPayMapper;
@@ -9,7 +11,9 @@ import com.zzr.apollo.master.dto.QueryBookingMasterPayDTO;
 import com.zzr.apollo.master.dto.UpdateBookingMasterPayDTO;
 import com.zzr.apollo.master.vo.BookingMasterPayVO;
 import com.zzr.apollo.model.BookingMasterDO;
+import com.zzr.apollo.model.BookingMasterItemDO;
 import com.zzr.apollo.model.BookingMasterPayDO;
+import com.zzr.apollo.service.IBookingMasterItemService;
 import com.zzr.apollo.service.IBookingMasterPayService;
 import com.zzr.apollo.service.IBookingMasterService;
 import com.zzr.apollo.tool.constants.DemoStatusCode;
@@ -40,6 +44,9 @@ import java.time.LocalDateTime;
 public class BookingMasterPayServiceImpl extends ZzrServiceImpl<BookingMasterPayMapper, BookingMasterPayDO> implements IBookingMasterPayService {
 
     private final IBookingMasterService masterService;
+
+    private final IBookingMasterItemService itemService;
+
 
     @Override
     public BookingMasterPayDO detail(Long id) {
@@ -73,25 +80,28 @@ public class BookingMasterPayServiceImpl extends ZzrServiceImpl<BookingMasterPay
     @Override
     public BookingMasterPayDO create(CreateBookingMasterPayDTO payDTO) {
         BookingMasterPayDO payDO = BookingMasterPayWrapper.build().voEntity(payDTO);
-
-        BookingMasterDO masterDO = masterService.detail(payDO.getOrderId());
-        payDO.setTenantId(masterDO.getTenantId());
-        payDO.setCurrency(masterDO.getCurrency());
-        payDO.setAmount(masterDO.getFinalFee());
-        payDO.setRemark(StrUtil.builder(masterDO.getBuyMemo(), ",", payDO.getRemark()).toString());
-
+        payDO.setOutTradeNo(RandomUtil.randomNumbers(7) + System.currentTimeMillis());
+        payDO.setTransactionCode(StrUtil.subSufByLength(IdUtil.fastSimpleUUID(), 10));
+        // 子订单更新
+        BookingMasterItemDO item = itemService.detail(payDO.getOrderItemId());
+        itemService.rePay(item.getId());
+        // 支付订单填入
+        payDO.setTenantId(item.getTenantId());
+        payDO.setCurrency(item.getCurrency());
+        payDO.setAmount(item.getFinalFee());
+        payDO.setOrderId(item.getOrderId());
+        payDO.setTransactionDescription(IdUtil.nanoId(10) + "订单支付");
+        // 创建支付订单
         save(payDO);
-
-        // 主订单更新
+        // 主订单下有一个子订单支付 主订单更新支付状态
+        BookingMasterDO masterDO = masterService.detail(payDO.getOrderId());
         masterDO.setPayTime(LocalDateTime.now());
         masterDO.setPayType(payDTO.getTransactionCode());
         masterDO.setPaymentStatus(PayStatusCode.PAY);
         masterService.updateById(masterDO);
         masterService.rePay(masterDO.getId());
-
-        // 激活
+        // 激活支付订单
         activate(payDO.getId());
-
         return payDO;
     }
 
@@ -147,9 +157,7 @@ public class BookingMasterPayServiceImpl extends ZzrServiceImpl<BookingMasterPay
             throw new ServiceException(ResultCode.SC_NO_CONTENT);
         }
 
-        if (StrUtil.equals(entity.getStatus(), DemoStatusCode.ACTIVATE.getCode())) {
-            entity.setStatus(DemoStatusCode.INACTIVE.getCode());
-        }
+        entity.setStatus(DemoStatusCode.INACTIVE.getCode());
         return changeStatus(entity);
     }
 
@@ -167,9 +175,7 @@ public class BookingMasterPayServiceImpl extends ZzrServiceImpl<BookingMasterPay
             throw new ServiceException(ResultCode.SC_NO_CONTENT);
         }
 
-        if (StrUtil.equals(entity.getStatus(), DemoStatusCode.INACTIVE.getCode())) {
-            entity.setStatus(DemoStatusCode.ACTIVATE.getCode());
-        }
+        entity.setStatus(DemoStatusCode.ACTIVATE.getCode());
         return changeStatus(entity);
     }
 }

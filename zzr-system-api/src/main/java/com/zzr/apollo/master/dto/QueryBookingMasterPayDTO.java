@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -34,6 +35,13 @@ public class QueryBookingMasterPayDTO implements Serializable {
      */
     @ApiModelProperty("booking_master.id")
     private Long orderId;
+
+    /**
+     * booking_master_item.id
+     */
+    @ApiModelProperty("booking_master_item.id")
+    @NotNull(message = "{ROOM.DATA_IS_NOT_NULL}")
+    private Long orderItemId;
 
     /**
      * 交易代码

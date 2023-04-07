@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 
@@ -36,6 +37,13 @@ public class BookingMasterPayVO extends BaseVO {
      */
     @ApiModelProperty("booking_master.id")
     private Long orderId;
+
+    /**
+     * booking_master_item.id
+     */
+    @ApiModelProperty("booking_master_item.id")
+    @NotNull(message = "{ROOM.DATA_IS_NOT_NULL}")
+    private Long orderItemId;
 
     /**
      * 交易代码

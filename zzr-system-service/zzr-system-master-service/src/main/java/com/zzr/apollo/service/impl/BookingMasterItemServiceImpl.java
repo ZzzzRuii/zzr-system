@@ -181,11 +181,11 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
      */
     @Override
     public Boolean rePay(Long id) {
-        BookingMasterItemDO itemDO = detail(id);
-        Preconditions.checkNotNull(itemDO, ResultCode.SC_NO_CONTENT.getMessage());
+        BookingMasterItemDO entity = detail(id);
+        Preconditions.checkNotNull(entity, ResultCode.SC_NO_CONTENT.getMessage());
 
-        itemDO.setStatus(MasterStatusCode.REPAY.getCode());
-        return changeStatus(itemDO);
+        entity.setStatus(MasterStatusCode.REPAY.getCode());
+        return changeStatus(entity);
     }
 
     /**
@@ -325,6 +325,7 @@ public class BookingMasterItemServiceImpl extends ZzrServiceImpl<BookingMasterIt
         itemDO.setOriginalPrice(productDO.getStandardPrice());
         itemDO.setCostPrice(productDO.getCostPrice());
         itemDO.setPrice(productDO.getRealPrice());
+        itemDO.setCurrency(productDO.getCurrency());
 
         // 创建订单扣除对应的渠道产品信息
         if (ObjectUtil.isNull(itemDO.getNum())) {

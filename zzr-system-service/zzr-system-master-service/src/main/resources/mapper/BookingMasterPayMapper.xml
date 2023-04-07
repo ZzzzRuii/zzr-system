@@ -5,6 +5,7 @@
     <resultMap id="payMap" type="com.zzr.apollo.model.BookingMasterPayDO">
         <result column="tenant_id" property="tenantId"/>
         <result column="order_id" property="orderId"/>
+        <result column="order_item_id" property="orderItemId"/>
         <result column="transaction_code" property="transactionCode"/>
         <result column="transaction_description" property="transactionDescription"/>
         <result column="amount" property="amount"/>
@@ -23,6 +24,9 @@
                 </if>
                 <if test="entity.orderId != null">
                     AND order_id = #{entity.orderId}
+                </if>
+                <if test="entity.orderItemId != null">
+                    AND order_item_id = #{entity.orderItemId}
                 </if>
                 <if test="entity.transactionCode != null and entity.transactionCode != ''">
                     AND transaction_code = #{entity.transactionCode}
