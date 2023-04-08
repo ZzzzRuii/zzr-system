@@ -31,6 +31,9 @@
         SELECT * FROM booking_master_refund_item
         <where>
             <if test="entity != null">
+                <if test="entity.tenantId != null and entity.tenantId != ''">
+                    AND tenant_id = #{entity.tenantId}
+                </if>
                 <if test="entity.unitId != null">
                     AND unit_id = #{entity.unitId}
                 </if>
@@ -49,7 +52,7 @@
                 <if test="entity.productId != null">
                     AND product_id = #{entity.productId}
                 </if>
-                <if test="entity.productCode != null">
+                <if test="entity.productCode != null and entity.productCode != ''">
                     AND product_code = #{entity.productCode}
                 </if>
                 <if test="entity.profitCenterId != null">

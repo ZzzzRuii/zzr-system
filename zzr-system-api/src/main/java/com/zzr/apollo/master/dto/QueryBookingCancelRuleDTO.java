@@ -23,7 +23,11 @@ import java.math.BigDecimal;
 @ToString
 @ApiModel(value = "BookingCancelRuleDTO对象", description = "退改规则")
 public class QueryBookingCancelRuleDTO implements Serializable {
-
+    /**
+     * 租户code tenant.code
+     */
+    @ApiModelProperty("租户code tenant.code")
+    private String tenantId;
     /**
      * 发行单位ID
      */

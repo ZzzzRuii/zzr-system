@@ -4,6 +4,7 @@
 package com.zzr.apollo.master.dto;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -20,6 +21,11 @@ import java.io.Serializable;
 @ToString
 @ApiModel(value = "BookingMasterItemDTO对象", description = "子订单")
 public class QueryBookingMasterItemDTO implements Serializable {
+    /**
+     * 租户code tenant.code
+     */
+    @ApiModelProperty("租户code tenant.code")
+    private String tenantId;
     /**
      * 发行单位ID
      */

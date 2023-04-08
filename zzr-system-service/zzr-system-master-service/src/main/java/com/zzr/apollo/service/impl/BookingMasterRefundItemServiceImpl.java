@@ -20,6 +20,8 @@ import com.zzr.apollo.service.IBookingMasterItemService;
 import com.zzr.apollo.service.IBookingMasterRefundItemService;
 import com.zzr.apollo.service.IBookingMasterService;
 import com.zzr.apollo.service.ICmmProductDailyAmountService;
+import com.zzr.apollo.tool.constants.DemoResultCode;
+import com.zzr.apollo.tool.constants.MasterStatusCode;
 import com.zzr.apollo.tool.constants.RefundStatusCode;
 import com.zzr.apollo.wrapper.BookingMasterRefundItemWrapper;
 import com.zzr.base.api.ResultCode;
@@ -127,11 +129,12 @@ public class BookingMasterRefundItemServiceImpl extends ZzrServiceImpl<BookingMa
     public BookingMasterRefundItemDO create(CreateBookingMasterRefundItemDTO refundItemDTO) {
         // DTO中使用注解进行校验，必填数据是否为空
         BookingMasterRefundItemDO refundItemDO = BookingMasterRefundItemWrapper.build().voEntity(refundItemDTO);
-
         // 将子订单中信息拷贝到子订单退款信息中
         BookingMasterItemDO itemDO = itemService.detail(refundItemDO.getOrderItemId());
+        if (StrUtil.equals(itemDO.getStatus(), MasterStatusCode.RESERVE.getCode()) || StrUtil.equals(itemDO.getStatus(), MasterStatusCode.CANCELED.getCode())) {
+            throw new ServiceException(DemoResultCode.WRONG_ORDER_STATUS);
+        }
         BeanUtil.copyProperties(itemDO, refundItemDO);
-
         // 创建订单扣除对应的渠道产品信息
         if (ObjectUtil.isNull(refundItemDO.getNum())) {
             refundItemDO.setNum(NumberUtil.toBigDecimal(0));
@@ -144,23 +147,19 @@ public class BookingMasterRefundItemServiceImpl extends ZzrServiceImpl<BookingMa
                 amountDO = item;
             }
         }
-
         // 归还库存
         int num = amountDO.getNum() + Integer.parseInt(refundItemDO.getNum().toString());
         amountDO.setNum(num);
-
         // 已使用数量归还
         if (ObjectUtil.isNull(amountDO.getUsedNum())) {
             amountDO.setUsedNum(0);
         }
         amountDO.setUsedNum(amountDO.getUsedNum() - Integer.parseInt(refundItemDO.getNum().toString()));
-
         // 更新库存信息
         UpdateCmmProductDailyAmountDTO amountDTO = new UpdateCmmProductDailyAmountDTO();
         amountDTO.setNum(amountDO.getNum());
         amountDTO.setUsedNum(amountDO.getUsedNum());
         amountService.update(amountDTO, amountDO.getId());
-
         // 更新主订单信息
         BookingMasterDO masterDO = masterService.detail(itemDO.getOrderId());
         masterDO.setTotalFee(masterDO.getTotalFee().subtract(itemDO.getFinalFee()));
@@ -171,20 +170,15 @@ public class BookingMasterRefundItemServiceImpl extends ZzrServiceImpl<BookingMa
         }
         masterDO.setQuantity(masterDO.getQuantity() - NumberUtil.parseInt(StrUtil.toString(itemDO.getNum())));
         masterService.updateById(masterDO);
-
         // 更新子订单信息，逻辑删除子订单
         itemDO.setDeleted(true);
         itemDO.setRefund(true);
         itemDO.setRefundNum(itemDO.getNum());
         itemService.updateById(itemDO);
-
-
         // 创建退款
         save(refundItemDO);
-
         // 完成退款
         status(refundItemDO.getId(), RefundStatusCode.COMPLETE.getCode());
-
         return refundItemDO;
     }
 

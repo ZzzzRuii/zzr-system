@@ -21,6 +21,11 @@ import java.time.LocalDateTime;
 @ApiModel(value = "BookingMasterRefundDTO对象", description = "主订单退款")
 public class QueryBookingMasterRefundDTO implements Serializable {
     /**
+     * 租户id
+     */
+    @ApiModelProperty(value = "租户id")
+    private String tenantId;
+    /**
      * 发行单位ID
      */
     @ApiModelProperty(value = "发行单位ID")
@@ -30,11 +35,6 @@ public class QueryBookingMasterRefundDTO implements Serializable {
      */
     @ApiModelProperty(value = "发行单位类型")
     private String unitType;
-    /**
-     * 租户id
-     */
-    @ApiModelProperty(value = "租户id")
-    private String tenantId;
     /**
      * 退款订单号
      */

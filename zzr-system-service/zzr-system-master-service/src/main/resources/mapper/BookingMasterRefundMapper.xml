@@ -35,6 +35,9 @@
         SELECT * FROM booking_master_refund
         <where>
             <if test="entity != null">
+                <if test="entity.tenantId != null and entity.tenantId != ''">
+                    AND tenant_id = #{entity.tenantId}
+                </if>
                 <if test="entity.unitId != null">
                     AND unit_id = #{entity.unitId}
                 </if>

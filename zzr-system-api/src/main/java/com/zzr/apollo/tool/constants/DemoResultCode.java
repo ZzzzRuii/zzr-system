@@ -14,31 +14,36 @@ public enum DemoResultCode implements IResultCode {
     /**
      * 数据已存在
      */
-    DATA_ALREADY_EXIST(403, "数据已存在"),
+    DATA_ALREADY_EXIST(10003, "数据已存在"),
     /**
      * 存在父项，不能删除
      */
-    PARENT_EXISTS(403, "存在父项，不能删除"),
+    PARENT_EXISTS(10003, "存在父项，不能删除"),
     /**
      * 库存不足
      */
-    UNDER_STOCK(403, "库存不足"),
+    UNDER_STOCK(10003, "库存不足"),
     /**
      * 来源有误
      */
-    SRC_ERROR(417, "来源有误"),
+    SRC_ERROR(10017, "来源有误"),
     /**
      * 组织不存在
      */
-    UNIT_NOT_EXISTS(404, "组织不存在"),
+    UNIT_NOT_EXISTS(10004, "组织不存在"),
     /**
      * 产品不存在
      */
-    PRODUCT_NOT_EXISTS(404, "产品不存在"),
+    PRODUCT_NOT_EXISTS(10005, "产品不存在"),
     /**
      * 订单不能重复取消
      */
-    ORDER_CANNOT_BE_CANCELLED_REPEATEDLY(403, "订单不能重复取消");
+    ORDER_CANNOT_BE_CANCELLED_REPEATEDLY(10006, "订单不能重复取消"),
+    /**
+     * 订单状态不正确，无法退款
+     */
+    WRONG_ORDER_STATUS(10007, "订单状态不正确，无法退款"),
+    ;
 
     final int code;
     final String message;

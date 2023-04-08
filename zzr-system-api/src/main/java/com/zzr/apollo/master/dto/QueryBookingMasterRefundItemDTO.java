@@ -20,6 +20,11 @@ import java.math.BigDecimal;
 @ApiModel(value = "BookingMasterRefundItemDTO对象", description = "子订单退款")
 public class QueryBookingMasterRefundItemDTO implements Serializable {
     /**
+     * 租户id
+     */
+    @ApiModelProperty(value = "租户id")
+    private String tenantId;
+    /**
      * 发行单位ID
      */
     @ApiModelProperty(value = "发行单位ID")

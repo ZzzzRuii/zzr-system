@@ -92,19 +92,16 @@ public class BookingMasterRefundServiceImpl extends ZzrServiceImpl<BookingMaster
     public BookingMasterRefundDO create(CreateBookingMasterRefundDTO refundDTO) {
         // DTO中使用注解进行校验，必填数据是否为空
         BookingMasterRefundDO refundDO = BookingMasterRefundWrapper.build().voEntity(refundDTO);
-
         // 获取主订单中数据
         BookingMasterDO masterDO = masterService.detail(refundDO.getOrderId());
         BeanUtil.copyProperties(masterDO, refundDO);
         refundDO.setQuantity(NumberUtil.toBigDecimal(masterDO.getQuantity()));
-
         // 创建退款订单号码
         refundDO.setRefundOrderNo(String.valueOf(UUID.randomUUID()));
         // 退款时间	审核时间
         refundDO.setPayTime(LocalDateTime.now());
         refundDO.setAuditTime(LocalDateTime.now());
         refundDO.setIsAudit(true);
-
         // 子订单一同退款
         List<BookingMasterItemVO> itemList = itemService.selectByOrderId(refundDO.getOrderId());
         itemList.forEach(item -> {
@@ -115,12 +112,10 @@ public class BookingMasterRefundServiceImpl extends ZzrServiceImpl<BookingMaster
                 refundItemService.create(refundItemDTO);
             }
         });
-
+        // 创建退款订单
         save(refundDO);
-
         // 完成
         status(refundDO.getId(), RefundStatusCode.COMPLETE.getCode());
-
         return refundDO;
     }
 
