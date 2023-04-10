@@ -170,8 +170,7 @@ public class BookingMasterRefundItemServiceImpl extends ZzrServiceImpl<BookingMa
         }
         masterDO.setQuantity(masterDO.getQuantity() - NumberUtil.parseInt(StrUtil.toString(itemDO.getNum())));
         masterService.updateById(masterDO);
-        // 更新子订单信息，逻辑删除子订单
-        itemDO.setDeleted(true);
+        // 更新子订单信息
         itemDO.setRefund(true);
         itemDO.setRefundNum(itemDO.getNum());
         itemService.updateById(itemDO);

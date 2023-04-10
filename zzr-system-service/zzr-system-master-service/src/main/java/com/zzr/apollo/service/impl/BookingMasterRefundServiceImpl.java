@@ -33,7 +33,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 主订单退款 服务实现类
@@ -96,8 +95,6 @@ public class BookingMasterRefundServiceImpl extends ZzrServiceImpl<BookingMaster
         BookingMasterDO masterDO = masterService.detail(refundDO.getOrderId());
         BeanUtil.copyProperties(masterDO, refundDO);
         refundDO.setQuantity(NumberUtil.toBigDecimal(masterDO.getQuantity()));
-        // 创建退款订单号码
-        refundDO.setRefundOrderNo(String.valueOf(UUID.randomUUID()));
         // 退款时间	审核时间
         refundDO.setPayTime(LocalDateTime.now());
         refundDO.setAuditTime(LocalDateTime.now());
